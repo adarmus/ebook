@@ -3,6 +3,17 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        
+        <TextBox 
+            HorizontalAlignment="Left" 
+            Height="23" Margin="20,20,0,0" 
+            TextWrapping="Wrap" VerticalAlignment="Top" Width="250"
+            Text="{Binding Filename}"/>
+        <Button 
+            Content="Button" 
+            HorizontalAlignment="Left" 
+            Margin="275,20,0,0" VerticalAlignment="Top" Width="75"
+            Command="{Binding SearchCommand}"
+            />
+
     </Grid>
 </Window>

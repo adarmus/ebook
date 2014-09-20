@@ -33,8 +33,22 @@ namespace Shell.Pdb
 
         void ReadMobiFile(MobiHeaderReader mobiReader, PdbRecords pdbRecords)
         {
+            string title = mobiReader.GetTitleReader().ReadTitle();
+
             ExthHeaderReader exthReader = mobiReader.GetExthHeaderReader();
 
+            if (exthReader == null)
+            {
+                _mobiFile = MakeMobiFileNoExth(title);
+            }
+            else
+            {
+                _mobiFile = MakeMobiFromExth(exthReader, title);
+            }
+        }
+
+        MobiFile MakeMobiFromExth(ExthHeaderReader exthReader, string title)
+        {
             string author = exthReader.ReadExthStringValue(100);
             string publisher = exthReader.ReadExthStringValue(101);
             string description = exthReader.ReadExthStringValue(103);
@@ -45,15 +59,21 @@ namespace Shell.Pdb
             int? coverOffset = exthReader.ReadExthIntValue(201);
             int? thumbOffset = exthReader.ReadExthIntValue(202);
 
-            string title = mobiReader.GetTitleReader().ReadTitle();
-
-            _mobiFile = new MobiFile
+            return new MobiFile
             {
                 Author = author,
                 Description = description,
                 Isbn = isbn,
                 PublishDate = publishDate,
                 Publisher = publisher,
+                Title = title
+            };
+        }
+
+        MobiFile MakeMobiFileNoExth(string title)
+        {
+            return new MobiFile
+            {
                 Title = title
             };
         }

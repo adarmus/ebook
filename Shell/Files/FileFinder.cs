@@ -1,12 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.IO;
 
 namespace Shell.Files
 {
-    class FileFinder
+    public class FileFinder
     {
+        readonly string _rootFolderPath;
+
+        public FileFinder(string rootFolderPath)
+        {
+            _rootFolderPath = rootFolderPath;
+        }
+
+        public IEnumerable<string> GetFileList()
+        {
+            return Directory.EnumerateFiles(_rootFolderPath, "*.mobi", SearchOption.AllDirectories);
+        }
     }
 }

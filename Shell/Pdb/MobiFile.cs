@@ -14,5 +14,7 @@ namespace Shell.Pdb
         public string Isbn{ get; set; }
 
         public string Title { get; set; }
+
+        public string FilePath { get; set; }
     }
 }

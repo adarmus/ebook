@@ -20,6 +20,8 @@ namespace Shell
 
         public void Read(BinaryReader reader)
         {
+            long recordStart = reader.BaseStream.Position;
+
             int compression = ReadInt16(reader);
             int unused = ReadInt16(reader);
             int textLength = ReadInt32(reader);
@@ -27,6 +29,8 @@ namespace Shell
             int recordSize = ReadInt16(reader);         // always 4096
             int encType = ReadInt16(reader);
             int unused2 = ReadInt16(reader);
+
+            Console.WriteLine("PalmDoc compression={0};", compression);
 
             string identifier = ReadString(reader, 4); // = MOBI
             int headerLength = ReadInt32(reader);
@@ -57,20 +61,27 @@ namespace Shell
             int huffmanTableOffset = ReadInt32(reader);
             int huffmanTableLength = ReadInt32(reader);
             int exthFlags = ReadInt32(reader);
+            reader.ReadBytes(32);
+            int drm1 = ReadInt32(reader);
+            int drm2 = ReadInt32(reader);
+            int drm3 = ReadInt32(reader);
+            int drm4 = ReadInt32(reader);
+            byte[] toend = reader.ReadBytes(8);
 
             bool exthExists = (exthFlags & 64) == 64;
 
+            Console.WriteLine("MobiHdr identifier={0}, headerLength={1}, mobiType={2}, encoding={3}, exthExists={4};", identifier, headerLength, mobiType, encoding, exthExists);
+
             if (exthExists)
             {
-                reader.BaseStream.Position = 1824;
+                long newpos = recordStart + (long)headerLength + 16;
+                reader.BaseStream.Position = newpos;    // 1304; // 1824;
                 ReadExth(reader);
             }
         }
 
         void ReadExth(BinaryReader reader)
         {
-            //byte[] offset = reader.ReadBytes(25);
-
             string identifier = ReadString(reader, 4); // = EXTH
             int headerLength = ReadInt32(reader);
             int recordCount = ReadInt32(reader);

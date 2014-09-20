@@ -17,7 +17,7 @@ namespace Shell
 
         public void Read(BinaryReader reader)
         {
-            string identifier = ReadString(reader, 32);
+            string name = ReadString(reader, 32);
             int attributes = reader.ReadInt16();
             int version = reader.ReadInt16();
             int createDate = reader.ReadInt32();
@@ -30,12 +30,9 @@ namespace Shell
             Creator = ReadString(reader, 4);
             int uniqueIdSeed = reader.ReadInt32();
             int nextRecordListId = reader.ReadInt32();
+            NumberOfRecords = ReadInt16(reader);
 
-            byte[] tmp = reader.ReadBytes(2);
-            Array.Reverse(tmp);
-            NumberOfRecords = BitConverter.ToInt16(tmp, 0);
-
-            //NumberOfRecords = reader.ReadInt16();
+            Console.WriteLine("PdbHead name={0}; Type={1}; Creator={2}; NumberOfRecords={3}", name, Type, Creator, NumberOfRecords);
         }
 
         string ReadString(BinaryReader reader, int count)
@@ -43,6 +40,15 @@ namespace Shell
             char[] chars = reader.ReadChars(count);
             var s = new string(chars);
             return s;
+        }
+
+        int ReadInt16(BinaryReader reader)
+        {
+            byte[] offset = reader.ReadBytes(2);
+
+            Array.Reverse(offset);
+
+            return BitConverter.ToInt16(offset, 0);
         }
     }
 }

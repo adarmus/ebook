@@ -21,6 +21,8 @@ namespace Shell
             //byte attr = reader.ReadByte();
             byte[] attr = reader.ReadBytes(4);
 
+            Console.WriteLine("PdbRec  offset={0};", Offset);
+
         }
 
         int ReadInt32(BinaryReader reader)
@@ -38,7 +40,7 @@ namespace Shell
 
             Array.Reverse(offset);
 
-            return BitConverter.ToInt32(offset, 0);
+            return BitConverter.ToInt16(offset, 0);
         }
     }
 }

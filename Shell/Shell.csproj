@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extractor.cs" />
     <Compile Include="Files.cs" />
     <Compile Include="MobiFile.cs" />
     <Compile Include="MobiPreamble.cs" />

@@ -16,6 +16,8 @@ namespace Shell
             _filepath = filepath;
         }
 
+        // http://wiki.mobileread.com/wiki/PDB#Palm_Database_Format
+
         public MobiFile Read()
         {
             if (!File.Exists(_filepath))
@@ -23,6 +25,8 @@ namespace Shell
 
             using (var file = new FileStream(_filepath, FileMode.Open))
             {
+                //Extractor.ExtractCover(file);
+
                 using (var reader = new BinaryReader(file))
                 {
                     // PDB header
@@ -32,7 +36,7 @@ namespace Shell
                     if (header.NumberOfRecords == 0)
                         throw new ApplicationException("Zero records");
 
-                    reader.BaseStream.Position = 78; // Magic number taken from pdbfmt.cpp
+                    reader.BaseStream.Position = 78; // Magic number taken from pdbfmt.cpp for start of record Info List
 
                     // PDB records
                     var pdbRecords = new PdbRecords(header);

@@ -45,11 +45,12 @@
     <Compile Include="Files.cs" />
     <Compile Include="MobiFile.cs" />
     <Compile Include="MobiPreamble.cs" />
-    <Compile Include="MobiRecords.cs" />
-    <Compile Include="PdbFileReader.cs" />
-    <Compile Include="PdbHeader.cs" />
-    <Compile Include="PdbRecordEntry.cs" />
-    <Compile Include="PdbRecords.cs" />
+    <Compile Include="Pdb\Readers\Mobi\MobiRecords.cs" />
+    <Compile Include="Pdb\PdbFileReader.cs" />
+    <Compile Include="Pdb\Readers\BinaryReaderBase.cs" />
+    <Compile Include="Pdb\Readers\Pdb\PdbHeader.cs" />
+    <Compile Include="Pdb\Readers\Pdb\PdbRecordEntry.cs" />
+    <Compile Include="Pdb\Readers\Pdb\PdbRecords.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Shell.Pdb.Readers.Mobi;
+using Shell.Pdb.Readers.Pdb;
 
-namespace Shell
+namespace Shell.Pdb
 {
     public class PdbFileReader
     {
@@ -16,7 +15,7 @@ namespace Shell
             _filepath = filepath;
         }
 
-        // http://wiki.mobileread.com/wiki/PDB#Palm_Database_Format
+        // http://wiki.mobileread.com/wiki/PDB
 
         public MobiFile Read()
         {

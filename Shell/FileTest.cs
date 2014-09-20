@@ -7,7 +7,7 @@ using Shell.Pdb;
 
 namespace Shell
 {
-    class Files
+    class FileTest
     {
         public void Go()
         {

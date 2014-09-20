@@ -10,7 +10,7 @@ namespace Shell
     {
         static void Main(string[] args)
         {
-            var f = new Files();
+            var f = new FileTest();
             f.Go();
         }
     }

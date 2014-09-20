@@ -42,7 +42,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extractor.cs" />
-    <Compile Include="Files.cs" />
+    <Compile Include="FileTest.cs" />
+    <Compile Include="Files\FileFinder.cs" />
     <Compile Include="Pdb\MobiFile.cs" />
     <Compile Include="Pdb\MobiHeader.cs" />
     <Compile Include="Pdb\PdbHeader.cs" />

@@ -9,14 +9,9 @@ namespace Shell.Pdb.Readers.Mobi
     {
         const int PALM_DOC_HEADER_LENGTH = 16;
 
-        readonly PdbHeader _pdbHeader;
-        readonly PdbRecords _pdbRecords;
-
-        public MobiHeaderReader(BinaryReader reader, PdbHeader pdbHeader, PdbRecords pdbRecords)
+        public MobiHeaderReader(BinaryReader reader)
             : base(reader)
         {
-            _pdbHeader = pdbHeader;
-            _pdbRecords = pdbRecords;
         }
 
         public MobiHeader Read()

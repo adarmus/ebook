@@ -31,7 +31,7 @@ namespace Shell.Pdb
             return _mobiFile;
         }
 
-        void ReadMobiFile(MobiHeaderReader mobiReader)
+        void ReadMobiFile(MobiHeaderReader mobiReader, PdbRecords pdbRecords)
         {
             ExthHeaderReader exthReader = mobiReader.GetExthHeaderReader();
 
@@ -58,7 +58,7 @@ namespace Shell.Pdb
             };
         }
 
-        void ReadExth(Action<MobiHeaderReader> exthHandler)
+        void ReadExth(Action<MobiHeaderReader, PdbRecords> exthHandler)
         {
             if (!File.Exists(_filepath))
                 throw new FileNotFoundException(string.Format("Cannot find file '{0}'", _filepath));
@@ -67,14 +67,18 @@ namespace Shell.Pdb
             {
                 using (var binary = new BinaryReader(file))
                 {
-                    MobiHeaderReader mobiReader = ObtainMobiHeaderReader(binary);
+                    PdbRecords pdbRecords = ObtainPdbRecords(binary);
 
-                    exthHandler(mobiReader);
+                    binary.BaseStream.Position = pdbRecords.GetRecordOffset(0);
+
+                    MobiHeaderReader mobiReader = GetRecordReader(binary);
+
+                    exthHandler(mobiReader, pdbRecords);
                 }
             }
         }
 
-        MobiHeaderReader ObtainMobiHeaderReader(BinaryReader binary)
+        PdbRecords ObtainPdbRecords(BinaryReader binary)
         {
             // PDB header
             PdbHeader pdbHeader = new PdbHeaderReader(binary)
@@ -83,28 +87,24 @@ namespace Shell.Pdb
             if (pdbHeader.NumberOfRecords == 0)
                 throw new ApplicationException("Zero PDB records");
 
-            binary.BaseStream.Position = OFFSET_PDB_RECORD_LIST;
-
-            // PDB records
-            PdbRecords pdbRecords = new PdbRecordsReader(binary, pdbHeader.NumberOfRecords)
-                .ReadAllRecords();
-
-            binary.BaseStream.Position = pdbRecords.GetRecordOffset(0);
-
-            MobiHeaderReader mobiReader = GetRecordReader(binary, pdbHeader, pdbRecords);
-
-            return mobiReader;
-        }
-
-        MobiHeaderReader GetRecordReader(BinaryReader binary, PdbHeader pdbHeader, PdbRecords pdbRecords)
-        {
             if (pdbHeader.Creator != "MOBI")
                 throw new ApplicationException("Creator not MOBI");
 
             if (pdbHeader.Type != "BOOK")
                 throw new ApplicationException("Type not BOOK");
 
-            return new MobiHeaderReader(binary, pdbHeader, pdbRecords);
+            binary.BaseStream.Position = OFFSET_PDB_RECORD_LIST;
+
+            // PDB records
+            PdbRecords pdbRecords = new PdbRecordsReader(binary, pdbHeader.NumberOfRecords)
+                .ReadAllRecords();
+
+            return pdbRecords;
+        }
+
+        MobiHeaderReader GetRecordReader(BinaryReader binary)
+        {
+            return new MobiHeaderReader(binary);
         }
     }
 }

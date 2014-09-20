@@ -71,7 +71,7 @@ namespace Shell.Pdb
 
                     binary.BaseStream.Position = pdbRecords.GetRecordOffset(0);
 
-                    MobiHeaderReader mobiReader = GetRecordReader(binary);
+                    var mobiReader = new MobiHeaderReader(binary);
 
                     exthHandler(mobiReader, pdbRecords);
                 }
@@ -100,11 +100,6 @@ namespace Shell.Pdb
                 .ReadAllRecords();
 
             return pdbRecords;
-        }
-
-        MobiHeaderReader GetRecordReader(BinaryReader binary)
-        {
-            return new MobiHeaderReader(binary);
         }
     }
 }

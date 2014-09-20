@@ -43,8 +43,7 @@
   <ItemGroup>
     <Compile Include="Extractor.cs" />
     <Compile Include="Files.cs" />
-    <Compile Include="MobiFile.cs" />
-    <Compile Include="MobiPreamble.cs" />
+    <Compile Include="Pdb\MobiFile.cs" />
     <Compile Include="Pdb\MobiHeader.cs" />
     <Compile Include="Pdb\PdbHeader.cs" />
     <Compile Include="Pdb\PdbRecordEntry.cs" />

@@ -1,5 +1,5 @@
 ﻿
-namespace Shell
+namespace Shell.Pdb
 {
     public class MobiFile
     {

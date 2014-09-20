@@ -5,12 +5,13 @@ using Shell.Pdb.Readers.Pdb;
 
 namespace Shell.Pdb.Readers.Mobi
 {
-    public class MobiRecords
+    public class MobiRecordsReader : BinaryReaderBase
     {
-        readonly PdbHeader _pdbHeader;
-        readonly List<PdbRecordEntry> _pdbRecords;
+        readonly PdbHeaderReader _pdbHeader;
+        readonly List<PdbRecordEntryReader> _pdbRecords;
 
-        public MobiRecords(PdbHeader pdbHeader, List<PdbRecordEntry> pdbRecords)
+        public MobiRecordsReader(BinaryReader reader, PdbHeaderReader pdbHeader, List<PdbRecordEntryReader> pdbRecords)
+            : base(reader)
         {
             _pdbHeader = pdbHeader;
             _pdbRecords = pdbRecords;
@@ -83,31 +84,6 @@ namespace Shell.Pdb.Readers.Mobi
             string identifier = ReadString(reader, 4); // = EXTH
             int headerLength = ReadInt32(reader);
             int recordCount = ReadInt32(reader);
-        }
-
-        int ReadInt32(BinaryReader reader)
-        {
-            byte[] offset = reader.ReadBytes(4);
-
-            Array.Reverse(offset);
-
-            return BitConverter.ToInt32(offset, 0);
-        }
-
-        int ReadInt16(BinaryReader reader)
-        {
-            byte[] offset = reader.ReadBytes(2);
-
-            Array.Reverse(offset);
-
-            return BitConverter.ToInt16(offset, 0);
-        }
-
-        string ReadString(BinaryReader reader, int count)
-        {
-            char[] chars = reader.ReadChars(count);
-            var s = new string(chars);
-            return s;
         }
     }
 }

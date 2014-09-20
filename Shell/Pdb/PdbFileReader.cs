@@ -29,8 +29,8 @@ namespace Shell.Pdb
                 using (var reader = new BinaryReader(file))
                 {
                     // PDB header
-                    var header = new PdbHeader();
-                    header.Read(reader);
+                    var header = new PdbHeaderReader(reader);
+                    header.Read();
 
                     if (header.NumberOfRecords == 0)
                         throw new ApplicationException("Zero records");
@@ -38,14 +38,14 @@ namespace Shell.Pdb
                     reader.BaseStream.Position = 78; // Magic number taken from pdbfmt.cpp for start of record Info List
 
                     // PDB records
-                    var pdbRecords = new PdbRecords(header);
-                    pdbRecords.Read(reader);
-                    List<PdbRecordEntry> records = pdbRecords.GetRecords();
+                    var pdbRecords = new PdbRecordsReader(reader, header);
+                    pdbRecords.Read();
+                    List<PdbRecordEntryReader> records = pdbRecords.GetRecords();
 
                     reader.BaseStream.Position = records[0].Offset;
 
                     // Main content
-                    var mobi = GetRecordReader(header, records);
+                    var mobi = GetRecordReader(reader, header, records);
                     mobi.Read(reader);
                 }
             }
@@ -53,7 +53,7 @@ namespace Shell.Pdb
             return new MobiFile();
         }
 
-        MobiRecords GetRecordReader(PdbHeader pdbHeader, List<PdbRecordEntry> pdbRecords)
+        MobiRecordsReader GetRecordReader(BinaryReader reader, PdbHeaderReader pdbHeader, List<PdbRecordEntryReader> pdbRecords)
         {
             if (pdbHeader.Creator != "MOBI")
                 throw new ApplicationException("Not MOBI");
@@ -61,7 +61,7 @@ namespace Shell.Pdb
             if (pdbHeader.Type != "BOOK")
                 throw new ApplicationException("Not BOOK");
 
-            var mobi = new MobiRecords(pdbHeader, pdbRecords);
+            var mobi = new MobiRecordsReader(reader, pdbHeader, pdbRecords);
             return mobi;
         }
     }

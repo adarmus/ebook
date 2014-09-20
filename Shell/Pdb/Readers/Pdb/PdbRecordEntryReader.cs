@@ -16,7 +16,7 @@ namespace Shell.Pdb.Readers.Pdb
 
             int attr = ReadInt32(_reader);
 
-            Console.WriteLine("PdbRec  offset={0};", offset);
+            //Console.WriteLine("PdbRec  offset={0};", offset);
 
             return new PdbRecordEntry
             {

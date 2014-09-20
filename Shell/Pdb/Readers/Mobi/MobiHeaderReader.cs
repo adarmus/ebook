@@ -21,6 +21,8 @@ namespace Shell.Pdb.Readers.Mobi
 
         public MobiHeader Read()
         {
+            SetPositionToOriginal();
+
             //long recordStart = _reader.BaseStream.Position;
 
             int compression = ReadInt16(_reader);
@@ -31,7 +33,7 @@ namespace Shell.Pdb.Readers.Mobi
             int encType = ReadInt16(_reader);
             int unused2 = ReadInt16(_reader);
 
-            Console.WriteLine("PalmDoc compression={0};", compression);
+            //Console.WriteLine("PalmDoc compression={0};", compression);
 
             string identifier = ReadString(_reader, 4); // = MOBI
             int headerLength = ReadInt32(_reader);
@@ -71,7 +73,7 @@ namespace Shell.Pdb.Readers.Mobi
 
             bool exthExists = (exthFlags & 64) == 64;
 
-            Console.WriteLine("MobiHdr identifier={0}, headerLength={1}, mobiType={2}, encoding={3}, exthExists={4};", identifier, headerLength, mobiType, encoding, exthExists);
+            //Console.WriteLine("MobiHdr identifier={0}, headerLength={1}, mobiType={2}, encoding={3}, exthExists={4};", identifier, headerLength, mobiType, encoding, exthExists);
 
             var header = new MobiHeader
             {
@@ -80,11 +82,23 @@ namespace Shell.Pdb.Readers.Mobi
                 HeaderLength = headerLength,
                 Identifier = identifier,
                 MobiType = mobiType,
-                FirstImageIndex = firstImageIndex
+                FirstImageIndex = firstImageIndex,
+                FullnameLength = fullNameLength,
+                FullnameOffset = fullNameOffset
             };
 
             return header;
         }
+
+        public TitleReader GetTitleReader()
+        {
+            MobiHeader mobi = Read();
+
+            SetPositionToOffset(mobi.FullnameOffset);
+
+            return new TitleReader(_reader, mobi.FullnameLength);
+        }
+
 
         public ExthHeaderReader GetExthHeaderReader()
         {

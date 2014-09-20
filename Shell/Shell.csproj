@@ -53,6 +53,7 @@
     <Compile Include="Pdb\Readers\Mobi\MobiHeaderReader.cs" />
     <Compile Include="Pdb\PdbFileReader.cs" />
     <Compile Include="Pdb\Readers\BinaryReaderBase.cs" />
+    <Compile Include="Pdb\Readers\Mobi\TitleReader.cs" />
     <Compile Include="Pdb\Readers\Pdb\PdbHeaderReader.cs" />
     <Compile Include="Pdb\Readers\Pdb\PdbRecordEntryReader.cs" />
     <Compile Include="Pdb\Readers\Pdb\PdbRecordsReader.cs" />

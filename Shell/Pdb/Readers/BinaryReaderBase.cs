@@ -117,7 +117,7 @@ namespace Shell.Pdb.Readers
             return offset;
         }
 
-        void SetPositionToOffset(int offset)
+        protected void SetPositionToOffset(int offset)
         {
             _reader.BaseStream.Position = _originalPosition + offset;
         }

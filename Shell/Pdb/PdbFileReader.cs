@@ -31,8 +31,10 @@ namespace Shell.Pdb
             return _mobiFile;
         }
 
-        void ReadMobiFile(ExthHeaderReader exthReader)
+        void ReadMobiFile(MobiHeaderReader mobiReader)
         {
+            ExthHeaderReader exthReader = mobiReader.GetExthHeaderReader();
+
             string author = exthReader.ReadExthStringValue(100);
             string publisher = exthReader.ReadExthStringValue(101);
             string description = exthReader.ReadExthStringValue(103);
@@ -43,13 +45,20 @@ namespace Shell.Pdb
             int? coverOffset = exthReader.ReadExthIntValue(201);
             int? thumbOffset = exthReader.ReadExthIntValue(202);
 
+            string title = mobiReader.GetTitleReader().ReadTitle();
+
             _mobiFile = new MobiFile
             {
-
+                Author = author,
+                Description = description,
+                Isbn = isbn,
+                PublishDate = publishDate,
+                Publisher = publisher,
+                Title = title
             };
         }
 
-        void ReadExth(Action<ExthHeaderReader> exthHandler)
+        void ReadExth(Action<MobiHeaderReader> exthHandler)
         {
             if (!File.Exists(_filepath))
                 throw new FileNotFoundException(string.Format("Cannot find file '{0}'", _filepath));
@@ -58,14 +67,14 @@ namespace Shell.Pdb
             {
                 using (var binary = new BinaryReader(file))
                 {
-                    ExthHeaderReader exthReader = ObtainExthHeaderReader(binary);
+                    MobiHeaderReader mobiReader = ObtainMobiHeaderReader(binary);
 
-                    exthHandler(exthReader);
+                    exthHandler(mobiReader);
                 }
             }
         }
 
-        ExthHeaderReader ObtainExthHeaderReader(BinaryReader binary)
+        MobiHeaderReader ObtainMobiHeaderReader(BinaryReader binary)
         {
             // PDB header
             PdbHeader pdbHeader = new PdbHeaderReader(binary)
@@ -82,12 +91,9 @@ namespace Shell.Pdb
 
             binary.BaseStream.Position = pdbRecords.GetRecordOffset(0);
 
-            // Main content
             MobiHeaderReader mobiReader = GetRecordReader(binary, pdbHeader, pdbRecords);
 
-            ExthHeaderReader exthReader = mobiReader.GetExthHeaderReader();
-
-            return exthReader;
+            return mobiReader;
         }
 
         MobiHeaderReader GetRecordReader(BinaryReader binary, PdbHeader pdbHeader, PdbRecords pdbRecords)

@@ -14,5 +14,9 @@ namespace Shell.Pdb
         public int FirstImageIndex { get; set; }
 
         public bool ExthExists{ get; set; }
+
+        public int FullnameOffset { get; set; }
+
+        public int FullnameLength { get; set; }
     }
 }

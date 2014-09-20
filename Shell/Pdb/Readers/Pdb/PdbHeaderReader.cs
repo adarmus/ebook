@@ -29,7 +29,7 @@ namespace Shell.Pdb.Readers.Pdb
             int nextRecordListId = _reader.ReadInt32();
             int numberOfRecords = ReadInt16(_reader);
 
-            Console.WriteLine("PdbHead name={0}; Type={1}; Creator={2}; NumberOfRecords={3}", name, type, creator, numberOfRecords);
+            //Console.WriteLine("PdbHead name={0}; Type={1}; Creator={2}; NumberOfRecords={3}", name, type, creator, numberOfRecords);
 
             return new PdbHeader
             {

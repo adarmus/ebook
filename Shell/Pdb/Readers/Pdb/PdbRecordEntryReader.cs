@@ -5,24 +5,24 @@ namespace Shell.Pdb.Readers.Pdb
 {
     public class PdbRecordEntryReader : BinaryReaderBase
     {
-        public int Offset;
-        public int UniqueId;
-        public int Attributes;
-
         public PdbRecordEntryReader(BinaryReader reader)
             : base(reader)
         {
         }
 
-        public void Read()
+        public PdbRecordEntry Read()
         {
-            Offset = ReadInt32(_reader);
+            int offset = ReadInt32(_reader);
 
-            //Offset = reader.ReadInt32();
-            //byte attr = reader.ReadByte();
-            byte[] attr = _reader.ReadBytes(4);
+            int attr = ReadInt32(_reader);
 
-            Console.WriteLine("PdbRec  offset={0};", Offset);
+            Console.WriteLine("PdbRec  offset={0};", offset);
+
+            return new PdbRecordEntry
+            {
+                Attributes = attr,
+                Offset = offset
+            };
         }
     }
 }

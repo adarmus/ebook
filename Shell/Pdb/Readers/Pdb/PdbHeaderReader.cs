@@ -10,14 +10,10 @@ namespace Shell.Pdb.Readers.Pdb
         {
         }
 
-        public int NumberOfRecords { get; private set; }
-
-        public string Type { get; private set; }
-
-        public string Creator { get; private set; }
-
-        public void Read()
+        public PdbHeader Read()
         {
+            SetPositionToOriginal();
+
             string name = ReadString(_reader, 32);
             int attributes = _reader.ReadInt16();
             int version = _reader.ReadInt16();
@@ -27,13 +23,20 @@ namespace Shell.Pdb.Readers.Pdb
             int modificationNumber = _reader.ReadInt32();
             int appInfoId = _reader.ReadInt32();
             int sortInfoId = _reader.ReadInt32();
-            Type = ReadString(_reader, 4);
-            Creator = ReadString(_reader, 4);
+            string type = ReadString(_reader, 4);
+            string creator = ReadString(_reader, 4);
             int uniqueIdSeed = _reader.ReadInt32();
             int nextRecordListId = _reader.ReadInt32();
-            NumberOfRecords = ReadInt16(_reader);
+            int numberOfRecords = ReadInt16(_reader);
 
-            Console.WriteLine("PdbHead name={0}; Type={1}; Creator={2}; NumberOfRecords={3}", name, Type, Creator, NumberOfRecords);
+            Console.WriteLine("PdbHead name={0}; Type={1}; Creator={2}; NumberOfRecords={3}", name, type, creator, numberOfRecords);
+
+            return new PdbHeader
+            {
+                Creator = creator,
+                NumberOfRecords = numberOfRecords,
+                Type = type
+            };
         }
     }
 }

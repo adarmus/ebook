@@ -17,7 +17,7 @@ namespace Shell
   //          var reader = new PdbFileReader(@"C:\MyDev\eBook\mobi\Dark Eden - Beckett, Chris.mobi");
     //        var reader = new PdbFileReader(@"C:\MyDev\eBook\mobi\Vorrh_The_-_B.mobi");
 
-            var mobi = reader.Read();
+            var mobi = reader.ReadMobiFile();
         }
     }
 }

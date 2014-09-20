@@ -6,36 +6,35 @@ namespace Shell.Pdb.Readers.Pdb
 {
     public class PdbRecordsReader : BinaryReaderBase
     {
-        readonly List<PdbRecordEntryReader> _records;
-        readonly PdbHeaderReader _pdbHeader;
+        readonly int _numberOfRecords;
 
-        public PdbRecordsReader(BinaryReader reader, PdbHeaderReader pdbHeader)
+        public PdbRecordsReader(BinaryReader reader, int numberOfRecords)
             : base(reader)
         {
-            _pdbHeader = pdbHeader;
-            _records = new List<PdbRecordEntryReader>();
+            _numberOfRecords = numberOfRecords;
         }
 
-        public List<PdbRecordEntryReader> GetRecords()
+        public PdbRecords ReadAllRecords()
         {
-            return _records; 
-        }
+            SetPositionToOriginal();
 
-        public void Read()
-        {
+            var records = new List<PdbRecordEntry>();
+
             int lastEntryStart = 0;
-            for (int i = 0; i < _pdbHeader.NumberOfRecords; i++)
+            for (int i = 0; i < _numberOfRecords; i++)
             {
                 var entry = new PdbRecordEntryReader(_reader);
-                entry.Read();
+                PdbRecordEntry ent = entry.Read();
 
-                if (entry.Offset < lastEntryStart)
+                if (ent.Offset < lastEntryStart)
                     throw new ApplicationException("offset < lastEntryStart");
 
-                lastEntryStart = entry.Offset;
+                lastEntryStart = ent.Offset;
 
-                _records.Add(entry);
+                records.Add(ent);
             }
+
+            return new PdbRecords(records);
         }
     }
 }

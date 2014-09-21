@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using Shell.Files;
 using Shell.Pdb;
 
 namespace Shell

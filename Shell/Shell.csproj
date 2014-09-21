@@ -47,7 +47,7 @@
     <Compile Include="IMobiFileHandler.cs" />
     <Compile Include="Importer.cs" />
     <Compile Include="LogFileWriter.cs" />
-    <Compile Include="MobiFileList.cs" />
+    <Compile Include="IMobiFileList.cs" />
     <Compile Include="Pdb\MobiFile.cs" />
     <Compile Include="Pdb\MobiFileList.cs" />
     <Compile Include="Pdb\MobiHeader.cs" />

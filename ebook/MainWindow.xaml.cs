@@ -46,6 +46,4 @@ namespace ebook
             cv.Filter = _filter.GetFilter();
         }
     }
-
-    
 }

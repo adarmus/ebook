@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Shell.Pdb;
 
 namespace ebook
 {
@@ -20,11 +22,89 @@ namespace ebook
     /// </summary>
     public partial class MainWindow : Window
     {
+        GridFilter _filter;
+
         public MainWindow()
         {
             InitializeComponent();
 
             this.DataContext = new MainWindowViewModel();
+
+            _filter = new GridFilter();
+        }
+
+        void txtFilter_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var textbox = (TextBox)sender;
+            if (textbox.Name == "txtTitle")
+                _filter.TitleFilter = textbox.Text;
+            else if (textbox.Name == "txtAuthor")
+                _filter.AuthorFilter = textbox.Text;
+
+            ICollectionView cv = CollectionViewSource.GetDefaultView(bookGrid.ItemsSource);
+            cv.Filter = _filter.GetFilter();
+        }
+    }
+
+    internal class GridFilter
+    {
+        public string AuthorFilter { get; set; }
+
+        public string TitleFilter { get; set; }
+
+        public Predicate<object> GetFilter()
+        {
+            if (string.IsNullOrWhiteSpace(AuthorFilter) && string.IsNullOrWhiteSpace(TitleFilter))
+                return null;
+
+            return BuildFilter();
+        }
+
+        Predicate<object> BuildFilter()
+        {
+            bool hasAuthor = !string.IsNullOrWhiteSpace(AuthorFilter);
+            bool hastitle = !string.IsNullOrWhiteSpace(TitleFilter);
+
+            if (hasAuthor && hastitle)
+            {
+                return o =>
+                {
+                    var book = o as MobiFile;
+                    
+                    if (book == null || book.Title == null || book.Author == null)
+                        return false;
+
+                    return (book.Title.StartsWith(TitleFilter, StringComparison.CurrentCultureIgnoreCase) &&
+                            book.Author.StartsWith(AuthorFilter, StringComparison.CurrentCultureIgnoreCase));
+                };
+            }
+            else
+            {
+                if (hasAuthor)
+                {
+                    return o =>
+                    {
+                        var book = o as MobiFile;
+
+                        if (book == null || book.Author == null)
+                            return false;
+                        
+                        return book.Author.StartsWith(AuthorFilter, StringComparison.CurrentCultureIgnoreCase);
+                    };
+                }
+                else
+                {
+                    return o =>
+                    {
+                        var book = o as MobiFile;
+
+                        if (book == null || book.Title == null)
+                            return false;
+                        
+                        return book.Title.StartsWith(TitleFilter, StringComparison.CurrentCultureIgnoreCase);
+                    };
+                }
+            }
         }
     }
 }

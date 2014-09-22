@@ -10,6 +10,10 @@
                     <TextBlock Text="{Binding Title}"/>
                 </Grid>
             </DataTemplate>
+
+            <DataTemplate x:Key="MobiDetailsTemplate">
+                <TextBlock Text="{Binding Title}"/>
+            </DataTemplate>
         </ResourceDictionary>
     </Window.Resources>
     <Grid>
@@ -25,20 +29,43 @@
             Command="{Binding ImportCommand}"
             />
         <DataGrid
+            x:Name="bookGrid"
             Margin="20,50,20,20"
             AutoGenerateColumns="False"
             CanUserAddRows="False"
+            IsReadOnly="True"
             CanUserDeleteRows="False"
             CanUserResizeRows="False"
             ItemsSource="{Binding MobiFileList}"
             GridLinesVisibility="None"
             AlternatingRowBackground="AliceBlue"
             IsTextSearchEnabled="True"
-            
+            IsTextSearchCaseSensitive="False"
+            TextSearch.TextPath="Title"
+            RowDetailsVisibilityMode="VisibleWhenSelected"
+            RowDetailsTemplate="{StaticResource MobiDetailsTemplate}"
             >
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Title}" Header="Title"/>
-                <DataGridTextColumn Binding="{Binding Author}" Header="Author"/>
+                <DataGridTextColumn Binding="{Binding Title}" Header="Title">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}" VerticalAlignment="Center" Margin="0, 0, 5, 0"/>
+                                <TextBox x:Name="txtTitle" Width="100" TextChanged="txtFilter_TextChanged" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding Author}" Header="Author">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}" VerticalAlignment="Center" Margin="0, 0, 5, 0"/>
+                                <TextBox x:Name="txtAuthor" Width="100" TextChanged="txtFilter_TextChanged"  />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
                 <DataGridTextColumn Binding="{Binding Isbn}" Header="ISBN"/>
             </DataGrid.Columns>
         </DataGrid>

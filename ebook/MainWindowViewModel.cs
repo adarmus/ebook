@@ -16,7 +16,7 @@ namespace ebook
     {
         public MainWindowViewModel()
         {
-            ImportFolderPath = @"C:\MyDev\eBook\mobi";
+            ImportFolderPath = @"C:\MyDev\eBook\eBooks";
         }
 
         void DoImport()

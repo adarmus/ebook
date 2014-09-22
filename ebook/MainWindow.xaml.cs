@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -46,6 +47,10 @@ namespace ebook
         }
     }
 
+    class StringMatcher
+    {
+    }
+
     internal class GridFilter
     {
         public string AuthorFilter { get; set; }
@@ -58,6 +63,14 @@ namespace ebook
                 return null;
 
             return BuildFilter();
+        }
+
+        public bool StringsMatch(string searchIn, string searchFor)
+        {
+            if (searchFor == null || searchIn == null)
+                return false;
+
+            return Regex.IsMatch(searchIn, string.Format(@"\b{0}", searchFor), RegexOptions.IgnoreCase);
         }
 
         Predicate<object> BuildFilter()
@@ -74,8 +87,8 @@ namespace ebook
                     if (book == null || book.Title == null || book.Author == null)
                         return false;
 
-                    return (book.Title.StartsWith(TitleFilter, StringComparison.CurrentCultureIgnoreCase) &&
-                            book.Author.StartsWith(AuthorFilter, StringComparison.CurrentCultureIgnoreCase));
+                    return StringsMatch(book.Title, TitleFilter) &&
+                           StringsMatch(book.Author, AuthorFilter);
                 };
             }
             else
@@ -88,8 +101,8 @@ namespace ebook
 
                         if (book == null || book.Author == null)
                             return false;
-                        
-                        return book.Author.StartsWith(AuthorFilter, StringComparison.CurrentCultureIgnoreCase);
+
+                        return StringsMatch(book.Author, AuthorFilter);
                     };
                 }
                 else
@@ -100,8 +113,8 @@ namespace ebook
 
                         if (book == null || book.Title == null)
                             return false;
-                        
-                        return book.Title.StartsWith(TitleFilter, StringComparison.CurrentCultureIgnoreCase);
+
+                        return StringsMatch(book.Title, TitleFilter);
                     };
                 }
             }

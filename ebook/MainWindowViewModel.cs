@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -16,15 +17,15 @@ namespace ebook
     {
         public MainWindowViewModel()
         {
-            ImportFolderPath = @"C:\MyDev\eBook\eBooks";
+            ImportFolderPath = @"C:\MyDev\eBook\eBooks\2014-09-17";
         }
 
         void DoImport()
         {
             var files = new FileFinder(this.ImportFolderPath);
             var mobilist = new MobiFileList(files);
-            var mobi = mobilist.GetMobiFiles();
-            MobiFileList = new ObservableCollection<MobiFile>(mobi);
+            IEnumerable<MobiFile> mobis = mobilist.GetMobiFiles();
+            MobiFileList = new ObservableCollection<MobiFile>(mobis);
         }
 
         ObservableCollection<MobiFile> _mobiFileList;

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using Shell;
 using Shell.Files;
 using Shell.Pdb;
 
@@ -17,7 +18,7 @@ namespace ebook
     {
         public MainWindowViewModel()
         {
-            ImportFolderPath = @"C:\MyDev\eBook\eBooks\2014-09-17";
+            this.ImportFolderPath = @"C:\MyDev\eBook\eBooks\2014-09-17";
         }
 
         void DoImport()
@@ -25,7 +26,11 @@ namespace ebook
             var files = new FileFinder(this.ImportFolderPath);
             var mobilist = new MobiFileList(files);
             IEnumerable<MobiFile> mobis = mobilist.GetMobiFiles();
-            MobiFileList = new ObservableCollection<MobiFile>(mobis);
+            this.MobiFileList = new ObservableCollection<MobiFile>(mobis);
+
+
+            var agg = new Aggregator();
+            agg.GetBookList(this.MobiFileList);
         }
 
         ObservableCollection<MobiFile> _mobiFileList;

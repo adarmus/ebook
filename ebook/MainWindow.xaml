@@ -12,20 +12,39 @@
             </DataTemplate>
 
             <DataTemplate x:Key="MobiDetailsTemplate">
-                <TextBlock Text="{Binding Title}"/>
+                <Border BorderBrush="LightBlue"
+                        BorderThickness="1"
+                        Background="LightGray">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{Binding Description}" 
+                                   Margin="30 2 0 2" 
+                                   TextWrapping="Wrap"/>
+                        <ItemsControl ItemsSource="{Binding Files}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" Margin="30 2 0 2"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </Border>
             </DataTemplate>
         </ResourceDictionary>
     </Window.Resources>
     <Grid>
         <TextBox 
             HorizontalAlignment="Left" 
-            Height="23" Margin="20,20,0,0" 
-            TextWrapping="Wrap" VerticalAlignment="Top" Width="250"
+            Height="23" 
+            Margin="20,20,0,0" 
+            TextWrapping="Wrap" 
+            VerticalAlignment="Top" 
+            Width="250"
             Text="{Binding ImportFolderPath}"/>
         <Button 
             Content="Import" 
             HorizontalAlignment="Left" 
-            Margin="275,20,0,0" VerticalAlignment="Top" Width="75"
+            Margin="275,20,0,0" 
+            VerticalAlignment="Top" Width="75"
             Command="{Binding ImportCommand}"
             />
         <DataGrid

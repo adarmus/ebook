@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+using Shell;
 using Shell.Pdb;
 
 namespace ebook
@@ -35,7 +36,7 @@ namespace ebook
             {
                 return o =>
                 {
-                    var book = o as MobiFile;
+                    var book = o as BookInfo;
 
                     if (book == null || book.Title == null || book.Author == null)
                         return false;
@@ -50,7 +51,7 @@ namespace ebook
                 {
                     return o =>
                     {
-                        var book = o as MobiFile;
+                        var book = o as BookInfo;
 
                         if (book == null || book.Author == null)
                             return false;
@@ -62,7 +63,7 @@ namespace ebook
                 {
                     return o =>
                     {
-                        var book = o as MobiFile;
+                        var book = o as BookInfo;
 
                         if (book == null || book.Title == null)
                             return false;

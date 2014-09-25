@@ -7,7 +7,7 @@ namespace Shell
 {
     public class Aggregator
     {
-        public Dictionary<BookInfo, IEnumerable<string>> GetBookList(IEnumerable<MobiFile> mobiFiles)
+        public IEnumerable<BookInfo> GetBookList(IEnumerable<MobiFile> mobiFiles)
         {
             var books =
                 from m in mobiFiles
@@ -15,11 +15,13 @@ namespace Shell
                 into g
                 select new {Isbn = g.Key, MobiFiles = g};
 
-            var tuples = books.Select(b =>
+            var bookList = books.Select(b =>
             {
                 MobiFile first = b.MobiFiles.First();
 
-                var book = new BookInfo
+                var files = b.MobiFiles.Select(f => f.FilePath);
+
+                var book = new BookInfo(files)
                 {
                     Isbn = b.Isbn,
                     Author = first.Author,
@@ -29,15 +31,10 @@ namespace Shell
                     Title = first.Title
                 };
 
-                var files = b.MobiFiles.Select(f => f.FilePath);
-
-                return new Tuple<BookInfo, IEnumerable<string>>(book, files);
+                return book;
             });
 
-            var dict = new Dictionary<BookInfo, IEnumerable<string>>();
-            tuples.ToList().ForEach(t => dict.Add(t.Item1, t.Item2));
-
-            return dict;
+            return bookList;
         }
 
         void CompareAllFiles(IEnumerable<MobiFile> mobis)

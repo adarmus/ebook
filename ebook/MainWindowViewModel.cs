@@ -23,19 +23,25 @@ namespace ebook
 
         void DoImport()
         {
+            IEnumerable<BookInfo> dict = GetBookList();
+
+            this.MobiFileList = new ObservableCollection<BookInfo>(dict);
+        }
+
+        IEnumerable<BookInfo> GetBookList()
+        {
             var files = new FileFinder(this.ImportFolderPath);
             var mobilist = new MobiFileList(files);
             IEnumerable<MobiFile> mobis = mobilist.GetMobiFiles();
-            this.MobiFileList = new ObservableCollection<MobiFile>(mobis);
-
 
             var agg = new Aggregator();
-            agg.GetBookList(this.MobiFileList);
+            var dict = agg.GetBookList(mobis);
+            return dict;
         }
 
-        ObservableCollection<MobiFile> _mobiFileList;
+        ObservableCollection<BookInfo> _mobiFileList;
 
-        public ObservableCollection<MobiFile> MobiFileList
+        public ObservableCollection<BookInfo> MobiFileList
         {
             get { return _mobiFileList; }
             set

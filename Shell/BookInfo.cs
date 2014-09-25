@@ -1,13 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Shell
 {
     public class BookInfo
     {
+        public BookInfo(IEnumerable<string> files)
+        {
+            _files = files;
+        }
+
         public string Author { get; set; }
 
         public string Description { get; set; }
@@ -19,5 +21,17 @@ namespace Shell
         public string Isbn { get; set; }
 
         public string Title { get; set; }
+
+        readonly IEnumerable<string> _files;
+
+        public List<string> Files
+        {
+            get { return _files.ToList(); }
+        }
+
+        public IEnumerable<string> GetFiles()
+        {
+            return _files;
+        }
     }
 }

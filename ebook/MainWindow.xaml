@@ -15,7 +15,7 @@
                 <Border BorderBrush="LightBlue"
                         BorderThickness="1"
                         Background="LightGray">
-                    <StackPanel Orientation="Vertical">
+                    <StackPanel Orientation="Vertical" >
                         <TextBlock Text="{Binding Description}" 
                                    Margin="30 2 0 2" 
                                    TextWrapping="Wrap"/>

@@ -10,6 +10,11 @@ namespace Shell
             _files = files;
         }
 
+        public BookInfo(string file)
+        {
+            _files = new List<string> { file };
+        }
+
         public string Author { get; set; }
 
         public string Description { get; set; }

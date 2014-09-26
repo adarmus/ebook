@@ -11,6 +11,7 @@ namespace Shell
         {
             var books =
                 from m in mobiFiles
+                where !string.IsNullOrEmpty(m.Isbn)
                 group m by m.Isbn
                 into g
                 select new {Isbn = g.Key, MobiFiles = g};
@@ -34,7 +35,31 @@ namespace Shell
                 return book;
             });
 
-            return bookList;
+            var booksNoIsbn =
+                from m in mobiFiles
+                where string.IsNullOrEmpty(m.Isbn)
+                select new {MobiFiles = m};
+
+            var bookListNoIsbn = booksNoIsbn.Select(b =>
+            {
+                MobiFile first = b.MobiFiles;
+
+                var files = first.FilePath;
+
+                var book = new BookInfo(files)
+                {
+                    Isbn = "",
+                    Author = first.Author,
+                    Description = first.Description,
+                    PublishDate = first.PublishDate,
+                    Publisher = first.Publisher,
+                    Title = first.Title
+                };
+
+                return book;
+            });
+
+            return bookList.Union(bookListNoIsbn);
         }
 
         void CompareAllFiles(IEnumerable<MobiFile> mobis)

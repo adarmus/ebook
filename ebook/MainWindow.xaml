@@ -47,6 +47,21 @@
             VerticalAlignment="Top" Width="75"
             Command="{Binding ImportCommand}"
             />
+        <TextBox 
+            HorizontalAlignment="Left" 
+            Height="23" 
+            Margin="360,20,0,0" 
+            TextWrapping="Wrap" 
+            VerticalAlignment="Top" 
+            Width="250"
+            Text="{Binding CompareFolderPath}"/>
+        <Button 
+            Content="Compare" 
+            HorizontalAlignment="Left" 
+            Margin="615,20,0,0" 
+            VerticalAlignment="Top" Width="75"
+            Command="{Binding CompareCommand}"
+            />
         <DataGrid
             x:Name="bookGrid"
             Margin="20,50,20,20"

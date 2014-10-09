@@ -26,9 +26,15 @@ namespace Shell.Pdb
 
         public MobiFile ReadMobiFile()
         {
-            ReadExth(ReadMobiFile);
-
-            return _mobiFile;
+            try
+            {
+                ReadExth(ReadMobiFile);
+                return _mobiFile;
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException(string.Format("Failed to read file {0}", _filepath), ex);
+            }
         }
 
         void ReadMobiFile(MobiHeaderReader mobiReader, PdbRecords pdbRecords)

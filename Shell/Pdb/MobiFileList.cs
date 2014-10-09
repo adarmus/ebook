@@ -16,16 +16,23 @@ namespace Shell.Pdb
         public IEnumerable<MobiFile> GetMobiFiles()
         {
             return _fileList.GetFileList()
-                .Select(Read);
+                .Select(Read)
+                .Where(m => m != null);
         }
 
         MobiFile Read(string filepath)
         {
-            var reader = new PdbFileReader(filepath);
-            MobiFile mobi = reader.ReadMobiFile();
+            MobiFile mobi = null;
+            try
+            {
+                var reader = new PdbFileReader(filepath);
+                mobi = reader.ReadMobiFile();
+                mobi.FilePath = filepath;
+            }
+            catch
+            {
 
-            mobi.FilePath = filepath;
-
+            }
             return mobi;
         }
     }

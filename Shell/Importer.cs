@@ -1,14 +1,13 @@
 ﻿using System.Linq;
-using Shell.Pdb;
 
 namespace Shell
 {
     class Importer
     {
-        readonly IMobiFileList _mobiFiles;
-        readonly IMobiFileHandler _handler;
+        readonly IBookFileListProvider _mobiFiles;
+        readonly IBookFileHandler _handler;
 
-        public Importer(IMobiFileList mobiFiles, IMobiFileHandler handler)
+        public Importer(IBookFileListProvider mobiFiles, IBookFileHandler handler)
         {
             _mobiFiles = mobiFiles;
             _handler = handler;
@@ -18,14 +17,14 @@ namespace Shell
         {
             _handler.Open();
 
-            _mobiFiles.GetMobiFiles()
+            _mobiFiles.GetBookFiles()
                 .ToList()
                 .ForEach(Output);
 
             _handler.Close();
         }
 
-        void Output(MobiFile mobi)
+        void Output(BookFile mobi)
         {
             if (mobi != null)
                 _handler.Accept(mobi);

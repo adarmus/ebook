@@ -7,18 +7,18 @@ namespace Shell
 {
     public class Aggregator
     {
-        public IEnumerable<BookInfo> GetBookList(IEnumerable<MobiFile> mobiFiles)
+        public IEnumerable<BookInfo> GetBookList(IEnumerable<BookFile> bookFiles)
         {
-            var books =
-                from m in mobiFiles
+            var booksWithIsbn =
+                from m in bookFiles
                 where !string.IsNullOrEmpty(m.Isbn)
                 group m by m.Isbn
                 into g
                 select new {Isbn = g.Key, MobiFiles = g};
 
-            var bookList = books.Select(b =>
+            var bookList = booksWithIsbn.Select(b =>
             {
-                MobiFile first = b.MobiFiles.First();
+                BookFile first = b.MobiFiles.First();
 
                 var files = b.MobiFiles.Select(f => f.FilePath);
 
@@ -36,13 +36,13 @@ namespace Shell
             });
 
             var booksNoIsbn =
-                from m in mobiFiles
+                from m in bookFiles
                 where string.IsNullOrEmpty(m.Isbn)
                 select new {MobiFiles = m};
 
             var bookListNoIsbn = booksNoIsbn.Select(b =>
             {
-                MobiFile first = b.MobiFiles;
+                BookFile first = b.MobiFiles;
 
                 var files = first.FilePath;
 
@@ -62,9 +62,9 @@ namespace Shell
             return bookList.Union(bookListNoIsbn);
         }
 
-        void CompareAllFiles(IEnumerable<MobiFile> mobis)
+        void CompareAllFiles(IEnumerable<BookFile> mobis)
         {
-            MobiFile first = null;
+            BookFile first = null;
 
             foreach (var mobi in mobis)
             {
@@ -79,7 +79,7 @@ namespace Shell
             }
         }
 
-        void OutputComparison(MobiFile first, MobiFile mobi)
+        void OutputComparison(BookFile first, BookFile mobi)
         {
             bool titleOk = first.Title == mobi.Title;
             bool authorOk = first.Author == mobi.Author;

@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Shell.Files;
+using Shell.Mobi;
 using Shell.Pdb;
 
 namespace Shell
@@ -10,8 +10,28 @@ namespace Shell
     {
         public void Go()
         {
-            var files = new FileFinder(@"C:\MyDev\eBook\mobi\eBooks");
-            var mobilist = new MobiFileList(files);
+            var epubFiles = new FileFinder(@"C:\MyDev\eBook\eBooks\2014-09-17\David Mitchell [The Bone Clocks]", "epub");
+            var epubList = new BookFileList(epubFiles, new ePub.EpubReader());
+
+            var mobiFiles = new FileFinder(@"C:\MyDev\eBook\eBooks\Misc\The Death Of Bunny Munro", "mobi");
+            var mobiList = new BookFileList(mobiFiles, new MobiReader());
+
+            var search = new BookFileSearch()
+                .AddList(epubList);
+                //.AddList(mobiList);
+
+            var books = search.GetBooks();
+
+            foreach(var f in books)
+            {
+                Console.WriteLine("{0}", f.Title);
+            }
+        }
+
+        public void Go4()
+        {
+            var mobiFiles = new FileFinder(@"C:\MyDev\eBook\mobi\eBooks", "mobi");
+            var mobilist = new BookFileList(mobiFiles, new MobiReader());
 
             var writer = new LogFileWriter(@"C:\MyDev\eBook\mobi\eBooks.txt");
 
@@ -34,7 +54,7 @@ namespace Shell
 
         public void Go3()
         {
-            var files = new FileFinder(@"C:\MyDev\eBook\mobi\eBooks");
+            var files = new FileFinder(@"C:\MyDev\eBook\mobi\eBooks", "mobi");
             files.GetFileList()
                 .ToList()
                 .ForEach(Output);
@@ -46,7 +66,7 @@ namespace Shell
         void Output(string filepath)
         {
             var reader = new PdbFileReader(filepath);
-            MobiFile mobi = reader.ReadMobiFile();
+            BookFile mobi = reader.ReadMobiFile();
 
             Console.WriteLine("{0}, {1}, {2}, {3}, {4}", mobi.Title, mobi.Author, mobi.Isbn, mobi.Publisher, mobi.PublishDate);
         }

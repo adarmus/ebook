@@ -1,5 +1,5 @@
 ﻿
-namespace Shell.Pdb
+namespace Shell.Mobi
 {
     public class MobiHeader
     {

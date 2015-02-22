@@ -1,7 +1,7 @@
 ﻿
-namespace Shell.Pdb
+namespace Shell
 {
-    public class MobiFile
+    public class BookFile
     {
         public string Author { get; set; }
 

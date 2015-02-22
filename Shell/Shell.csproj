@@ -32,8 +32,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Ionic.Zip">
+      <HintPath>..\packages\epubReader.1.0.0\lib\net40\Ionic.Zip.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -42,17 +46,30 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Aggregator.cs" />
+    <Compile Include="BookFileList.cs" />
+    <Compile Include="BookFileSearch.cs" />
     <Compile Include="BookInfo.cs" />
+    <Compile Include="ePub\EpubReader.cs" />
+    <Compile Include="ePub\ePubReader\ContentData.cs" />
+    <Compile Include="ePub\ePubReader\Date.cs" />
+    <Compile Include="ePub\ePubReader\Epub.cs" />
+    <Compile Include="ePub\ePubReader\ExtendedData.cs" />
+    <Compile Include="ePub\ePubReader\ExtendedDataHandler.cs" />
+    <Compile Include="ePub\ePubReader\NavPoint.cs" />
+    <Compile Include="ePub\ePubReader\Utils.cs" />
     <Compile Include="Extractor.cs" />
+    <Compile Include="Files\IFileListProvider.cs" />
     <Compile Include="FileTest.cs" />
     <Compile Include="Files\FileFinder.cs" />
-    <Compile Include="IMobiFileHandler.cs" />
+    <Compile Include="IBookFileHandler.cs" />
+    <Compile Include="IBookFileReader.cs" />
     <Compile Include="Importer.cs" />
     <Compile Include="LogFileWriter.cs" />
-    <Compile Include="IMobiFileList.cs" />
-    <Compile Include="Pdb\MobiFile.cs" />
-    <Compile Include="Pdb\MobiFileList.cs" />
-    <Compile Include="Pdb\MobiHeader.cs" />
+    <Compile Include="IBookFileListProvider.cs" />
+    <Compile Include="BookFile.cs" />
+    <Compile Include="Mobi\MobiFileList.cs" />
+    <Compile Include="Mobi\MobiHeader.cs" />
+    <Compile Include="Mobi\MobiReader.cs" />
     <Compile Include="Pdb\PdbHeader.cs" />
     <Compile Include="Pdb\PdbRecordEntry.cs" />
     <Compile Include="Pdb\PdbRecords.cs" />
@@ -69,7 +86,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,19 +1,16 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using log4net;
 using log4net.Config;
 using Shell;
+using Shell.ePub;
 using Shell.Files;
-using Shell.Pdb;
+using Shell.Mobi;
 
 namespace ebook
 {
@@ -25,6 +22,8 @@ namespace ebook
         {
             this.ImportFolderPath = @"C:\MyDev\eBook\eBooks\2014-09-17";
             this.CompareFolderPath = @"C:\MyDev\eBook\eBooks\2014-09-06";
+            this.IncludeEpub = true;
+            this.IncludeMobi = true;
 
             XmlConfigurator.Configure();
 
@@ -49,7 +48,7 @@ namespace ebook
 
             var books = GetBookList(this.CompareFolderPath);
 
-            var compare = new BookListComparison(this.MobiFileList, books);
+            var compare = new BookListComparison(this.BookFileList, books);
 
             Dictionary<string, BookComparisonInfo> results = compare.Compare();
 
@@ -96,7 +95,7 @@ namespace ebook
         {
             var dict = GetData();
 
-            this.MobiFileList = new ObservableCollection<BookInfo>(dict);
+            this.BookFileList = new ObservableCollection<BookInfo>(dict);
         }
 
         IEnumerable<BookInfo> GetData()
@@ -110,33 +109,36 @@ namespace ebook
 
         IEnumerable<BookInfo> GetBookList(string folderpath)
         {
-            var files = new FileFinder(folderpath);
+            var search = new BookFileSearch();
 
-            if (_log.IsDebugEnabled)
-                _log.DebugFormat("Found {0} mobi files in {1}", files.GetFileList().Count(), folderpath);
+            if (this.IncludeMobi)
+            {
+                var mobiFiles = new FileFinder(folderpath, "mobi");
+                var mobiList = new BookFileList(mobiFiles, new MobiReader());
+                search.AddList(mobiList);
+            }
 
-            var mobilist = new MobiFileList(files);
+            if (this.IncludeEpub)
+            {
+                var epubFiles = new FileFinder(folderpath, "epub");
+                var epubList = new BookFileList(epubFiles, new EpubReader());
+                search.AddList(epubList);
+            }
 
-            IEnumerable<MobiFile> mobis = mobilist.GetMobiFiles();
-
-            if (_log.IsDebugEnabled)
-                _log.DebugFormat("Read {0} mobi files in {1}", mobis.Count(), folderpath);
-
-            var agg = new Aggregator();
-            IEnumerable<BookInfo> books = agg.GetBookList(mobis);
-            return books;
+            return search.GetBooks();
         }
 
-        ObservableCollection<BookInfo> _mobiFileList;
+        #region Properties
+        ObservableCollection<BookInfo> _bookFileList;
 
-        public ObservableCollection<BookInfo> MobiFileList
+        public ObservableCollection<BookInfo> BookFileList
         {
-            get { return _mobiFileList; }
+            get { return _bookFileList; }
             set
             {
-                if (value == _mobiFileList)
+                if (value == _bookFileList)
                     return;
-                _mobiFileList = value;
+                _bookFileList = value;
                 RaisePropertyChanged();
             }
         }
@@ -168,6 +170,35 @@ namespace ebook
                 RaisePropertyChanged();
             }
         }
+
+        bool _includeEpub;
+        public bool IncludeEpub
+        {
+            get { return _includeEpub; }
+            set
+            {
+                if (value == _includeEpub)
+                    return;
+
+                _includeEpub = value;
+                base.RaisePropertyChanged("IncludeEpub");
+            }
+        }
+
+        bool _includeMobi;
+        public bool IncludeMobi
+        {
+            get { return _includeMobi; }
+            set
+            {
+                if (value == _includeMobi)
+                    return;
+
+                _includeMobi = value;
+                base.RaisePropertyChanged("IncludeMobi");
+            }
+        }
+        #endregion
 
         ICommand _importCommand;
 

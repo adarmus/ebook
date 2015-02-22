@@ -1,28 +1,29 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Shell.Files;
+using Shell.Pdb;
 
-namespace Shell.Pdb
+namespace Shell.Mobi
 {
-    public class MobiFileList : IMobiFileList
+    public class MobiFileList : IBookFileListProvider
     {
-        readonly FileFinder _fileList;
+        readonly IFileListProvider _fileList;
 
-        public MobiFileList(FileFinder fileList)
+        public MobiFileList(IFileListProvider fileList)
         {
             _fileList = fileList;
         }
 
-        public IEnumerable<MobiFile> GetMobiFiles()
+        public IEnumerable<BookFile> GetBookFiles()
         {
             return _fileList.GetFileList()
                 .Select(Read)
                 .Where(m => m != null);
         }
 
-        MobiFile Read(string filepath)
+        BookFile Read(string filepath)
         {
-            MobiFile mobi = null;
+            BookFile mobi = null;
             try
             {
                 var reader = new PdbFileReader(filepath);

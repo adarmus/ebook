@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Shell.Mobi;
 using Shell.Pdb.Readers.Pdb;
 
 namespace Shell.Pdb.Readers.Mobi

@@ -14,7 +14,7 @@ namespace Shell.Pdb
 
         readonly string _filepath;
 
-        MobiFile _mobiFile;
+        BookFile _mobiFile;
 
         public PdbFileReader(string filepath)
         {
@@ -24,7 +24,7 @@ namespace Shell.Pdb
 
         // http://wiki.mobileread.com/wiki/PDB
 
-        public MobiFile ReadMobiFile()
+        public BookFile ReadMobiFile()
         {
             try
             {
@@ -53,7 +53,7 @@ namespace Shell.Pdb
             }
         }
 
-        MobiFile MakeMobiFromExth(ExthHeaderReader exthReader, string title)
+        BookFile MakeMobiFromExth(ExthHeaderReader exthReader, string title)
         {
             string author = exthReader.ReadExthStringValue(100);
             string publisher = exthReader.ReadExthStringValue(101);
@@ -65,7 +65,7 @@ namespace Shell.Pdb
             int? coverOffset = exthReader.ReadExthIntValue(201);
             int? thumbOffset = exthReader.ReadExthIntValue(202);
 
-            return new MobiFile
+            return new BookFile
             {
                 Author = author,
                 Description = description,
@@ -76,9 +76,9 @@ namespace Shell.Pdb
             };
         }
 
-        MobiFile MakeMobiFileNoExth(string title)
+        BookFile MakeMobiFileNoExth(string title)
         {
-            return new MobiFile
+            return new BookFile
             {
                 Title = title
             };

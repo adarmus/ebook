@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Shell
 {
-    class LogFileWriter : IMobiFileHandler, IDisposable
+    class LogFileWriter : IBookFileHandler, IDisposable
     {
         readonly string _logfilepath;
         StreamWriter _writer;
@@ -18,7 +18,7 @@ namespace Shell
             _logfilepath = logfilepath;    
         }
 
-        public void Accept(MobiFile mobi)
+        public void Accept(BookFile mobi)
         {
             _writer.WriteLine("{0}, {1}, {2}, {3}, {4}, {5}", mobi.Title, mobi.Author, mobi.Isbn, mobi.Publisher, mobi.PublishDate, mobi.FilePath);
         }

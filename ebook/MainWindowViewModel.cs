@@ -20,14 +20,21 @@ namespace ebook
 
         public MainWindowViewModel()
         {
-            this.ImportFolderPath = @"C:\MyDev\eBook\eBooks\2014-09-17";
-            this.CompareFolderPath = @"C:\MyDev\eBook\eBooks\2014-09-06";
-            this.IncludeEpub = true;
-            this.IncludeMobi = true;
+            ConfigProvider config = GetConfigProvider();
+
+            this.ImportFolderPath = config.ImportFolderPath;
+            this.CompareFolderPath = config.CompareFolderPath;
+            this.IncludeEpub = config.IncludeEpub;
+            this.IncludeMobi = config.IncludeMobi;
 
             XmlConfigurator.Configure();
 
             _log = LogManager.GetLogger("root");
+        }
+
+        ConfigProvider GetConfigProvider()
+        {
+            return new ConfigFile().GetConfigProvider();
         }
 
         void TryDoCompare()

@@ -135,6 +135,23 @@ namespace ebook
             return search.GetBooks();
         }
 
+        void DoSave()
+        {
+            if (this.BookFileList == null)
+                return;
+
+            string path = Path.Combine(this.ImportFolderPath, GetCsvFilename());
+
+            var csv = new CsvWriter(path);
+            csv.Write(this.BookFileList);
+        }
+
+        string GetCsvFilename()
+        {
+            string s = string.Format("{0:yyyy-MMM-dd}.csv", DateTime.Today);
+            return s;
+        }
+
         #region Properties
         ObservableCollection<BookInfo> _bookFileList;
 
@@ -207,6 +224,7 @@ namespace ebook
         }
         #endregion
 
+        #region Commands
         ICommand _importCommand;
 
         public ICommand ImportCommand
@@ -227,6 +245,13 @@ namespace ebook
             }
         }
 
+        RelayCommand _saveCommand;
+
+        public ICommand SaveCommand
+        {
+            get { return _saveCommand ?? (_saveCommand = new RelayCommand(this.DoSave)); }
+        }
+
         ICommand _compareCommand;
 
         public ICommand CompareCommand
@@ -240,5 +265,6 @@ namespace ebook
                 return _compareCommand;
             }
         }
+        #endregion
     }
 }

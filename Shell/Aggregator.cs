@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Shell.Pdb;
 
 namespace Shell
 {
@@ -9,57 +8,79 @@ namespace Shell
     {
         public IEnumerable<BookInfo> GetBookList(IEnumerable<BookFile> bookFiles)
         {
+            IEnumerable<BookInfo> bookList = GetBookListWithIsbn(bookFiles);
+
+            IEnumerable<BookInfo> bookListNoIsbn = GetBookListWithoutIsbn(bookFiles);
+
+            return bookList.Union(bookListNoIsbn);
+        }
+
+        IEnumerable<BookInfo> GetBookListWithIsbn(IEnumerable<BookFile> bookFiles)
+        {
             var booksWithIsbn =
                 from m in bookFiles
                 where !string.IsNullOrEmpty(m.Isbn)
                 group m by m.Isbn
                 into g
-                select new {Isbn = g.Key, MobiFiles = g};
+                select new {Isbn = g.Key, Files = g};
 
             var bookList = booksWithIsbn.Select(b =>
             {
-                BookFile first = b.MobiFiles.First();
+                BookFile first = b.Files.First();
 
-                var files = b.MobiFiles.Select(f => f.FilePath);
+                var files = b.Files.Select(f => f.FilePath);
 
-                var book = new BookInfo(files)
-                {
-                    Isbn = b.Isbn,
-                    Author = first.Author,
-                    Description = first.Description,
-                    PublishDate = first.PublishDate,
-                    Publisher = first.Publisher,
-                    Title = first.Title
-                };
-
-                return book;
+                return GetBookWithIsbn(first, b.Isbn, files);
             });
+            return bookList;
+        }
 
+        BookInfo GetBookWithIsbn(BookFile first, string isbn, IEnumerable<string> files)
+        {
+            var book = new BookInfo(files)
+            {
+                Isbn = isbn,
+                Author = first.Author,
+                Description = first.Description,
+                PublishDate = first.PublishDate,
+                Publisher = first.Publisher,
+                Title = first.Title
+            };
+
+            return book;
+        }
+
+        IEnumerable<BookInfo> GetBookListWithoutIsbn(IEnumerable<BookFile> bookFiles)
+        {
             var booksNoIsbn =
                 from m in bookFiles
                 where string.IsNullOrEmpty(m.Isbn)
-                select new {MobiFiles = m};
+                select new {File = m};
 
             var bookListNoIsbn = booksNoIsbn.Select(b =>
             {
-                BookFile first = b.MobiFiles;
+                BookFile first = b.File;
 
-                var files = first.FilePath;
-
-                var book = new BookInfo(files)
-                {
-                    Isbn = "",
-                    Author = first.Author,
-                    Description = first.Description,
-                    PublishDate = first.PublishDate,
-                    Publisher = first.Publisher,
-                    Title = first.Title
-                };
-
-                return book;
+                return GetBookWithoutIsbn(first);
             });
+            return bookListNoIsbn;
+        }
 
-            return bookList.Union(bookListNoIsbn);
+        BookInfo GetBookWithoutIsbn(BookFile first)
+        {
+            var files = first.FilePath;
+
+            var book = new BookInfo(files)
+            {
+                Isbn = "",
+                Author = first.Author,
+                Description = first.Description,
+                PublishDate = first.PublishDate,
+                Publisher = first.Publisher,
+                Title = first.Title
+            };
+
+            return book;
         }
 
         void CompareAllFiles(IEnumerable<BookFile> mobis)

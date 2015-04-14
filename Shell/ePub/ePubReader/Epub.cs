@@ -290,6 +290,7 @@ namespace eBdb.EpubReader
                         break;
                     case "identifier":
                         ID.Add(metadataElement.Value);
+                        LookForISBNIdentifier(metadataElement);
                         break;
                     case "language":
                         Language.Add(metadataElement.Value);
@@ -304,6 +305,20 @@ namespace eBdb.EpubReader
             }
 
             LoadManifestSectionFromOpfFile(contentOpf, xNamespace);
+        }
+
+        void LookForISBNIdentifier(XElement element)
+        {
+            if (!element.HasAttributes)
+                return;
+
+            XAttribute attr = element.Attributes().FirstOrDefault(a => a.Name.LocalName == "scheme");
+
+            if (attr == null)
+                return;
+
+            if (attr.Value == "ISBN")
+                this.ISBN = element.Value;
         }
 
         void LoadManifestSectionFromOpfFile(XElement contentOpf, XNamespace xNamespace)

@@ -18,7 +18,7 @@ namespace Shell.ePub
                 book.Publisher = GetFirstSafe(epub.Publisher);
                 book.Description = GetFirstSafe(epub.Description);
                 book.PublishDate = GetFirstSafe(epub.Date);
-                
+                book.Isbn = epub.ISBN;
                 book.FilePath = filepath;
             }
             catch

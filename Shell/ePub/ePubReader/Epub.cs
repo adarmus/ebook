@@ -11,6 +11,7 @@ using System.Text.RegularExpressions;
 using System.Web;
 using System.Xml.Linq;
 using Ionic.Zip;
+
 //using eBdb.EpubReader.Properties;
 
 namespace eBdb.EpubReader
@@ -20,7 +21,6 @@ namespace eBdb.EpubReader
         const bool FailIfEpubNotValid = true;
 
         #region Properties
-
         //Note: Mandatory fields defined by OPF standard
         public string UUID { get; private set; }
         public List<string> ID { get; private set; }
@@ -40,6 +40,7 @@ namespace eBdb.EpubReader
         public List<string> Relation { get; private set; }
         public List<string> Coverage { get; private set; }
         public List<string> Rights { get; private set; }
+        public string ISBN { get; private set; }
 
         public OrderedDictionary Content { get; private set; }
         public OrderedDictionary ExtendedData { get; private set; }
@@ -52,14 +53,13 @@ namespace eBdb.EpubReader
         string _CurrentFileName;
         static Regex _RefsRegex = new Regex(@"(?<prefix><\w+[^>]*?href\s*=\s*(""|'))(?<href>[^""']*)(?<suffix>(""|')[^>]*>)", Utils.REO_ci);
         static Regex _ExternalLinksRegex = new Regex(@"^\s*(http(s)?://|mailto:|ftp(s)?://)", Utils.REO_ci);
-
         #endregion
 
         #region Constructor
-
         public Epub(string ePubPath)
         {
             ID = new List<string>();
+            ISBN = null;
             Title = new List<string>();
             Language = new List<string>();
 
@@ -80,27 +80,33 @@ namespace eBdb.EpubReader
             ExtendedData = new OrderedDictionary();
             TOC = new List<NavPoint>();
 
-            if (File.Exists(ePubPath)) _EpubFile = ZipFile.Read(ePubPath);
-            else throw new FileNotFoundException();
+            if (File.Exists(ePubPath))
+                _EpubFile = ZipFile.Read(ePubPath);
+            else
+                throw new FileNotFoundException();
 
             string opfFilePath = GetOpfFilePath(_EpubFile);
-            if (string.IsNullOrEmpty(opfFilePath)) throw new Exception("Invalid epub file.");
+            if (string.IsNullOrEmpty(opfFilePath))
+                throw new Exception("Invalid epub file.");
 
             Match m = Regex.Match(opfFilePath, @"^.*/", Utils.REO_c);
             _ContentOpfPath = m.Success ? m.Value : "";
 
             LoadEpubMetaDataFromOpfFile(opfFilePath);
-            if (_TocFileName != null) LoadTableOfContents();
+            if (_TocFileName != null) 
+                LoadTableOfContents();
         }
-
         #endregion
 
         #region Public Functions
-
         public string GetContentAsPlainText()
         {
             StringBuilder builder = new StringBuilder();
-            for (int i = 0, y = Content.Count; i < y; ++i) builder.Append(((ContentData) Content[i]).GetContentAsPlainText());
+            for (int i = 0, y = Content.Count; i < y; ++i)
+            {
+                builder.Append(((ContentData) Content[i]).GetContentAsPlainText());
+            }
+
             return builder.ToString();
         }
 
@@ -153,12 +159,9 @@ namespace eBdb.EpubReader
 
             return string.Format(_HtmlTemplate, string.Join(", ", Creator) + " - " + Title[0], headPart.Trim(), bodyTag, body);
         }
-
-
         #endregion
 
         #region Private Functions
-
         string EmbedImages(string html)
         {
             return Regex.Replace(html, @"(?<prefix><\w+[^>]*?src\s*=\s*(""|'))(?<src>[^""']+)(?<suffix>(""|')[^>]*>)", SrcEvaluator, Utils.REO_ci);
@@ -224,7 +227,8 @@ namespace eBdb.EpubReader
         void LoadEpubMetaDataFromOpfFile(string opfFilePath)
         {
             ZipEntry zipEntry = _EpubFile.Entries.FirstOrDefault(e => e.FileName.Equals(opfFilePath, StringComparison.InvariantCultureIgnoreCase));
-            if (zipEntry == null) throw new Exception("Invalid epub file.");
+            if (zipEntry == null) 
+                throw new Exception("Invalid epub file.");
 
             XElement contentOpf;
             using (MemoryStream memoryStream = new MemoryStream())
@@ -242,7 +246,8 @@ namespace eBdb.EpubReader
 
             var firstOrDefault = meta.FirstOrDefault(e => e.Name.LocalName == "identifier" && e.Attribute("id") != null && e.Attribute("id").Value == uniqueIdentifier);
 
-            if (firstOrDefault != null) UUID = firstOrDefault.Value;
+            if (firstOrDefault != null) 
+                UUID = firstOrDefault.Value;
 
             foreach (var metadataElement in contentOpf.Elements(xNamespace + "metadata").Elements().Where(e => e.Value.Trim() != string.Empty))
             {
@@ -256,7 +261,8 @@ namespace eBdb.EpubReader
                         break;
                     case "date":
                         var attribute = metadataElement.Attributes().FirstOrDefault(a => a.Name.LocalName == "event");
-                        if (attribute != null) Date.Add(new DateData(attribute.Value, metadataElement.Value));
+                        if (attribute != null) 
+                            Date.Add(new DateData(attribute.Value, metadataElement.Value));
                         break;
                     case "publisher":
                         Publisher.Add(metadataElement.Value);
@@ -311,14 +317,20 @@ namespace eBdb.EpubReader
                 var itemElement = contentOpf.Elements(xNamespace + "manifest").Elements().FirstOrDefault(
                     e =>
                         e.Attribute("id").Value == spinElement.Attribute("idref").Value);
+
                 if (itemElement == null && FailIfEpubNotValid)
                     throw new Exception("Invalid epub file.");
-                else if (itemElement == null) continue;
+                else if (itemElement == null) 
+                    continue;
 
                 string fileName = HttpUtility.UrlDecode(itemElement.Attribute("href").Value);
                 ZipEntry contentZipEntry = _EpubFile.Entries.FirstOrDefault(e => e.FileName.Equals(_ContentOpfPath + fileName, StringComparison.InvariantCultureIgnoreCase));
-                if (contentZipEntry == null && FailIfEpubNotValid) throw new Exception("Invalid epub file.");
-                else if (contentZipEntry == null) continue;
+                
+                if (contentZipEntry == null && FailIfEpubNotValid) 
+                    throw new Exception("Invalid epub file.");
+                else if (contentZipEntry == null) 
+                    continue;
+
                 //
                 //Developer: Brian Kenney
                 //Date: 7/29/2012
@@ -327,8 +339,11 @@ namespace eBdb.EpubReader
                 //to ensure that we don't crash should someone mispackage
                 //
                 //check to see if fileName has already been added to Content dictionary
-                if (!Content.Contains(fileName)) Content.Add(fileName, new ContentData(fileName, contentZipEntry));
-                if (!alreadyProcessedFiles.Contains(spinElement.Attribute("idref").Value)) alreadyProcessedFiles.Add(spinElement.Attribute("idref").Value);
+                if (!Content.Contains(fileName)) 
+                    Content.Add(fileName, new ContentData(fileName, contentZipEntry));
+
+                if (!alreadyProcessedFiles.Contains(spinElement.Attribute("idref").Value)) 
+                    alreadyProcessedFiles.Add(spinElement.Attribute("idref").Value);
             }
 
             //grab the rest of the elements not already processed in the manifest
@@ -337,11 +352,17 @@ namespace eBdb.EpubReader
             {
                 string fileName = manifestElement.Attribute("href").Value;
                 ZipEntry extendedZipEntry = _EpubFile.Entries.FirstOrDefault(e => e.FileName.Equals(_ContentOpfPath + fileName, StringComparison.InvariantCultureIgnoreCase));
-                if (extendedZipEntry == null) continue;
+                if (extendedZipEntry == null) 
+                    continue;
+
                 //check to see if fileName has already been added to Extended dictionary
                 string trimmedFileName = GetTrimmedFileName(fileName, true);
-                if (!ExtendedData.Contains(trimmedFileName)) ExtendedData.Add(trimmedFileName, new ExtendedData(fileName, manifestElement.Attribute("media-type").Value, extendedZipEntry));
-                if (string.Equals(manifestElement.Attribute("media-type").Value, "application/x-dtbncx+xml", StringComparison.InvariantCultureIgnoreCase)) _TocFileName = manifestElement.Attribute("href").Value;
+                
+                if (!ExtendedData.Contains(trimmedFileName)) 
+                    ExtendedData.Add(trimmedFileName, new ExtendedData(fileName, manifestElement.Attribute("media-type").Value, extendedZipEntry));
+                
+                if (string.Equals(manifestElement.Attribute("media-type").Value, "application/x-dtbncx+xml", StringComparison.InvariantCultureIgnoreCase)) 
+                    _TocFileName = manifestElement.Attribute("href").Value;
             }
         }
 
@@ -360,7 +381,9 @@ namespace eBdb.EpubReader
 
         string NormalizeRefs(string text)
         {
-            if (text == null) return null;
+            if (text == null) 
+                return null;
+
             text = _RefsRegex.Replace(text, RefsEvaluator);
             text = Regex.Replace(text, @"(?<prefix>\bid\s*=\s*(""|'))(?<id>[^""']+)", IdsEvaluator, Utils.REO_ci);
 
@@ -389,7 +412,8 @@ namespace eBdb.EpubReader
         void LoadTableOfContents()
         {
             ExtendedData extendedData = ExtendedData[_TocFileName] as ExtendedData;
-            if (extendedData == null) return;
+            if (extendedData == null) 
+                return;
 
             XElement xElement = XElement.Parse(extendedData.Content);
             XNamespace xNamespace = xElement.Attribute("xmlns") != null ? xElement.Attribute("xmlns").Value : XNamespace.None;
@@ -500,7 +524,6 @@ namespace eBdb.EpubReader
 				  {3}
 			   </body>
 			</html>";
-
         #endregion
     }
 }

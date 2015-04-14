@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
@@ -37,6 +38,7 @@ namespace ebook
             return new ConfigFile().GetConfigProvider();
         }
 
+        #region Compare
         void TryDoCompare()
         {
             try
@@ -80,21 +82,28 @@ namespace ebook
                 }
             }
         }
+        #endregion
 
         string C34(string input)
         {
             return string.Format("\"{0}\"", input);
         }
 
-        void TryDoImport()
+        async void TryDoImport()
         {
             try
             {
-                DoImport();
+                this.IsBusy = true;
+
+                await Task.Run(() => DoImport());
             }
             catch (Exception ex)
             {
                 ExceptionHandler.Handle(ex, "importing");
+            }
+            finally
+            {
+                this.IsBusy = false;
             }
         }
 
@@ -153,6 +162,20 @@ namespace ebook
         }
 
         #region Properties
+        bool _isBusy;
+        public bool IsBusy
+        {
+            get { return _isBusy; }
+            set
+            {
+                if (value == _isBusy)
+                    return;
+
+                _isBusy = value;
+                base.RaisePropertyChanged("IsBusy");
+            }
+        }
+
         ObservableCollection<BookInfo> _bookFileList;
 
         public ObservableCollection<BookInfo> BookFileList

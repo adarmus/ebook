@@ -69,9 +69,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Aggregator.cs" />
+    <Compile Include="BookComparisonInfo.cs" />
     <Compile Include="BookFileList.cs" />
     <Compile Include="BookFileSearch.cs" />
     <Compile Include="BookInfo.cs" />
+    <Compile Include="BookListComparison.cs" />
     <Compile Include="CsvWriter.cs" />
     <Compile Include="ePub\EpubReader.cs" />
     <Compile Include="ePub\ePubReader\ContentData.cs" />

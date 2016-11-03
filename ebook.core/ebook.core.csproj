@@ -107,7 +107,6 @@
     <Compile Include="Pdb\Readers\Pdb\PdbHeaderReader.cs" />
     <Compile Include="Pdb\Readers\Pdb\PdbRecordEntryReader.cs" />
     <Compile Include="Pdb\Readers\Pdb\PdbRecordsReader.cs" />
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

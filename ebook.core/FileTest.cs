@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
-using Shell.Files;
-using Shell.Mobi;
-using Shell.Pdb;
+using ebook.core.Files;
+using ebook.core.Mobi;
+using ebook.core.Pdb;
 
-namespace Shell
+namespace ebook.core
 {
     class FileTest
     {

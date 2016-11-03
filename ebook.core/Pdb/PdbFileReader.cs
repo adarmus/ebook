@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
-using Shell.Pdb.Readers.Mobi;
-using Shell.Pdb.Readers.Pdb;
+using ebook.core.Pdb.Readers.Mobi;
+using ebook.core.Pdb.Readers.Pdb;
 
-namespace Shell.Pdb
+namespace ebook.core.Pdb
 {
     public class PdbFileReader
     {

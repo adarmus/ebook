@@ -1,5 +1,5 @@
 ﻿
-namespace Shell.Mobi
+namespace ebook.core.Mobi
 {
     public class MobiHeader
     {

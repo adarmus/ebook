@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace eBdb.EpubReader {
+namespace ebook.core.ePub.ePubReader {
 	public class NavPoint {
 		public string ID { get; private set; }
 		public string Title { get; private set; }

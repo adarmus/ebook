@@ -4,14 +4,14 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using ebook.core;
+using ebook.core.ePub;
+using ebook.core.Files;
+using ebook.core.Mobi;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using log4net;
 using log4net.Config;
-using Shell;
-using Shell.ePub;
-using Shell.Files;
-using Shell.Mobi;
 
 namespace ebook
 {

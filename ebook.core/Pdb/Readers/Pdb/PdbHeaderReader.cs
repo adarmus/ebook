@@ -1,7 +1,6 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 
-namespace Shell.Pdb.Readers.Pdb
+namespace ebook.core.Pdb.Readers.Pdb
 {
     public class PdbHeaderReader : BinaryReaderBase
     {

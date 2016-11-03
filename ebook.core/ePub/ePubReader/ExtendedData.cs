@@ -2,7 +2,7 @@
 using System.IO;
 using Ionic.Zip;
 
-namespace eBdb.EpubReader {
+namespace ebook.core.ePub.ePubReader {
 	public class ExtendedData {
 		private readonly ZipEntry _ExtendedZipEntry;
 		public string FileName { get; private set; }

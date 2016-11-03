@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace eBdb.EpubReader {
+namespace ebook.core.ePub.ePubReader {
 	public class Utils {
 		public static readonly RegexOptions REO_ = RegexOptions.CultureInvariant | RegexOptions.IgnorePatternWhitespace | RegexOptions.ExplicitCapture;
 		public static readonly RegexOptions REO_c = RegexOptions.Compiled | REO_;

@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Shell.ePub;
-
-namespace Shell
+﻿namespace ebook.core
 {
     class Program
     {

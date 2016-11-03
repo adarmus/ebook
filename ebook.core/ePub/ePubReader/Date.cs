@@ -1,4 +1,4 @@
-﻿namespace eBdb.EpubReader {
+﻿namespace ebook.core.ePub.ePubReader {
 	public class DateData {
 		public string Type { get; private set; }
 		public string Date { get; private set; }

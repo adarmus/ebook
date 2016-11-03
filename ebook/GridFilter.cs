@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Text.RegularExpressions;
-using Shell;
-using Shell.Pdb;
+using ebook.core;
 
 namespace ebook
 {

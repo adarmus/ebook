@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using eBdb.EpubReader;
+using ebook.core.ePub.ePubReader;
 
-namespace Shell.ePub
+namespace ebook.core.ePub
 {
     public class EpubReader : IBookFileReader
     {

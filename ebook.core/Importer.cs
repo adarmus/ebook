@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace Shell
+namespace ebook.core
 {
     class Importer
     {

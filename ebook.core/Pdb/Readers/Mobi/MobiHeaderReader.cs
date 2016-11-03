@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using Shell.Mobi;
-using Shell.Pdb.Readers.Pdb;
+﻿using System.IO;
+using ebook.core.Mobi;
 
-namespace Shell.Pdb.Readers.Mobi
+namespace ebook.core.Pdb.Readers.Mobi
 {
     public class MobiHeaderReader : BinaryReaderBase
     {

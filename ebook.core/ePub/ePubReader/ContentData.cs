@@ -2,7 +2,7 @@
 using System.Text.RegularExpressions;
 using Ionic.Zip;
 
-namespace eBdb.EpubReader {
+namespace ebook.core.ePub.ePubReader {
 	public class ContentData {
 		private readonly ZipEntry _ZipEntry;
 		public string FileName { get; private set; }

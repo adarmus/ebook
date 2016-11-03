@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Shell
+namespace ebook.core
 {
     public interface IBookFileListProvider
     {

@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Shell.Pdb;
+﻿using ebook.core.Pdb;
 
-namespace Shell.Mobi
+namespace ebook.core.Mobi
 {
     public class MobiReader : IBookFileReader
     {

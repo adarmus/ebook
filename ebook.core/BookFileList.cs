@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Shell.Files;
+using ebook.core.Files;
 
-namespace Shell
+namespace ebook.core
 {
     public class BookFileList : IBookFileListProvider
     {

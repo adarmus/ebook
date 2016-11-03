@@ -1,7 +1,7 @@
-﻿using System.IO;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.IO;
 
-namespace Shell.Files
+namespace ebook.core.Files
 {
     public class FileFinder : IFileListProvider
     {

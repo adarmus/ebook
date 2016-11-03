@@ -1,5 +1,5 @@
 ﻿
-namespace Shell.Pdb
+namespace ebook.core.Pdb
 {
     public class PdbHeader
     {

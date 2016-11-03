@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 
-namespace Shell
+namespace ebook.core
 {
     public class CsvWriter
     {

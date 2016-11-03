@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Shell.Files;
-using Shell.Pdb;
+using ebook.core.Files;
+using ebook.core.Pdb;
 
-namespace Shell.Mobi
+namespace ebook.core.Mobi
 {
     public class MobiFileList : IBookFileListProvider
     {

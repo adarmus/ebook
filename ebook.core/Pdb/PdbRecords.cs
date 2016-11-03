@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Shell.Pdb
+namespace ebook.core.Pdb
 {
     public class PdbRecords
     {

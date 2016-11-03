@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Configuration;
-using System.IO;
 using System.Web;
 
-namespace eBdb.EpubReader {
+namespace ebook.core.ePub.ePubReader {
 	public class ExtendedDataHandler : IHttpHandler {
 		public void ProcessRequest(HttpContext context) {
 			HttpRequest request = context.Request;

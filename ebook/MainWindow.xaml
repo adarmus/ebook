@@ -1,8 +1,8 @@
 ﻿<Window x:Class="ebook.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:shell="clr-namespace:Shell;assembly=Shell"
         xmlns:ebook="clr-namespace:ebook"
+        xmlns:core="clr-namespace:ebook.core;assembly=ebook.core"
         Title="ebook" 
         Height="500" 
         Width="800">
@@ -14,7 +14,7 @@
             <ebook:VisibilityToBoolConverter x:Key="boolToVis"
                                             Inverted="True" />
 
-            <DataTemplate DataType="shell:BookFile">
+            <DataTemplate DataType="core:BookFile">
                 <Grid>
                     <TextBlock Text="{Binding Title}"/>
                 </Grid>

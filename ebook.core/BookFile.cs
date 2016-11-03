@@ -1,5 +1,5 @@
 ﻿
-namespace Shell
+namespace ebook.core
 {
     public class BookFile
     {

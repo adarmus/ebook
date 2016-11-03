@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Shell
+namespace ebook.core
 {
     public class BookInfo
     {

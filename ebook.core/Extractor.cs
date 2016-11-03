@@ -3,7 +3,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 
-namespace Shell
+namespace ebook.core
 {
     internal class Extractor
     {

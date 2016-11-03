@@ -1,12 +1,7 @@
-﻿using Shell.Pdb;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Shell
+namespace ebook.core
 {
     class LogFileWriter : IBookFileHandler, IDisposable
     {

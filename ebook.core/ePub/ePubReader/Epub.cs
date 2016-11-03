@@ -7,14 +7,14 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-//using System.Web;
 using System.Web;
 using System.Xml.Linq;
 using Ionic.Zip;
+//using System.Web;
 
 //using eBdb.EpubReader.Properties;
 
-namespace eBdb.EpubReader
+namespace ebook.core.ePub.ePubReader
 {
     public class Epub
     {

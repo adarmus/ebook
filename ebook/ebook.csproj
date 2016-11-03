@@ -144,9 +144,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Shell\Shell.csproj">
+    <ProjectReference Include="..\Shell\ebook.core.csproj">
       <Project>{ae778ef5-2403-48e3-ba58-ebd6bb857ed1}</Project>
-      <Name>Shell</Name>
+      <Name>ebook.core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

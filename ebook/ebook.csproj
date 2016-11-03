@@ -144,7 +144,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Shell\ebook.core.csproj">
+    <ProjectReference Include="..\ebook.core\ebook.core.csproj">
       <Project>{ae778ef5-2403-48e3-ba58-ebd6bb857ed1}</Project>
       <Name>ebook.core</Name>
     </ProjectReference>

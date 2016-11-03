@@ -1,11 +1,10 @@
-﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ebook", "ebook\ebook.csproj", "{4FC773D2-E407-4B69-B160-E9D199AB47A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ebook.core", "Shell\ebook.core.csproj", "{AE778EF5-2403-48E3-BA58-EBD6BB857ED1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ebook.core", "ebook.core\ebook.core.csproj", "{AE778EF5-2403-48E3-BA58-EBD6BB857ED1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,6 +1,6 @@
 ﻿namespace ebook.core
 {
-    class BookComparisonInfo
+    public class BookComparisonInfo
     {
         public string Isbn { get; set; }
 

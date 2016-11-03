@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace ebook.core
 {
-    class BookListComparison
+    public class BookListComparison
     {
         readonly IEnumerable<BookInfo> _books1;
         readonly IEnumerable<BookInfo> _books2;

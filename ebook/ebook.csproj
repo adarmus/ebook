@@ -100,8 +100,6 @@
     </Compile>
     <Compile Include="AsyncCommand.cs" />
     <Compile Include="AsyncCommandBase.cs" />
-    <Compile Include="BookComparisonInfo.cs" />
-    <Compile Include="BookListComparison.cs" />
     <Compile Include="ConfigFile.cs" />
     <Compile Include="ConfigProvider.cs" />
     <Compile Include="ExceptionHandler.cs" />

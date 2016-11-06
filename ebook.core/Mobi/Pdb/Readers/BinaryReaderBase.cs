@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace ebook.core.Pdb.Readers
+namespace ebook.core.Mobi.Pdb.Readers
 {
     public abstract class BinaryReaderBase
     {

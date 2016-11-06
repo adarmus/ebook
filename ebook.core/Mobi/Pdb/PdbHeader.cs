@@ -1,5 +1,5 @@
 ﻿
-namespace ebook.core.Pdb
+namespace ebook.core.Mobi.Pdb
 {
     public class PdbHeader
     {

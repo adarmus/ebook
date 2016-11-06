@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace ebook.core.Pdb.Readers.Mobi
+namespace ebook.core.Mobi.Pdb.Readers.Mobi
 {
     public class TitleReader : BinaryReaderBase
     {

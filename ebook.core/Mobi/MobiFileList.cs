@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using ebook.core.Files;
-using ebook.core.Pdb;
+using ebook.core.Mobi.Pdb;
 
 namespace ebook.core.Mobi
 {

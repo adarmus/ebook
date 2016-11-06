@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace ebook.core.Pdb.Readers.Pdb
+namespace ebook.core.Mobi.Pdb.Readers.Pdb
 {
     public class PdbRecordsReader : BinaryReaderBase
     {

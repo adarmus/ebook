@@ -1,7 +1,6 @@
 ﻿using System.IO;
-using ebook.core.Mobi;
 
-namespace ebook.core.Pdb.Readers.Mobi
+namespace ebook.core.Mobi.Pdb.Readers.Mobi
 {
     public class MobiHeaderReader : BinaryReaderBase
     {

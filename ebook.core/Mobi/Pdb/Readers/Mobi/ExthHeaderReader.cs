@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace ebook.core.Pdb.Readers.Mobi
+namespace ebook.core.Mobi.Pdb.Readers.Mobi
 {
     public class ExthHeaderReader : BinaryReaderBase
     {

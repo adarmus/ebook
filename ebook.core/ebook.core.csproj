@@ -84,7 +84,7 @@
     <Compile Include="ePub\ePubReader\ExtendedDataHandler.cs" />
     <Compile Include="ePub\ePubReader\NavPoint.cs" />
     <Compile Include="ePub\ePubReader\Utils.cs" />
-    <Compile Include="Pdb\Extractor.cs" />
+    <Compile Include="Mobi\Pdb\Extractor.cs" />
     <Compile Include="Files\IFileListProvider.cs" />
     <Compile Include="Files\FileFinder.cs" />
     <Compile Include="IBookFileHandler.cs" />
@@ -95,17 +95,17 @@
     <Compile Include="Mobi\MobiFileList.cs" />
     <Compile Include="Mobi\MobiHeader.cs" />
     <Compile Include="Mobi\MobiReader.cs" />
-    <Compile Include="Pdb\PdbHeader.cs" />
-    <Compile Include="Pdb\PdbRecordEntry.cs" />
-    <Compile Include="Pdb\PdbRecords.cs" />
-    <Compile Include="Pdb\Readers\Mobi\ExthHeaderReader.cs" />
-    <Compile Include="Pdb\Readers\Mobi\MobiHeaderReader.cs" />
-    <Compile Include="Pdb\PdbFileReader.cs" />
-    <Compile Include="Pdb\Readers\BinaryReaderBase.cs" />
-    <Compile Include="Pdb\Readers\Mobi\TitleReader.cs" />
-    <Compile Include="Pdb\Readers\Pdb\PdbHeaderReader.cs" />
-    <Compile Include="Pdb\Readers\Pdb\PdbRecordEntryReader.cs" />
-    <Compile Include="Pdb\Readers\Pdb\PdbRecordsReader.cs" />
+    <Compile Include="Mobi\Pdb\PdbHeader.cs" />
+    <Compile Include="Mobi\Pdb\PdbRecordEntry.cs" />
+    <Compile Include="Mobi\Pdb\PdbRecords.cs" />
+    <Compile Include="Mobi\Pdb\Readers\Mobi\ExthHeaderReader.cs" />
+    <Compile Include="Mobi\Pdb\Readers\Mobi\MobiHeaderReader.cs" />
+    <Compile Include="Mobi\Pdb\PdbFileReader.cs" />
+    <Compile Include="Mobi\Pdb\Readers\BinaryReaderBase.cs" />
+    <Compile Include="Mobi\Pdb\Readers\Mobi\TitleReader.cs" />
+    <Compile Include="Mobi\Pdb\Readers\Pdb\PdbHeaderReader.cs" />
+    <Compile Include="Mobi\Pdb\Readers\Pdb\PdbRecordEntryReader.cs" />
+    <Compile Include="Mobi\Pdb\Readers\Pdb\PdbRecordsReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

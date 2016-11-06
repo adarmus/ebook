@@ -3,7 +3,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 
-namespace ebook.core
+namespace ebook.core.Mobi.Pdb
 {
     internal class Extractor
     {

@@ -86,13 +86,10 @@
     <Compile Include="ePub\ePubReader\Utils.cs" />
     <Compile Include="Extractor.cs" />
     <Compile Include="Files\IFileListProvider.cs" />
-    <Compile Include="FileTest.cs" />
     <Compile Include="Files\FileFinder.cs" />
     <Compile Include="IBookFileHandler.cs" />
     <Compile Include="IBookFileReader.cs" />
     <Compile Include="IBookInfoListProvider.cs" />
-    <Compile Include="Importer.cs" />
-    <Compile Include="LogFileWriter.cs" />
     <Compile Include="IBookFileListProvider.cs" />
     <Compile Include="BookFile.cs" />
     <Compile Include="Mobi\MobiFileList.cs" />

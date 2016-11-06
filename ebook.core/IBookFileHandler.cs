@@ -1,4 +1,6 @@
 ﻿
+using ebook.core.BookFiles;
+
 namespace ebook.core
 {
     interface IBookFileHandler

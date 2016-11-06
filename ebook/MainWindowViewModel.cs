@@ -5,6 +5,7 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using ebook.core;
+using ebook.core.Repo;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using log4net;
@@ -111,7 +112,7 @@ namespace ebook
 
         IEnumerable<BookInfo> GetBookList(string path)
         {
-            var factory = new BookListProviderFactory();
+            var factory = new BookRepositoryFactory();
             var provider = factory.GetFileBasedProvider(path, this.IncludeMobi, this.IncludeEpub);
 
             return provider.GetBooks();

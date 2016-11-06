@@ -2,7 +2,7 @@
 using System.Linq;
 using ebook.core.Files;
 
-namespace ebook.core
+namespace ebook.core.BookFiles
 {
     public class BookFileList : IBookFileListProvider
     {

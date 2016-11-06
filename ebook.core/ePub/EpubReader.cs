@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ebook.core.BookFiles;
 using ebook.core.ePub.ePubReader;
 
 namespace ebook.core.ePub

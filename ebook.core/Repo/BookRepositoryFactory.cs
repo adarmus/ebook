@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ebook.core.BookFiles;
 using ebook.core.ePub;
 using ebook.core.Files;
 using ebook.core.Mobi;
 
-namespace ebook.core
+namespace ebook.core.Repo
 {
-    public class BookListProviderFactory
+    public class BookRepositoryFactory
     {
-        public IBookInfoListProvider GetFileBasedProvider(string folderPath, bool includeMobi, bool includeEpub)
+        public IBookRepository GetFileBasedProvider(string folderPath, bool includeMobi, bool includeEpub)
         {
-            var search = new FileBasedBookListProvider();
+            var search = new FileBasedBookRepository();
 
             if (includeMobi)
             {

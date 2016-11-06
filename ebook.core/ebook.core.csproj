@@ -70,11 +70,11 @@
   <ItemGroup>
     <Compile Include="Aggregator.cs" />
     <Compile Include="BookComparisonInfo.cs" />
-    <Compile Include="BookFileList.cs" />
-    <Compile Include="FileBasedBookListProvider.cs" />
+    <Compile Include="BookFiles\BookFileList.cs" />
+    <Compile Include="Repo\FileBasedBookRepository.cs" />
     <Compile Include="BookInfo.cs" />
     <Compile Include="BookListComparison.cs" />
-    <Compile Include="BookListProviderFactory.cs" />
+    <Compile Include="Repo\BookRepositoryFactory.cs" />
     <Compile Include="CsvWriter.cs" />
     <Compile Include="ePub\EpubReader.cs" />
     <Compile Include="ePub\ePubReader\ContentData.cs" />
@@ -88,10 +88,10 @@
     <Compile Include="Files\IFileListProvider.cs" />
     <Compile Include="Files\FileFinder.cs" />
     <Compile Include="IBookFileHandler.cs" />
-    <Compile Include="IBookFileReader.cs" />
-    <Compile Include="IBookInfoListProvider.cs" />
-    <Compile Include="IBookFileListProvider.cs" />
-    <Compile Include="BookFile.cs" />
+    <Compile Include="BookFiles\IBookFileReader.cs" />
+    <Compile Include="Repo\IBookRepository.cs" />
+    <Compile Include="BookFiles\IBookFileListProvider.cs" />
+    <Compile Include="BookFiles\BookFile.cs" />
     <Compile Include="Mobi\MobiFileList.cs" />
     <Compile Include="Mobi\MobiHeader.cs" />
     <Compile Include="Mobi\MobiReader.cs" />

@@ -1,18 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using ebook.core.BookFiles;
 
-namespace ebook.core
+namespace ebook.core.Repo
 {
-    public class FileBasedBookListProvider : IBookInfoListProvider
+    public class FileBasedBookRepository : IBookRepository
     {
         readonly List<IBookFileListProvider> _providers;
 
-        public FileBasedBookListProvider()
+        public FileBasedBookRepository()
         {
             _providers = new List<IBookFileListProvider>();
         }
 
-        public FileBasedBookListProvider AddList(IBookFileListProvider books)
+        public FileBasedBookRepository AddList(IBookFileListProvider books)
         {
             _providers.Add(books);
 

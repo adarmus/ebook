@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using ebook.core.BookFiles;
 using ebook.core.Mobi.Pdb.Readers.Mobi;
 using ebook.core.Mobi.Pdb.Readers.Pdb;
 

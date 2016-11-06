@@ -1,4 +1,5 @@
-﻿using ebook.core.Mobi.Pdb;
+﻿using ebook.core.BookFiles;
+using ebook.core.Mobi.Pdb;
 
 namespace ebook.core.Mobi
 {

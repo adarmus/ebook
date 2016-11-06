@@ -1,5 +1,5 @@
 ﻿
-namespace ebook.core
+namespace ebook.core.BookFiles
 {
     public class BookFile
     {

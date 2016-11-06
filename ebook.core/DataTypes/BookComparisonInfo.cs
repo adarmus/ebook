@@ -1,4 +1,4 @@
-﻿namespace ebook.core
+﻿namespace ebook.core.DataTypes
 {
     public class BookComparisonInfo
     {

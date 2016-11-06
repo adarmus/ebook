@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using ebook.core.DataTypes;
 
 namespace ebook.core
 {

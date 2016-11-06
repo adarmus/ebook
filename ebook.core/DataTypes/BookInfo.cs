@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace ebook.core
+namespace ebook.core.DataTypes
 {
     public class BookInfo
     {

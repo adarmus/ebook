@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using ebook.core.BookFiles;
+using ebook.core.DataTypes;
 
 namespace ebook.core
 {

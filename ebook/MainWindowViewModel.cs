@@ -5,6 +5,7 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using ebook.core;
+using ebook.core.DataTypes;
 using ebook.core.Repo;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;

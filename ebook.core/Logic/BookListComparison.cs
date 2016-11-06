@@ -2,7 +2,7 @@
 using System.Linq;
 using ebook.core.DataTypes;
 
-namespace ebook.core
+namespace ebook.core.Logic
 {
     public class BookListComparison
     {

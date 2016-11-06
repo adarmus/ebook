@@ -4,7 +4,7 @@ using System.Linq;
 using ebook.core.BookFiles;
 using ebook.core.DataTypes;
 
-namespace ebook.core
+namespace ebook.core.Logic
 {
     public class Aggregator
     {

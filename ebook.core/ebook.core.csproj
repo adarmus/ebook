@@ -68,12 +68,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Aggregator.cs" />
+    <Compile Include="Logic\Aggregator.cs" />
     <Compile Include="DataTypes\BookComparisonInfo.cs" />
     <Compile Include="BookFiles\BookFileList.cs" />
     <Compile Include="Repo\FileBasedBookRepository.cs" />
     <Compile Include="DataTypes\BookInfo.cs" />
-    <Compile Include="BookListComparison.cs" />
+    <Compile Include="Logic\BookListComparison.cs" />
     <Compile Include="Repo\BookRepositoryFactory.cs" />
     <Compile Include="CsvWriter.cs" />
     <Compile Include="ePub\EpubReader.cs" />

@@ -61,10 +61,10 @@ namespace ebook
             if (_log.IsDebugEnabled)
                 _log.DebugFormat("Got {0} results", results.Count);
 
-            OutputResults(results);
+            OutputComparisonResults(results);
         }
 
-        void OutputResults(Dictionary<string, BookComparisonInfo> results)
+        void OutputComparisonResults(Dictionary<string, BookComparisonInfo> results)
         {
             string path = Path.Combine(this.CompareFolderPath, "Compare.csv");
             using (TextWriter writer = new StreamWriter(path))

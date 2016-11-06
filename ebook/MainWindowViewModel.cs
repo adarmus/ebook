@@ -112,12 +112,16 @@ namespace ebook
             this.BookFileList = new ObservableCollection<BookInfo>(GetBookList(this.ImportFolderPath));
         }
 
-        IEnumerable<BookInfo> GetBookList(string path)
+        IEnumerable<BookInfo> GetBookList(string folderPath)
         {
-            var factory = new BookRepositoryFactory();
-            var provider = factory.GetFileBasedProvider(path, this.IncludeMobi, this.IncludeEpub);
+            IBookRepository repo = GetRepo(folderPath);
 
-            return provider.GetBooks();
+            return repo.GetBooks(this.IncludeMobi, this.IncludeEpub);
+        }
+
+        FileBasedBookRepository GetRepo(string folderPath)
+        {
+            return new FileBasedBookRepository(folderPath);
         }
 
         void DoSave()

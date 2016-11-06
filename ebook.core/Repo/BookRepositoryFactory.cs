@@ -7,23 +7,10 @@ namespace ebook.core.Repo
 {
     public class BookRepositoryFactory
     {
-        public IBookRepository GetFileBasedProvider(string folderPath, bool includeMobi, bool includeEpub)
+        public IBookRepository GetFileBasedProvider(string folderPath)
         {
-            var search = new FileBasedBookRepository();
+            var search = new FileBasedBookRepository(folderPath);
 
-            if (includeMobi)
-            {
-                var mobiFiles = new FileFinder(folderPath, "mobi");
-                var mobiList = new BookFileList(mobiFiles, new MobiReader());
-                search.AddList(mobiList);
-            }
-
-            if (includeEpub)
-            {
-                var epubFiles = new FileFinder(folderPath, "epub");
-                var epubList = new BookFileList(epubFiles, new EpubReader());
-                search.AddList(epubList);
-            }
 
             return search;
         }

@@ -5,6 +5,6 @@ namespace ebook.core.Repo
 {
     public interface IBookRepository
     {
-        IEnumerable<BookInfo> GetBooks();
+        IEnumerable<BookInfo> GetBooks(bool includeMobi, bool includeEpub);
     }
 }

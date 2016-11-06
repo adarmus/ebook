@@ -5,9 +5,6 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using ebook.core;
-using ebook.core.ePub;
-using ebook.core.Files;
-using ebook.core.Mobi;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using log4net;
@@ -109,39 +106,15 @@ namespace ebook
 
         void DoImport()
         {
-            var dict = GetData();
-
-            this.BookFileList = new ObservableCollection<BookInfo>(dict);
+            this.BookFileList = new ObservableCollection<BookInfo>(GetBookList(this.ImportFolderPath));
         }
 
-        IEnumerable<BookInfo> GetData()
+        IEnumerable<BookInfo> GetBookList(string path)
         {
-            IEnumerable<BookInfo> dict = null;
+            var factory = new BookListProviderFactory();
+            var provider = factory.GetFileBasedProvider(path, this.IncludeMobi, this.IncludeEpub);
 
-            dict = GetBookList(this.ImportFolderPath);
-
-            return dict;
-        }
-
-        IEnumerable<BookInfo> GetBookList(string folderpath)
-        {
-            var search = new BookFileSearch();
-
-            if (this.IncludeMobi)
-            {
-                var mobiFiles = new FileFinder(folderpath, "mobi");
-                var mobiList = new BookFileList(mobiFiles, new MobiReader());
-                search.AddList(mobiList);
-            }
-
-            if (this.IncludeEpub)
-            {
-                var epubFiles = new FileFinder(folderpath, "epub");
-                var epubList = new BookFileList(epubFiles, new EpubReader());
-                search.AddList(epubList);
-            }
-
-            return search.GetBooks();
+            return provider.GetBooks();
         }
 
         void DoSave()

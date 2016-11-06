@@ -3,23 +3,23 @@ using System.Linq;
 
 namespace ebook.core
 {
-    public class BookFileSearch
+    public class FileBasedBookListProvider : IBookInfoListProvider
     {
         readonly List<IBookFileListProvider> _providers;
 
-        public BookFileSearch()
+        public FileBasedBookListProvider()
         {
             _providers = new List<IBookFileListProvider>();
         }
 
-        public BookFileSearch AddList(IBookFileListProvider books)
+        public FileBasedBookListProvider AddList(IBookFileListProvider books)
         {
             _providers.Add(books);
 
             return this;
         }
 
-        public IEnumerable<BookFile> GetBookFiles()
+        IEnumerable<BookFile> GetBookFiles()
         {
             return _providers.SelectMany(p => p.GetBookFiles());
         }

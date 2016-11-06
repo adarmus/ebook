@@ -71,9 +71,10 @@
     <Compile Include="Aggregator.cs" />
     <Compile Include="BookComparisonInfo.cs" />
     <Compile Include="BookFileList.cs" />
-    <Compile Include="BookFileSearch.cs" />
+    <Compile Include="FileBasedBookListProvider.cs" />
     <Compile Include="BookInfo.cs" />
     <Compile Include="BookListComparison.cs" />
+    <Compile Include="BookListProviderFactory.cs" />
     <Compile Include="CsvWriter.cs" />
     <Compile Include="ePub\EpubReader.cs" />
     <Compile Include="ePub\ePubReader\ContentData.cs" />
@@ -89,6 +90,7 @@
     <Compile Include="Files\FileFinder.cs" />
     <Compile Include="IBookFileHandler.cs" />
     <Compile Include="IBookFileReader.cs" />
+    <Compile Include="IBookInfoListProvider.cs" />
     <Compile Include="Importer.cs" />
     <Compile Include="LogFileWriter.cs" />
     <Compile Include="IBookFileListProvider.cs" />

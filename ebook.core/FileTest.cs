@@ -16,7 +16,7 @@ namespace ebook.core
             var mobiFiles = new FileFinder(@"C:\MyDev\eBook\eBooks\Misc\The Death Of Bunny Munro", "mobi");
             var mobiList = new BookFileList(mobiFiles, new MobiReader());
 
-            var search = new BookFileSearch()
+            var search = new FileBasedBookListProvider()
                 .AddList(epubList);
                 //.AddList(mobiList);
 

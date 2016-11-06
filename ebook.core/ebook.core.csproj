@@ -87,7 +87,6 @@
     <Compile Include="Mobi\Pdb\Extractor.cs" />
     <Compile Include="Files\IFileListProvider.cs" />
     <Compile Include="Files\FileFinder.cs" />
-    <Compile Include="IBookFileHandler.cs" />
     <Compile Include="BookFiles\IBookFileReader.cs" />
     <Compile Include="Repo\IBookRepository.cs" />
     <Compile Include="BookFiles\IBookFileListProvider.cs" />

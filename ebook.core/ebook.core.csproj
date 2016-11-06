@@ -84,7 +84,7 @@
     <Compile Include="ePub\ePubReader\ExtendedDataHandler.cs" />
     <Compile Include="ePub\ePubReader\NavPoint.cs" />
     <Compile Include="ePub\ePubReader\Utils.cs" />
-    <Compile Include="Extractor.cs" />
+    <Compile Include="Pdb\Extractor.cs" />
     <Compile Include="Files\IFileListProvider.cs" />
     <Compile Include="Files\FileFinder.cs" />
     <Compile Include="IBookFileHandler.cs" />

@@ -10,6 +10,10 @@ using System.Windows.Input;
 
 namespace ebook
 {
+    /// <summary>
+    /// See https://msdn.microsoft.com/en-gb/magazine/dn630647.aspx
+    /// </summary>
+    /// <typeparam name="TResult"></typeparam>
     public class AsyncCommand<TResult> : AsyncCommandBase, INotifyPropertyChanged
     {
         private readonly Func<CancellationToken, Task<TResult>> _command;

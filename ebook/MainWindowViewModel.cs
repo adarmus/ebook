@@ -55,7 +55,8 @@ namespace ebook
         {
             _log.Debug("Starting compare");
 
-            var books = GetBookList(this.CompareFolderPath);
+            IBookRepository repo = GetRepoToCompare();
+            var books = repo.GetBooks(this.IncludeMobi, this.IncludeEpub);
 
             var compare = new BookListComparison(this.BookFileList, books);
 
@@ -109,19 +110,18 @@ namespace ebook
 
         void DoImport()
         {
-            this.BookFileList = new ObservableCollection<BookInfo>(GetBookList(this.ImportFolderPath));
+            IBookRepository repo = GetRepoToDisplay();
+            this.BookFileList = new ObservableCollection<BookInfo>(repo.GetBooks(this.IncludeMobi, this.IncludeEpub));
         }
 
-        IEnumerable<BookInfo> GetBookList(string folderPath)
+        IBookRepository GetRepoToDisplay()
         {
-            IBookRepository repo = GetRepo(folderPath);
-
-            return repo.GetBooks(this.IncludeMobi, this.IncludeEpub);
+            return new FileBasedBookRepository(this.ImportFolderPath);
         }
 
-        FileBasedBookRepository GetRepo(string folderPath)
+        IBookRepository GetRepoToCompare()
         {
-            return new FileBasedBookRepository(folderPath);
+            return new FileBasedBookRepository(this.CompareFolderPath);
         }
 
         void DoSave()

@@ -55,6 +55,18 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Insight.Database, Version=5.2.8.0, Culture=neutral, PublicKeyToken=f35c6ef87e515afc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Insight.Database.Core.5.2.8\lib\NET45\Insight.Database.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Insight.Database.Configuration, Version=5.2.8.0, Culture=neutral, PublicKeyToken=f35c6ef87e515afc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Insight.Database.5.2.8\lib\NET45\Insight.Database.Configuration.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Insight.Database.Providers.Default, Version=5.2.8.0, Culture=neutral, PublicKeyToken=f35c6ef87e515afc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Insight.Database.5.2.8\lib\NET45\Insight.Database.Providers.Default.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Ionic.Zip">
       <HintPath>..\packages\epubReader.1.0.0\lib\net40\Ionic.Zip.dll</HintPath>
     </Reference>
@@ -106,6 +118,8 @@
     <Compile Include="Mobi\Pdb\Readers\Pdb\PdbRecordEntryReader.cs" />
     <Compile Include="Mobi\Pdb\Readers\Pdb\PdbRecordsReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repo\Sql\IBookStore.cs" />
+    <Compile Include="Repo\Sql\SqlRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

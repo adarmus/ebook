@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ebook.core.BookFiles
 {
     public interface IBookFileListProvider
     {
-        IEnumerable<BookFile> GetBookFiles();
+        Task<IEnumerable<BookFile>> GetBookFiles();
     }
 }

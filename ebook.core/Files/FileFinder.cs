@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
+using ebook.core.Utils;
 
 namespace ebook.core.Files
 {
@@ -14,10 +16,11 @@ namespace ebook.core.Files
             _extension = extension;
         }
 
-        public IEnumerable<string> GetFileList()
+        public async Task<IEnumerable<string>> GetFileList()
         {
             string search = string.Format("*.{0}", _extension);
-            return Directory.EnumerateFiles(_rootFolderPath, search, SearchOption.AllDirectories);
+            
+            return await AsyncDirectory.EnumerateFiles(_rootFolderPath, search, SearchOption.AllDirectories);
         }
     }
 }

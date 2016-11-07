@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using ebook.core.BookFiles;
 using ebook.core.DataTypes;
 using ebook.core.ePub;
 using ebook.core.Files;
 using ebook.core.Logic;
 using ebook.core.Mobi;
+using ebook.core.Utils;
 
 namespace ebook.core.Repo
 {
@@ -20,7 +22,7 @@ namespace ebook.core.Repo
             _folderPath = folderPath;
         }
 
-        public IEnumerable<BookInfo> GetBooks(bool includeMobi, bool includeEpub)
+        public async Task<IEnumerable<BookInfo>> GetBooks(bool includeMobi, bool includeEpub)
         {
             var agg = new Aggregator();
 
@@ -32,7 +34,7 @@ namespace ebook.core.Repo
             if (includeEpub)
                 AddReader("epub", new EpubReader());
 
-            return agg.GetBookList(GetBookFiles());
+            return agg.GetBookList(await GetBookFiles());
         }
 
         void AddReader(string fileExt, IBookFileReader reader)
@@ -42,9 +44,9 @@ namespace ebook.core.Repo
             _providers.Add(epubList);
         }
 
-        IEnumerable<BookFile> GetBookFiles()
+        async Task<IEnumerable<BookFile>> GetBookFiles()
         {
-            return _providers.SelectMany(p => p.GetBookFiles());
+            return await _providers.SelectManyAsync(async p => await p.GetBookFiles());
         }
     }
 }

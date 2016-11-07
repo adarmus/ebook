@@ -39,11 +39,11 @@ namespace ebook
         }
 
         #region Compare
-        void TryDoCompare()
+        async Task TryDoCompare()
         {
             try
             {
-                DoCompare();
+                await DoCompare();
             }
             catch (Exception ex)
             {
@@ -51,12 +51,12 @@ namespace ebook
             }
         }
 
-        void DoCompare()
+        async Task DoCompare()
         {
             _log.Debug("Starting compare");
 
             IBookRepository repo = GetRepoToCompare();
-            var books = repo.GetBooks(this.IncludeMobi, this.IncludeEpub);
+            var books = await repo.GetBooks(this.IncludeMobi, this.IncludeEpub);
 
             var compare = new BookListComparison(this.BookFileList, books);
 
@@ -90,13 +90,13 @@ namespace ebook
             return string.Format("\"{0}\"", input);
         }
 
-        async void TryDoImport()
+        async Task TryDoImport()
         {
             try
             {
                 this.IsBusy = true;
 
-                await Task.Run(() => DoImport());
+                await DoImport();
             }
             catch (Exception ex)
             {
@@ -108,10 +108,10 @@ namespace ebook
             }
         }
 
-        void DoImport()
+        async Task DoImport()
         {
             IBookRepository repo = GetRepoToDisplay();
-            var books = repo.GetBooks(this.IncludeMobi, this.IncludeEpub);
+            var books = await repo.GetBooks(this.IncludeMobi, this.IncludeEpub);
             this.BookFileList = new ObservableCollection<BookInfo>(books);
         }
 
@@ -229,7 +229,7 @@ namespace ebook
             {
                 if (_importCommand == null)
                 {
-                    _importCommand = new RelayCommand(TryDoImport);
+                    _importCommand = new AsyncCommand1(TryDoImport);
                     //_importCommand = AsyncCommand.Create(TryDoImport);
                     //_importCommand = AsyncCommand.Create(async () =>
                     //{
@@ -256,7 +256,7 @@ namespace ebook
             {
                 if (_compareCommand == null)
                 {
-                    _compareCommand = new RelayCommand(TryDoCompare);
+                    _compareCommand = new AsyncCommand1(TryDoCompare);
                 }
                 return _compareCommand;
             }

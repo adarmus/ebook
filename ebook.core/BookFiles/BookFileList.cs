@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using ebook.core.Files;
 
 namespace ebook.core.BookFiles
@@ -15,9 +16,10 @@ namespace ebook.core.BookFiles
             _fileList = fileList;
         }
 
-        public IEnumerable<BookFile> GetBookFiles()
+        public async Task<IEnumerable<BookFile>> GetBookFiles()
         {
-            return _fileList.GetFileList()
+            var list = await _fileList.GetFileList();
+            return list
                 .Select(_reader.Read)
                 .Where(m => m != null);
         }

@@ -9,7 +9,7 @@ namespace ebook.core.Repo.Sql
 {
     public class SqlRepository : IBookRepository
     {
-        public IEnumerable<BookInfo> GetBooks(bool includeMobi, bool includeEpub)
+        public Task<IEnumerable<BookInfo>> GetBooks(bool includeMobi, bool includeEpub)
         {
             throw new NotImplementedException("something");   
         }

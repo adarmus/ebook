@@ -111,7 +111,8 @@ namespace ebook
         void DoImport()
         {
             IBookRepository repo = GetRepoToDisplay();
-            this.BookFileList = new ObservableCollection<BookInfo>(repo.GetBooks(this.IncludeMobi, this.IncludeEpub));
+            var books = repo.GetBooks(this.IncludeMobi, this.IncludeEpub);
+            this.BookFileList = new ObservableCollection<BookInfo>(books);
         }
 
         IBookRepository GetRepoToDisplay()
@@ -129,16 +130,8 @@ namespace ebook
             if (this.BookFileList == null)
                 return;
 
-            string path = Path.Combine(this.ImportFolderPath, GetCsvFilename());
-
-            var csv = new CsvWriter(path);
+            var csv = new CsvWriter(CsvWriter.GetFilePath(this.ImportFolderPath));
             csv.Write(this.BookFileList);
-        }
-
-        string GetCsvFilename()
-        {
-            string s = string.Format("{0:yyyy-MMM-dd}.csv", DateTime.Today);
-            return s;
         }
 
         #region Properties

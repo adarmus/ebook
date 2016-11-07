@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using ebook.core.DataTypes;
 
@@ -6,6 +7,18 @@ namespace ebook.core
 {
     public class CsvWriter
     {
+        public static string GetFilePath(string folderPath)
+        {
+            string path = Path.Combine(folderPath, GetCsvFilename());
+            return path;
+        }
+
+        static string GetCsvFilename()
+        {
+            string s = string.Format("{0:yyyy-MMM-dd}.csv", DateTime.Today);
+            return s;
+        }
+
         readonly string _filepath;
 
         public CsvWriter(string filepath)

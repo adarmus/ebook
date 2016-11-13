@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using ebook.core.BookFiles;
 using ebook.core.DataTypes;
@@ -9,7 +8,7 @@ using ebook.core.Logic;
 using ebook.core.Mobi;
 using ebook.core.Utils;
 
-namespace ebook.core.Repo
+namespace ebook.core.Repo.File
 {
     public class FileBasedBookRepository : IBookRepository
     {

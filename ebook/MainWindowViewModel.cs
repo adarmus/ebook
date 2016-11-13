@@ -8,6 +8,7 @@ using ebook.core;
 using ebook.core.DataTypes;
 using ebook.core.Logic;
 using ebook.core.Repo;
+using ebook.core.Repo.File;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using log4net;

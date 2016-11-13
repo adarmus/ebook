@@ -84,10 +84,10 @@
     <Compile Include="DataTypes\BookComparisonInfo.cs" />
     <Compile Include="BookFiles\BookFileList.cs" />
     <Compile Include="Repo\Azure\AzureSqlRepository.cs" />
-    <Compile Include="Repo\FileBasedBookRepository.cs" />
+    <Compile Include="Repo\File\FileBasedBookRepository.cs" />
     <Compile Include="DataTypes\BookInfo.cs" />
     <Compile Include="Logic\BookListComparison.cs" />
-    <Compile Include="CsvWriter.cs" />
+    <Compile Include="Repo\File\CsvWriter.cs" />
     <Compile Include="ePub\EpubReader.cs" />
     <Compile Include="ePub\ePubReader\ContentData.cs" />
     <Compile Include="ePub\ePubReader\Date.cs" />

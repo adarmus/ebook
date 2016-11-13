@@ -123,6 +123,12 @@ namespace ebook
             return new FileBasedBookRepository(this.ImportFolderPath);
         }
 
+        IBookRepository GetRepoToSave()
+        {
+            return new SqlRepository("Server=localhost; Database=ebook; Trusted_Connection=SSPI");
+            return new FileBasedBookRepository(this.ImportFolderPath);
+        }
+
         IBookRepository GetRepoToCompare()
         {
             return new FileBasedBookRepository(this.CompareFolderPath);
@@ -133,8 +139,9 @@ namespace ebook
             if (this.BookFileList == null)
                 return;
 
-            var csv = new CsvWriter(CsvWriter.GetFilePath(this.ImportFolderPath));
-            csv.Write(this.BookFileList);
+            IBookRepository repo = GetRepoToSave();
+
+            repo.SaveBooks(this.BookFileList);
         }
 
         #region Properties

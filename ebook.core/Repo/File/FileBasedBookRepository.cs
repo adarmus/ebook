@@ -47,5 +47,11 @@ namespace ebook.core.Repo.File
         {
             return await _providers.SelectManyAsync(async p => await p.GetBookFiles());
         }
+
+        public async Task SaveBooks(IEnumerable<BookInfo> books)
+        {
+            var csv = new CsvWriter(CsvWriter.GetFilePath(_folderPath));
+            await csv.Write(books);
+        }
     }
 }

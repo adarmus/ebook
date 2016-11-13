@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using ebook.core.DataTypes;
 
 namespace ebook.core.Repo.File
@@ -26,13 +27,13 @@ namespace ebook.core.Repo.File
             _filepath = filepath;
         }
 
-        public void Write(IEnumerable<BookInfo> books)
+        public async Task Write(IEnumerable<BookInfo> books)
         {
             using (TextWriter writer = new StreamWriter(_filepath))
             {
                 foreach (var book in books)
                 {
-                    writer.WriteLine("{0},{1},{2},{3}", C34(book.Isbn), C34(book.Title), C34(book.Author), C34(book.Files[0]));
+                    await writer.WriteLineAsync(string.Format("{0},{1},{2},{3}", C34(book.Isbn), C34(book.Title), C34(book.Author), C34(book.Files[0])));
                 }
             }
         }

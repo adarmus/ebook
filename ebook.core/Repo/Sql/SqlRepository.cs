@@ -36,5 +36,23 @@ namespace ebook.core.Repo.Sql
                 throw;
             }
         }
+
+        public async Task SaveBooks(IEnumerable<BookInfo> books)
+        {
+            var repo = _builder.Connection().As<IBookStore>();
+
+            foreach (var book in books)
+            {
+                try
+                {
+                    await repo.BookIns(book);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    throw;
+                }
+            }
+        }
     }
 }

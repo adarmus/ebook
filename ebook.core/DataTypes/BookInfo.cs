@@ -5,6 +5,10 @@ namespace ebook.core.DataTypes
 {
     public class BookInfo
     {
+        public BookInfo()
+        {
+        }
+
         public BookInfo(IEnumerable<string> files)
         {
             _files = files;

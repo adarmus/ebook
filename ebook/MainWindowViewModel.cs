@@ -9,6 +9,7 @@ using ebook.core.DataTypes;
 using ebook.core.Logic;
 using ebook.core.Repo;
 using ebook.core.Repo.File;
+using ebook.core.Repo.Sql;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using log4net;
@@ -118,6 +119,7 @@ namespace ebook
 
         IBookRepository GetRepoToDisplay()
         {
+            return new SqlRepository("Server=localhost; Database=ebook; Trusted_Connection=SSPI");
             return new FileBasedBookRepository(this.ImportFolderPath);
         }
 

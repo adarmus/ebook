@@ -37,10 +37,5 @@ namespace ebook.core.DataTypes
         {
             get { return _files.ToList(); }
         }
-
-        public IEnumerable<string> GetFiles()
-        {
-            return _files;
-        }
     }
 }

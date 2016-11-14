@@ -81,6 +81,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataTypes\BookContentInfo.cs" />
     <Compile Include="Logic\Aggregator.cs" />
     <Compile Include="DataTypes\BookComparisonInfo.cs" />
     <Compile Include="BookFiles\BookFileList.cs" />

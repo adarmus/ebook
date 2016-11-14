@@ -14,6 +14,7 @@ namespace ebook.core.Repo.File
     {
         readonly List<IBookFileListProvider> _providers;
         readonly string _folderPath;
+        Dictionary<string, BookContentInfo> _lookup;
 
         public FileBasedBookRepository(string folderPath)
         {
@@ -33,7 +34,11 @@ namespace ebook.core.Repo.File
             if (includeEpub)
                 AddReader("epub", new EpubReader());
 
-            return agg.GetBookList(await GetBookFiles());
+            IEnumerable<BookInfo> list = agg.GetBookList(await GetBookFiles());
+
+            _lookup = agg.GetBookContentInfoLookup();
+
+            return list;
         }
 
         void AddReader(string fileExt, IBookFileReader reader)
@@ -46,6 +51,14 @@ namespace ebook.core.Repo.File
         async Task<IEnumerable<BookFile>> GetBookFiles()
         {
             return await _providers.SelectManyAsync(async p => await p.GetBookFiles());
+        }
+
+        public Task<IEnumerable<string>> GetBookFilePaths(string id)
+        {
+            if (!_lookup.ContainsKey(id))
+                return Task.FromResult<IEnumerable<string>>(null);
+
+            return Task.FromResult<IEnumerable<string>>(_lookup[id].Files); 
         }
 
         public async Task SaveBooks(IEnumerable<BookInfo> books)

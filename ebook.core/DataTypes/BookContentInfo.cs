@@ -17,13 +17,15 @@ namespace ebook.core.DataTypes
             get { return _files.ToList(); }
         }
 
-        public BookContentInfo(IEnumerable<string> files)
+        public BookContentInfo(BookInfo book, IEnumerable<string> files)
         {
+            this.Book = book;
             _files = files;
         }
 
-        public BookContentInfo(string file)
+        public BookContentInfo(BookInfo book, string file)
         {
+            this.Book = book;
             _files = new List<string> { file };
         }
     }

@@ -38,9 +38,9 @@ namespace ebook.core.Repo.File
 
         void AddReader(string fileExt, IBookFileReader reader)
         {
-            var epubFiles = new FileFinder(_folderPath, fileExt);
-            var epubList = new BookFileList(epubFiles, reader);
-            _providers.Add(epubList);
+            var files = new FileFinder(_folderPath, fileExt);
+            var list = new BookFileList(files, reader);
+            _providers.Add(list);
         }
 
         async Task<IEnumerable<BookFile>> GetBookFiles()

@@ -47,6 +47,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         
+        <!-- Buttons and options -->
         <Grid Grid.Row="0"
               Margin="5,5,5,5">
             <Grid.ColumnDefinitions>
@@ -102,6 +103,7 @@
             </Grid>
         </Grid>
         
+        <!-- List of books -->
         <DataGrid
             x:Name="bookGrid"
             Grid.Row="1"

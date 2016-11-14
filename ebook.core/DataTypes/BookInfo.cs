@@ -9,16 +9,6 @@ namespace ebook.core.DataTypes
         {
         }
 
-        public BookInfo(IEnumerable<string> files)
-        {
-            _files = files;
-        }
-
-        public BookInfo(string file)
-        {
-            _files = new List<string> { file };
-        }
-
         public string Author { get; set; }
 
         public string Description { get; set; }
@@ -30,12 +20,5 @@ namespace ebook.core.DataTypes
         public string Isbn { get; set; }
 
         public string Title { get; set; }
-
-        readonly IEnumerable<string> _files;
-
-        public List<string> Files
-        {
-            get { return _files.ToList(); }
-        }
     }
 }

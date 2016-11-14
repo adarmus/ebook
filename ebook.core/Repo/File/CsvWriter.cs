@@ -33,7 +33,8 @@ namespace ebook.core.Repo.File
             {
                 foreach (var book in books)
                 {
-                    await writer.WriteLineAsync(string.Format("{0},{1},{2},{3}", C34(book.Isbn), C34(book.Title), C34(book.Author), C34(book.Files[0])));
+                    await writer.WriteLineAsync(string.Format("{0},{1},{2}", C34(book.Isbn), C34(book.Title), C34(book.Author)));
+                    //await writer.WriteLineAsync(string.Format("{0},{1},{2},{3}", C34(book.Isbn), C34(book.Title), C34(book.Author), C34(book.Files[0])));
                 }
             }
         }

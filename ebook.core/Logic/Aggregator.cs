@@ -39,7 +39,7 @@ namespace ebook.core.Logic
 
         BookInfo GetBookWithIsbn(BookFile first, string isbn, IEnumerable<string> files)
         {
-            var book = new BookInfo(files)
+            var book = new BookInfo // (files)
             {
                 Isbn = isbn,
                 Author = first.Author,
@@ -70,9 +70,7 @@ namespace ebook.core.Logic
 
         BookInfo GetBookWithoutIsbn(BookFile first)
         {
-            var file = first.FilePath;
-
-            var book = new BookInfo(file)
+            var book = new BookInfo // (first.FilePath)
             {
                 Isbn = "",
                 Author = first.Author,

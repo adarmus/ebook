@@ -79,8 +79,11 @@ namespace ebook
                 {
                     BookComparisonInfo comp = results[isbn];
 
-                    string b1 = comp.Book1 == null ? ",," : string.Format("{0},{1},{2}", C34(comp.Book1.Title), C34(comp.Book1.Author), C34(comp.Book1.Files[0]));
-                    string b2 = comp.Book2 == null ? ",," : string.Format("{0},{1},{2}", C34(comp.Book2.Title), C34(comp.Book2.Author), C34(comp.Book2.Files[0]));
+                    //string b1 = comp.Book1 == null ? ",," : string.Format("{0},{1},{2}", C34(comp.Book1.Title), C34(comp.Book1.Author), C34(comp.Book1.Files[0]));
+                    //string b2 = comp.Book2 == null ? ",," : string.Format("{0},{1},{2}", C34(comp.Book2.Title), C34(comp.Book2.Author), C34(comp.Book2.Files[0]));
+
+                    string b1 = comp.Book1 == null ? ",," : string.Format("{0},{1}", C34(comp.Book1.Title), C34(comp.Book1.Author));
+                    string b2 = comp.Book2 == null ? ",," : string.Format("{0},{1}", C34(comp.Book2.Title), C34(comp.Book2.Author));
                     writer.WriteLine("{0},{1},{2}", C34(isbn), b1, b2);
                 }
             }

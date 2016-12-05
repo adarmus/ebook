@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using ebook.core;
@@ -60,7 +61,7 @@ namespace ebook
             ISimpleBookRepository repo = GetRepoToCompare();
             var books = await repo.GetBooks(this.IncludeMobi, this.IncludeEpub);
 
-            var compare = new BookListComparison(this.BookFileList, books);
+            var compare = new BookListComparison(this.BookFileList.Select(m => m.Book), books);
 
             Dictionary<string, BookComparisonInfo> results = compare.Compare();
 
@@ -117,7 +118,8 @@ namespace ebook
         {
             ISimpleBookRepository repo = GetRepoToDisplay();
             var books = await repo.GetBooks(this.IncludeMobi, this.IncludeEpub);
-            this.BookFileList = new ObservableCollection<BookInfo>(books);
+            var matches = books.Select(b => new MatchInfo(b));
+            this.BookFileList = new ObservableCollection<MatchInfo>(matches);
         }
 
         ISimpleBookRepository GetRepoToDisplay()
@@ -144,7 +146,7 @@ namespace ebook
 
             ISimpleBookRepository repo = GetRepoToSave();
 
-            repo.SaveBooks(this.BookFileList);
+            //repo.SaveBooks(this.BookFileList);
         }
 
         #region Properties
@@ -162,9 +164,9 @@ namespace ebook
             }
         }
 
-        BookInfo _selectedBook;
+        MatchInfo _selectedBook;
 
-        public BookInfo SelectedBook
+        public MatchInfo SelectedBook
         {
             get { return _selectedBook; }
             set
@@ -190,9 +192,9 @@ namespace ebook
             }
         }
 
-        ObservableCollection<BookInfo> _bookFileList;
+        ObservableCollection<MatchInfo> _bookFileList;
 
-        public ObservableCollection<BookInfo> BookFileList
+        public ObservableCollection<MatchInfo> BookFileList
         {
             get { return _bookFileList; }
             set

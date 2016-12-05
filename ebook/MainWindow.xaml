@@ -126,7 +126,7 @@
                 TextSearch.TextPath="Title"
                 SelectedItem="{Binding SelectedBook}">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding Title}" Header="Title">
+                    <DataGridTextColumn Binding="{Binding Book.Title}" Header="Title">
                         <DataGridTextColumn.HeaderTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
@@ -136,7 +136,7 @@
                             </DataTemplate>
                         </DataGridTextColumn.HeaderTemplate>
                     </DataGridTextColumn>
-                    <DataGridTextColumn Binding="{Binding Author}" Header="Author">
+                    <DataGridTextColumn Binding="{Binding Book.Author}" Header="Author">
                         <DataGridTextColumn.HeaderTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
@@ -146,7 +146,7 @@
                             </DataTemplate>
                         </DataGridTextColumn.HeaderTemplate>
                     </DataGridTextColumn>
-                    <DataGridTextColumn Binding="{Binding Isbn}" Header="ISBN"/>
+                    <DataGridTextColumn Binding="{Binding Book.Isbn}" Header="ISBN"/>
                 </DataGrid.Columns>
             </DataGrid>
 
@@ -156,13 +156,13 @@
                     BorderThickness="1"
                     Background="LightGray">
                 <StackPanel Orientation="Vertical" >
-                    <TextBlock Text="{Binding Title}" 
+                    <TextBlock Text="{Binding Book.Title}" 
                                Margin="30 2 0 2" />
-                    <TextBlock Text="{Binding Author}" 
+                    <TextBlock Text="{Binding Book.Author}" 
                                Margin="30 2 0 2" />
-                    <TextBlock Text="{Binding Isbn}" 
+                    <TextBlock Text="{Binding Book.Isbn}" 
                                Margin="30 2 0 2" />
-                    <TextBlock Text="{Binding Description}" 
+                    <TextBlock Text="{Binding Book.Description}" 
                                Margin="30 2 0 2" 
                                TextWrapping="Wrap"/>
                     <ItemsControl ItemsSource="{Binding Files}">

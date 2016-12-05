@@ -61,14 +61,14 @@
                     TextWrapping="NoWrap" 
                     VerticalAlignment="Top" 
                     Text="{Binding ImportFolderPath}"/>
-                <Button Content="Import" 
+                <Button Content="Search" 
                         HorizontalAlignment="Right"
                         VerticalAlignment="Bottom"
                         Margin="0,28,85,0" 
                         Width="75"
                         Height="23"
                         Command="{Binding ImportCommand}" />
-                <Button Content="Save" 
+                <Button Content="Upload" 
                         HorizontalAlignment="Right"
                         VerticalAlignment="Bottom"
                         Margin="0,28,5,0" 
@@ -93,7 +93,14 @@
                     TextWrapping="NoWrap" 
                     VerticalAlignment="Top"
                     Text="{Binding CompareFolderPath}"/>
-                <Button Content="Compare" 
+                <Button Content="View" 
+                        HorizontalAlignment="Right" 
+                        Margin="5,28,80,0" 
+                        VerticalAlignment="Bottom" 
+                        Width="75"
+                        Command="{Binding ViewCommand}"
+                    />
+                <Button Content="Match" 
                         HorizontalAlignment="Right" 
                         Margin="5,28,0,0" 
                         VerticalAlignment="Bottom" 

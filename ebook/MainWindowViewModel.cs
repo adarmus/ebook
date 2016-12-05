@@ -130,7 +130,15 @@ namespace ebook
 
         async Task DoImport()
         {
-            ISimpleBookRepository repo = GetRepoToDisplay();
+            ISimpleBookRepository repo = new FileBasedBookRepository(this.ImportFolderPath);
+            var books = await repo.GetBooks(this.IncludeMobi, this.IncludeEpub);
+            var matches = books.Select(b => new MatchInfo(b));
+            this.BookFileList = new ObservableCollection<MatchInfo>(matches);
+        }
+
+        async Task DoView()
+        {
+            ISimpleBookRepository repo = new SqlRepository("Server=localhost; Database=ebook; Trusted_Connection=SSPI");
             var books = await repo.GetBooks(this.IncludeMobi, this.IncludeEpub);
             var matches = books.Select(b => new MatchInfo(b));
             this.BookFileList = new ObservableCollection<MatchInfo>(matches);
@@ -151,7 +159,7 @@ namespace ebook
         ISimpleBookRepository GetRepoToCompare()
         {
             return new SqlRepository("Server=localhost; Database=ebook; Trusted_Connection=SSPI");
-            return new FileBasedBookRepository(this.CompareFolderPath);
+            //return new FileBasedBookRepository(this.CompareFolderPath);
         }
 
         void DoSave()
@@ -159,9 +167,11 @@ namespace ebook
             if (this.BookFileList == null)
                 return;
 
-            ISimpleBookRepository repo = GetRepoToSave();
+            ISimpleBookRepository repo = new SqlRepository("Server=localhost; Database=ebook; Trusted_Connection=SSPI");
 
-            //repo.SaveBooks(this.BookFileList);
+            var toUpload = this.BookFileList.Where(b => !b.HasMatch);
+
+            repo.SaveBooks(toUpload.Select(b => b.Book));
         }
 
         #region Properties
@@ -297,6 +307,13 @@ namespace ebook
                 }
                 return _importCommand;
             }
+        }
+
+        ICommand _viewCommand;
+
+        public ICommand ViewCommand
+        {
+            get { return _viewCommand ?? (_viewCommand = new AsyncCommand1(this.DoView)); }
         }
 
         RelayCommand _saveCommand;

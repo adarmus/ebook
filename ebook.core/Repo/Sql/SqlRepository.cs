@@ -22,7 +22,7 @@ namespace ebook.core.Repo.Sql
 
         public async Task<IEnumerable<BookInfo>> GetBooks(bool includeMobi, bool includeEpub)
         {
-            var repo = _builder.Connection().As<IBookStore>();
+            var repo = _builder.Connection().As<IBookSqlDal>();
 
             try
             {
@@ -39,7 +39,7 @@ namespace ebook.core.Repo.Sql
 
         public async Task SaveBooks(IEnumerable<BookInfo> books)
         {
-            var repo = _builder.Connection().As<IBookStore>();
+            var repo = _builder.Connection().As<IBookSqlDal>();
 
             foreach (var book in books)
             {

@@ -102,49 +102,80 @@
                     />
             </Grid>
         </Grid>
-        
-        <!-- List of books -->
-        <DataGrid
-            x:Name="bookGrid"
-            Grid.Row="1"
-            Margin="5,5,5,5"
-            AutoGenerateColumns="False"
-            CanUserAddRows="False"
-            IsReadOnly="True"
-            CanUserDeleteRows="False"
-            CanUserResizeRows="False"
-            ItemsSource="{Binding BookFileList}"
-            GridLinesVisibility="None"
-            AlternatingRowBackground="AliceBlue"
-            IsTextSearchEnabled="True"
-            IsTextSearchCaseSensitive="False"
-            TextSearch.TextPath="Title"
-            RowDetailsVisibilityMode="VisibleWhenSelected"
-            RowDetailsTemplate="{StaticResource MobiDetailsTemplate}">
-            <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Title}" Header="Title">
-                    <DataGridTextColumn.HeaderTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}" VerticalAlignment="Center" Margin="0, 0, 5, 0"/>
-                                <TextBox x:Name="txtTitle" Width="100" TextChanged="txtFilter_TextChanged" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTextColumn.HeaderTemplate>
-                </DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding Author}" Header="Author">
-                    <DataGridTextColumn.HeaderTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}" VerticalAlignment="Center" Margin="0, 0, 5, 0"/>
-                                <TextBox x:Name="txtAuthor" Width="100" TextChanged="txtFilter_TextChanged"  />
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTextColumn.HeaderTemplate>
-                </DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding Isbn}" Header="ISBN"/>
-            </DataGrid.Columns>
-        </DataGrid>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="400"/>
+            </Grid.ColumnDefinitions>
+            <!-- List of books -->
+            <DataGrid
+                x:Name="bookGrid"
+                Grid.Column="0"
+                Margin="5,5,5,5"
+                AutoGenerateColumns="False"
+                CanUserAddRows="False"
+                IsReadOnly="True"
+                CanUserDeleteRows="False"
+                CanUserResizeRows="False"
+                ItemsSource="{Binding BookFileList}"
+                GridLinesVisibility="None"
+                AlternatingRowBackground="AliceBlue"
+                IsTextSearchEnabled="True"
+                IsTextSearchCaseSensitive="False"
+                TextSearch.TextPath="Title"
+                SelectedItem="{Binding SelectedBook}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Title}" Header="Title">
+                        <DataGridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}" VerticalAlignment="Center" Margin="0, 0, 5, 0"/>
+                                    <TextBox x:Name="txtTitle" Width="100" TextChanged="txtFilter_TextChanged" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTextColumn.HeaderTemplate>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Binding="{Binding Author}" Header="Author">
+                        <DataGridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}" VerticalAlignment="Center" Margin="0, 0, 5, 0"/>
+                                    <TextBox x:Name="txtAuthor" Width="100" TextChanged="txtFilter_TextChanged"  />
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTextColumn.HeaderTemplate>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Binding="{Binding Isbn}" Header="ISBN"/>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <Border Grid.Column="1"
+                    DataContext="{Binding SelectedBook}"
+                    BorderBrush="LightBlue"
+                    BorderThickness="1"
+                    Background="LightGray">
+                <StackPanel Orientation="Vertical" >
+                    <TextBlock Text="{Binding Title}" 
+                               Margin="30 2 0 2" />
+                    <TextBlock Text="{Binding Author}" 
+                               Margin="30 2 0 2" />
+                    <TextBlock Text="{Binding Isbn}" 
+                               Margin="30 2 0 2" />
+                    <TextBlock Text="{Binding Description}" 
+                               Margin="30 2 0 2" 
+                               TextWrapping="Wrap"/>
+                    <ItemsControl ItemsSource="{Binding Files}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" Margin="30 2 0 2"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
+        </Grid>
+
 
         <!-- Fade out the background -->
         <Border Grid.Row="0" Background="{StaticResource ResourceKey=DarkBackgroundBrush}"

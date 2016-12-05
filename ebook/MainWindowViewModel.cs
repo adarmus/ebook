@@ -122,7 +122,7 @@ namespace ebook
 
         ISimpleBookRepository GetRepoToDisplay()
         {
-            return new SqlRepository("Server=localhost; Database=ebook; Trusted_Connection=SSPI");
+            //return new SqlRepository("Server=localhost; Database=ebook; Trusted_Connection=SSPI");
             return new FileBasedBookRepository(this.ImportFolderPath);
         }
 
@@ -158,7 +158,35 @@ namespace ebook
                     return;
 
                 _isBusy = value;
-                base.RaisePropertyChanged("IsBusy");
+                base.RaisePropertyChanged();
+            }
+        }
+
+        BookInfo _selectedBook;
+
+        public BookInfo SelectedBook
+        {
+            get { return _selectedBook; }
+            set
+            {
+                if (value == _selectedBook)
+                    return;
+                _selectedBook = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        BookContentInfo _selectedBookContent;
+
+        public BookContentInfo SelectedBookContent
+        {
+            get { return _selectedBookContent; }
+            set
+            {
+                if (value == _selectedBookContent)
+                    return;
+                _selectedBookContent = value;
+                RaisePropertyChanged();
             }
         }
 
@@ -214,7 +242,7 @@ namespace ebook
                     return;
 
                 _includeEpub = value;
-                base.RaisePropertyChanged("IncludeEpub");
+                base.RaisePropertyChanged();
             }
         }
 
@@ -228,7 +256,7 @@ namespace ebook
                     return;
 
                 _includeMobi = value;
-                base.RaisePropertyChanged("IncludeMobi");
+                base.RaisePropertyChanged();
             }
         }
         #endregion

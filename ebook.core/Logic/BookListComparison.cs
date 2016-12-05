@@ -4,11 +4,13 @@ using ebook.core.DataTypes;
 
 namespace ebook.core.Logic
 {
+    /// <summary>
+    /// Compares two book lists based on Isbn.
+    /// </summary>
     public class BookListComparison
     {
         readonly IEnumerable<BookInfo> _books1;
         readonly IEnumerable<BookInfo> _books2;
-        
 
         public BookListComparison(IEnumerable<BookInfo> books1, IEnumerable<BookInfo> books2)
         {

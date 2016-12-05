@@ -61,6 +61,20 @@ namespace ebook
             ISimpleBookRepository repo = GetRepoToCompare();
             var books = await repo.GetBooks(this.IncludeMobi, this.IncludeEpub);
 
+            var matcher = new BookMatcher(books);
+
+            var matched = matcher.Match(this.BookFileList);
+
+            this.BookFileList = new ObservableCollection<MatchInfo>(matched);
+        }
+
+        async Task DoCompareOrig()
+        {
+            _log.Debug("Starting compare");
+
+            ISimpleBookRepository repo = GetRepoToCompare();
+            var books = await repo.GetBooks(this.IncludeMobi, this.IncludeEpub);
+
             var compare = new BookListComparison(this.BookFileList.Select(m => m.Book), books);
 
             Dictionary<string, BookComparisonInfo> results = compare.Compare();
@@ -136,6 +150,7 @@ namespace ebook
 
         ISimpleBookRepository GetRepoToCompare()
         {
+            return new SqlRepository("Server=localhost; Database=ebook; Trusted_Connection=SSPI");
             return new FileBasedBookRepository(this.CompareFolderPath);
         }
 

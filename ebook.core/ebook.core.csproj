@@ -86,6 +86,8 @@
     <Compile Include="Logic\Aggregator.cs" />
     <Compile Include="DataTypes\BookComparisonInfo.cs" />
     <Compile Include="BookFiles\BookFileList.cs" />
+    <Compile Include="Logic\BookMatcher.cs" />
+    <Compile Include="Logic\Isbn.cs" />
     <Compile Include="Repo\Azure\AzureSqlRepository.cs" />
     <Compile Include="Repo\File\FileBasedBookRepository.cs" />
     <Compile Include="DataTypes\BookInfo.cs" />

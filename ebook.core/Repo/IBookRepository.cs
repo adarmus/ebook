@@ -6,5 +6,6 @@ namespace ebook.core.Repo
 {
     public interface IBookRepository : ISimpleBookRepository
     {
+        Task SaveBook(BookInfo book);
     }
 }

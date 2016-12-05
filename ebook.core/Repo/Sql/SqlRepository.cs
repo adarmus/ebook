@@ -43,21 +43,18 @@ namespace ebook.core.Repo.Sql
             return repo;
         }
 
-        public async Task SaveBooks(IEnumerable<BookInfo> books)
+        public async Task SaveBook(BookInfo book)
         {
             IBookSqlDal repo = GetBookSqlDal();
 
-            foreach (var book in books)
+            try
             {
-                try
-                {
-                    await repo.BookIns(book);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                    throw;
-                }
+                await repo.BookIns(book);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw;
             }
         }
     }

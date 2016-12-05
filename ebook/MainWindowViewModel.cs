@@ -130,7 +130,7 @@ namespace ebook
 
         async Task DoImport()
         {
-            ISimpleBookRepository repo = new FileBasedBookRepository(this.ImportFolderPath);
+            ISimpleBookRepository repo = GetRepoToSearch();
             var books = await repo.GetBooks(this.IncludeMobi, this.IncludeEpub);
             var matches = books.Select(b => new MatchInfo(b));
             this.BookFileList = new ObservableCollection<MatchInfo>(matches);
@@ -138,40 +138,39 @@ namespace ebook
 
         async Task DoView()
         {
-            ISimpleBookRepository repo = new SqlRepository("Server=localhost; Database=ebook; Trusted_Connection=SSPI");
+            ISimpleBookRepository repo = GetRepoToCompare();
             var books = await repo.GetBooks(this.IncludeMobi, this.IncludeEpub);
             var matches = books.Select(b => new MatchInfo(b));
             this.BookFileList = new ObservableCollection<MatchInfo>(matches);
         }
 
-        ISimpleBookRepository GetRepoToDisplay()
+        async Task  DoSave()
         {
-            //return new SqlRepository("Server=localhost; Database=ebook; Trusted_Connection=SSPI");
+            if (this.BookFileList == null)
+                return;
+
+            var toUpload = this.BookFileList.Where(b => !b.HasMatch);
+
+            IBookRepository repo = GetRepoToSave();
+
+            var books = new BookRepository(repo);
+
+            await books.SaveBooks(toUpload.Select(b => b.Book));
+        }
+
+        ISimpleBookRepository GetRepoToSearch()
+        {
             return new FileBasedBookRepository(this.ImportFolderPath);
         }
 
-        ISimpleBookRepository GetRepoToSave()
+        IBookRepository GetRepoToSave()
         {
             return new SqlRepository("Server=localhost; Database=ebook; Trusted_Connection=SSPI");
-            return new FileBasedBookRepository(this.ImportFolderPath);
         }
 
         ISimpleBookRepository GetRepoToCompare()
         {
             return new SqlRepository("Server=localhost; Database=ebook; Trusted_Connection=SSPI");
-            //return new FileBasedBookRepository(this.CompareFolderPath);
-        }
-
-        void DoSave()
-        {
-            if (this.BookFileList == null)
-                return;
-
-            ISimpleBookRepository repo = new SqlRepository("Server=localhost; Database=ebook; Trusted_Connection=SSPI");
-
-            var toUpload = this.BookFileList.Where(b => !b.HasMatch);
-
-            repo.SaveBooks(toUpload.Select(b => b.Book));
         }
 
         #region Properties
@@ -316,11 +315,11 @@ namespace ebook
             get { return _viewCommand ?? (_viewCommand = new AsyncCommand1(this.DoView)); }
         }
 
-        RelayCommand _saveCommand;
+        ICommand _saveCommand;
 
         public ICommand SaveCommand
         {
-            get { return _saveCommand ?? (_saveCommand = new RelayCommand(this.DoSave)); }
+            get { return _saveCommand ?? (_saveCommand = new AsyncCommand1(this.DoSave)); }
         }
 
         ICommand _compareCommand;

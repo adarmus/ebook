@@ -17,7 +17,10 @@ namespace ebook.core.Logic
         public BookMatcher(IEnumerable<BookInfo> compareTo)
         {
             _compareTo = compareTo.ToArray();
+        }
 
+        public IEnumerable<MatchInfo> Match(IEnumerable<MatchInfo> matches)
+        {
             _lookupIsbn = _compareTo
                 .Where(b => !string.IsNullOrEmpty(b.Isbn))
                 .ToDictionary(b => Isbn.Normalise(b.Isbn));
@@ -26,10 +29,7 @@ namespace ebook.core.Logic
                 .Where(b => !string.IsNullOrEmpty(b.Title))
                 .GroupBy(b => b.Title.ToLower())
                 .ToDictionary(g => g.Key);
-        }
 
-        public IEnumerable<MatchInfo> Match(IEnumerable<MatchInfo> matches)
-        {
             foreach (var match in matches)
             {
                 Update(match);
@@ -40,6 +40,7 @@ namespace ebook.core.Logic
 
         void Update(MatchInfo match)
         {
+            // Look by Isbn
             if (!string.IsNullOrEmpty(match.Book.Isbn))
             {
                 string isbn = Isbn.Normalise(match.Book.Isbn);
@@ -50,6 +51,7 @@ namespace ebook.core.Logic
                 }
             }
 
+            // Look by Title and then Author
             if (!string.IsNullOrEmpty(match.Book.Title))
             {
                 string title = match.Book.Title.ToLower();

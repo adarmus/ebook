@@ -10,7 +10,7 @@ using ebook.core.Utils;
 
 namespace ebook.core.Repo.File
 {
-    public class FileBasedBookRepository : IBookRepository
+    public class FileBasedBookRepository : ISimpleBookRepository
     {
         readonly List<IBookFileListProvider> _providers;
         readonly string _folderPath;

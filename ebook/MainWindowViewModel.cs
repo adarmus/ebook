@@ -57,7 +57,7 @@ namespace ebook
         {
             _log.Debug("Starting compare");
 
-            IBookRepository repo = GetRepoToCompare();
+            ISimpleBookRepository repo = GetRepoToCompare();
             var books = await repo.GetBooks(this.IncludeMobi, this.IncludeEpub);
 
             var compare = new BookListComparison(this.BookFileList, books);
@@ -115,24 +115,24 @@ namespace ebook
 
         async Task DoImport()
         {
-            IBookRepository repo = GetRepoToDisplay();
+            ISimpleBookRepository repo = GetRepoToDisplay();
             var books = await repo.GetBooks(this.IncludeMobi, this.IncludeEpub);
             this.BookFileList = new ObservableCollection<BookInfo>(books);
         }
 
-        IBookRepository GetRepoToDisplay()
+        ISimpleBookRepository GetRepoToDisplay()
         {
             return new SqlRepository("Server=localhost; Database=ebook; Trusted_Connection=SSPI");
             return new FileBasedBookRepository(this.ImportFolderPath);
         }
 
-        IBookRepository GetRepoToSave()
+        ISimpleBookRepository GetRepoToSave()
         {
             return new SqlRepository("Server=localhost; Database=ebook; Trusted_Connection=SSPI");
             return new FileBasedBookRepository(this.ImportFolderPath);
         }
 
-        IBookRepository GetRepoToCompare()
+        ISimpleBookRepository GetRepoToCompare()
         {
             return new FileBasedBookRepository(this.CompareFolderPath);
         }
@@ -142,7 +142,7 @@ namespace ebook
             if (this.BookFileList == null)
                 return;
 
-            IBookRepository repo = GetRepoToSave();
+            ISimpleBookRepository repo = GetRepoToSave();
 
             repo.SaveBooks(this.BookFileList);
         }

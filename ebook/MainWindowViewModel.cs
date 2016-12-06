@@ -293,20 +293,7 @@ namespace ebook
 
         public ICommand ImportCommand
         {
-            get
-            {
-                if (_importCommand == null)
-                {
-                    _importCommand = new AsyncCommand1(TryDoImport);
-                    //_importCommand = AsyncCommand.Create(TryDoImport);
-                    //_importCommand = AsyncCommand.Create(async () =>
-                    //{
-                    //    var dict = await Task.Run(() => GetBookListAsync());
-                    //    this.MobiFileList = new ObservableCollection<BookInfo>(dict);
-                    //});
-                }
-                return _importCommand;
-            }
+            get { return _importCommand ?? (_importCommand = new AsyncCommand1(TryDoImport)); }
         }
 
         ICommand _viewCommand;
@@ -327,14 +314,7 @@ namespace ebook
 
         public ICommand CompareCommand
         {
-            get
-            {
-                if (_compareCommand == null)
-                {
-                    _compareCommand = new AsyncCommand1(TryDoCompare);
-                }
-                return _compareCommand;
-            }
+            get { return _compareCommand ?? (_compareCommand = new AsyncCommand1(TryDoCompare)); }
         }
         #endregion
     }

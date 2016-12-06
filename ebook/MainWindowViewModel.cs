@@ -41,6 +41,13 @@ namespace ebook
 
             this.SimpleDataSourceInfoList = new ObservableCollection<ISimpleDataSourceInfo>(dataSources);
 
+            var sources = new IFullDataSourceInfo[]
+            {
+                new SqlDataSourceInfo{Parameter = "Server=localhost; Database=ebook; Trusted_Connection=SSPI"}
+            };
+
+            this.FullDataSourceInfoList = new ObservableCollection<IFullDataSourceInfo>(sources);
+
             XmlConfigurator.Configure();
 
             _log = LogManager.GetLogger("root");
@@ -60,11 +67,11 @@ namespace ebook
             this.BookFileList = new ObservableCollection<MatchInfo>(matches);
         }
 
-        async Task TryDoCompare()
+        async Task TryDoMatch()
         {
             try
             {
-                await DoCompare();
+                await DoMatch();
             }
             catch (Exception ex)
             {
@@ -72,11 +79,11 @@ namespace ebook
             }
         }
 
-        async Task DoCompare()
+        async Task DoMatch()
         {
             _log.Debug("Starting compare");
 
-            ISimpleDataSource repo = GetRepoToCompare();
+            IFullDataSource repo = this.SelectedFullDataSourceInfo.GetFullDataSource();
             var books = await repo.GetBooks(this.IncludeMobi, this.IncludeEpub);
 
             var matcher = new BookMatcher(books);
@@ -91,59 +98,18 @@ namespace ebook
             return string.Format("\"{0}\"", input);
         }
 
-        async Task TryDoImport()
-        {
-            try
-            {
-                this.IsBusy = true;
-
-                await DoImport();
-            }
-            catch (Exception ex)
-            {
-                ExceptionHandler.Handle(ex, "importing");
-            }
-            finally
-            {
-                this.IsBusy = false;
-            }
-        }
-
-        async Task DoImport()
-        {
-            ISimpleDataSource repo = GetRepoToSearch();
-            var books = await repo.GetBooks(this.IncludeMobi, this.IncludeEpub);
-            var matches = books.Select(b => new MatchInfo(b));
-            this.BookFileList = new ObservableCollection<MatchInfo>(matches);
-        }
-
-        async Task  DoSave()
+        async Task  DoUpload()
         {
             if (this.BookFileList == null)
                 return;
 
             var toUpload = this.BookFileList.Where(b => !b.HasMatch);
 
-            IFullDataSource repo = GetRepoToSave();
+            IFullDataSource repo = this.SelectedFullDataSourceInfo.GetFullDataSource();
 
             var books = new BookRepository(repo);
 
             await books.SaveBooks(toUpload.Select(b => b.Book));
-        }
-
-        ISimpleDataSource GetRepoToSearch()
-        {
-            return new FileBasedSimpleDataSource(this.ImportFolderPath);
-        }
-
-        IFullDataSource GetRepoToSave()
-        {
-            return new SqlDataSource("Server=localhost; Database=ebook; Trusted_Connection=SSPI");
-        }
-
-        ISimpleDataSource GetRepoToCompare()
-        {
-            return new SqlDataSource("Server=localhost; Database=ebook; Trusted_Connection=SSPI");
         }
 
         #region Properties
@@ -185,6 +151,34 @@ namespace ebook
                 if (value == _selectedBookContent)
                     return;
                 _selectedBookContent = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        ObservableCollection<IFullDataSourceInfo> _fullDataSourceInfoList;
+
+        public ObservableCollection<IFullDataSourceInfo> FullDataSourceInfoList
+        {
+            get { return _fullDataSourceInfoList; }
+            set
+            {
+                if (value == _fullDataSourceInfoList)
+                    return;
+                _fullDataSourceInfoList = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        IFullDataSourceInfo _selectedFullDataSourceInfo;
+
+        public IFullDataSourceInfo SelectedFullDataSourceInfo
+        {
+            get { return _selectedFullDataSourceInfo; }
+            set
+            {
+                if (value == _selectedFullDataSourceInfo)
+                    return;
+                _selectedFullDataSourceInfo = value;
                 RaisePropertyChanged();
             }
         }
@@ -296,30 +290,18 @@ namespace ebook
             get { return _viewCommand ?? (_viewCommand = new AsyncCommand1(this.DoView)); }
         }
 
+        ICommand _matchCommand;
 
-
-
-
-        ICommand _importCommand;
-
-        public ICommand ImportCommand
+        public ICommand MatchCommand
         {
-            get { return _importCommand ?? (_importCommand = new AsyncCommand1(TryDoImport)); }
+            get { return _matchCommand ?? (_matchCommand = new AsyncCommand1(TryDoMatch)); }
         }
 
+        ICommand _uploadCommand;
 
-        ICommand _saveCommand;
-
-        public ICommand SaveCommand
+        public ICommand UploadCommand
         {
-            get { return _saveCommand ?? (_saveCommand = new AsyncCommand1(this.DoSave)); }
-        }
-
-        ICommand _compareCommand;
-
-        public ICommand CompareCommand
-        {
-            get { return _compareCommand ?? (_compareCommand = new AsyncCommand1(TryDoCompare)); }
+            get { return _uploadCommand ?? (_uploadCommand = new AsyncCommand1(this.DoUpload)); }
         }
         #endregion
     }

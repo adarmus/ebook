@@ -49,13 +49,6 @@
                         Width="75"
                         Height="23"
                         Command="{Binding ViewCommand}" />
-                <Button Content="Upload" 
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Top"
-                        Margin="0,58,85,0" 
-                        Width="75"
-                        Height="23"
-                        Command="{Binding SaveCommand}" />
                 <CheckBox Content="Mobi" 
                     IsChecked="{Binding IncludeMobi}"
                     HorizontalAlignment="Left" 
@@ -68,34 +61,34 @@
                     VerticalAlignment="Top"/>
             </Grid>
             <Grid Grid.Column="1">
-                <TextBox 
-                    Height="23" 
-                    Margin="0,30,0,0" 
-                    TextWrapping="NoWrap" 
-                    VerticalAlignment="Top"
-                    Text="{Binding CompareFolderPath}"/>
-                <Button Content="View" 
-                        HorizontalAlignment="Right" 
-                        Margin="5,28,80,0" 
-                        VerticalAlignment="Bottom" 
-                        Width="75"
-                        Command="{Binding ViewCommand}"
-                    />
                 <Button Content="Match" 
                         HorizontalAlignment="Right" 
                         Margin="5,28,0,0" 
                         VerticalAlignment="Bottom" 
                         Width="75"
-                        Command="{Binding CompareCommand}"
+                        Command="{Binding MatchCommand}"
+                    />
+                <Button Content="Upload" 
+                        HorizontalAlignment="Right" 
+                        Margin="5,28,80,0" 
+                        VerticalAlignment="Bottom" 
+                        Width="75"
+                        Command="{Binding UploadCommand}"
                     />
                 <ComboBox
                     Height="23"
                     Margin="0"
                     VerticalAlignment="Top"
-                    ItemsSource="{Binding SimpleDataSourceInfoList}"
+                    ItemsSource="{Binding FullDataSourceInfoList}"
                     DisplayMemberPath="Description"
-                    SelectedItem="{Binding SelectedSimpleDataSourceInfo}"
+                    SelectedItem="{Binding SelectedFullDataSourceInfo}"
                     />
+                <TextBox 
+                    Height="23" 
+                    Margin="0,30,0,0" 
+                    TextWrapping="NoWrap" 
+                    VerticalAlignment="Top"
+                    Text="{Binding SelectedFullDataSourceInfo.Parameter}"/>
             </Grid>
         </Grid>
 

@@ -10,13 +10,13 @@ using ebook.core.Utils;
 
 namespace ebook.core.Repo.File
 {
-    public class FileBasedBookRepository : ISimpleBookRepository
+    public class FileBasedSimpleDataSource : ISimpleDataSource
     {
         readonly List<IBookFileListProvider> _providers;
         readonly string _folderPath;
         Dictionary<string, BookContentInfo> _lookup;
 
-        public FileBasedBookRepository(string folderPath)
+        public FileBasedSimpleDataSource(string folderPath)
         {
             _providers = new List<IBookFileListProvider>();
             _folderPath = folderPath;

@@ -4,7 +4,7 @@ using ebook.core.DataTypes;
 
 namespace ebook.core.Repo
 {
-    public interface IBookRepository : ISimpleBookRepository
+    public interface IBookDataSource : ISimpleDataSource
     {
         Task SaveBook(BookInfo book);
     }

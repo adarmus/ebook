@@ -10,9 +10,9 @@ namespace ebook.core.Repo
 {
     public class BookRepository
     {
-        readonly IBookRepository _repository;
+        readonly IBookDataSource _repository;
 
-        public BookRepository(IBookRepository repository)
+        public BookRepository(IBookDataSource repository)
         {
             _repository = repository;
         }

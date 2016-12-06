@@ -82,6 +82,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataTypes\BookContentInfo.cs" />
+    <Compile Include="DataTypes\FileSystemDataSourceInfo.cs" />
+    <Compile Include="DataTypes\ISimpleDataSourceInfo.cs" />
     <Compile Include="DataTypes\MatchInfo.cs" />
     <Compile Include="Logic\Aggregator.cs" />
     <Compile Include="DataTypes\BookComparisonInfo.cs" />
@@ -90,7 +92,7 @@
     <Compile Include="Logic\Isbn.cs" />
     <Compile Include="Repo\Azure\AzureSqlRepository.cs" />
     <Compile Include="Repo\BookRepository.cs" />
-    <Compile Include="Repo\File\FileBasedBookRepository.cs" />
+    <Compile Include="Repo\File\FileBasedSimpleDataSource.cs" />
     <Compile Include="DataTypes\BookInfo.cs" />
     <Compile Include="Logic\BookListComparison.cs" />
     <Compile Include="Repo\File\CsvWriter.cs" />
@@ -106,7 +108,7 @@
     <Compile Include="Files\IFileListProvider.cs" />
     <Compile Include="Files\FileFinder.cs" />
     <Compile Include="BookFiles\IBookFileReader.cs" />
-    <Compile Include="Repo\IBookRepository.cs" />
+    <Compile Include="Repo\IBookDataSource.cs" />
     <Compile Include="BookFiles\IBookFileListProvider.cs" />
     <Compile Include="BookFiles\BookFile.cs" />
     <Compile Include="Mobi\MobiFileList.cs" />
@@ -124,9 +126,9 @@
     <Compile Include="Mobi\Pdb\Readers\Pdb\PdbRecordEntryReader.cs" />
     <Compile Include="Mobi\Pdb\Readers\Pdb\PdbRecordsReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repo\ISimpleBookRepository.cs" />
+    <Compile Include="Repo\ISimpleDataSource.cs" />
     <Compile Include="Repo\Sql\IBookSqlDal.cs" />
-    <Compile Include="Repo\Sql\SqlRepository.cs" />
+    <Compile Include="Repo\Sql\SqlDataSource.cs" />
     <Compile Include="Utils\AsyncDirectory.cs" />
     <Compile Include="Utils\EnumerableExtensions.cs" />
   </ItemGroup>

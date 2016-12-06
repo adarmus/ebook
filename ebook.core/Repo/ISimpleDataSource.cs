@@ -7,7 +7,7 @@ using ebook.core.DataTypes;
 
 namespace ebook.core.Repo
 {
-    public interface ISimpleBookRepository
+    public interface ISimpleDataSource
     {
         Task<IEnumerable<BookInfo>> GetBooks(bool includeMobi, bool includeEpub);
 

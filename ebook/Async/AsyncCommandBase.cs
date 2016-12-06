@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace ebook
+namespace ebook.Async
 {
     /// <summary>
     /// See https://msdn.microsoft.com/en-gb/magazine/dn630647.aspx

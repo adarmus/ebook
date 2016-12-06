@@ -89,7 +89,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AsyncCommand1.cs" />
+    <Compile Include="Async\AsyncCommand1.cs" />
     <Compile Include="VisibilityToBoolConverter.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -99,14 +99,14 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="AsyncCommand.cs" />
-    <Compile Include="AsyncCommandBase.cs" />
+    <Compile Include="Async\AsyncCommand.cs" />
+    <Compile Include="Async\AsyncCommandBase.cs" />
     <Compile Include="ConfigFile.cs" />
     <Compile Include="ConfigProvider.cs" />
     <Compile Include="ExceptionHandler.cs" />
     <Compile Include="ExceptionInfo.cs" />
     <Compile Include="GridFilter.cs" />
-    <Compile Include="IAsyncCommand.cs" />
+    <Compile Include="Async\IAsyncCommand.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

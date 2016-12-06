@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using ebook.Async;
 using ebook.core;
 using ebook.core.DataTypes;
 using ebook.core.Logic;

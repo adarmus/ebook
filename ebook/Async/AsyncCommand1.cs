@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace ebook
+namespace ebook.Async
 {
     /// <summary>
     /// See https://msdn.microsoft.com/en-gb/magazine/dn630647.aspx

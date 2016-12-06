@@ -85,6 +85,7 @@
     <Compile Include="DataTypes\FileSystemDataSourceInfo.cs" />
     <Compile Include="DataTypes\ISimpleDataSourceInfo.cs" />
     <Compile Include="DataTypes\MatchInfo.cs" />
+    <Compile Include="DataTypes\SqlDataSourceInfo.cs" />
     <Compile Include="Logic\Aggregator.cs" />
     <Compile Include="DataTypes\BookComparisonInfo.cs" />
     <Compile Include="BookFiles\BookFileList.cs" />
@@ -108,7 +109,7 @@
     <Compile Include="Files\IFileListProvider.cs" />
     <Compile Include="Files\FileFinder.cs" />
     <Compile Include="BookFiles\IBookFileReader.cs" />
-    <Compile Include="Repo\IBookDataSource.cs" />
+    <Compile Include="Repo\IFullDataSource.cs" />
     <Compile Include="BookFiles\IBookFileListProvider.cs" />
     <Compile Include="BookFiles\BookFile.cs" />
     <Compile Include="Mobi\MobiFileList.cs" />

@@ -40,23 +40,23 @@
                     Height="23"
                     Margin="0,0,5,0"
                     VerticalAlignment="Top"
-                    ItemsSource="{Binding DataSourceInfoList}"
+                    ItemsSource="{Binding SimpleDataSourceInfoList}"
                     DisplayMemberPath="Description"
-                    SelectedItem="{Binding SelectedDataSourceInfo}"
+                    SelectedItem="{Binding SelectedSimpleDataSourceInfo}"
                     ></ComboBox>
                 <TextBox 
                     Height="23" 
                     Margin="0,25,5,0" 
                     TextWrapping="NoWrap" 
                     VerticalAlignment="Top" 
-                    Text="{Binding SelectedDataSourceInfo.Parameter}"/>
-                <Button Content="Search" 
+                    Text="{Binding SelectedSimpleDataSourceInfo.Parameter}"/>
+                <Button Content="View" 
                         HorizontalAlignment="Right"
                         VerticalAlignment="Bottom"
                         Margin="0,48,85,0" 
                         Width="75"
                         Height="23"
-                        Command="{Binding ImportCommand}" />
+                        Command="{Binding ViewCommand}" />
                 <Button Content="Upload" 
                         HorizontalAlignment="Right"
                         VerticalAlignment="Bottom"

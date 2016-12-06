@@ -4,22 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ebook.core.Repo;
-using ebook.core.Repo.File;
+using ebook.core.Repo.Sql;
 
 namespace ebook.core.DataTypes
 {
-    public class FileSystemDataSourceInfo : ISimpleDataSourceInfo
+    public class SqlDataSourceInfo : ISimpleDataSourceInfo
     {
         public string Parameter { get; set; }
 
         public string Description
         {
-            get { return string.Format("Folder: {0}", this.Parameter); }
+            get { return string.Format("Sql: {0}", this.Parameter); }
         }
 
         public ISimpleDataSource GetSimpleDataSource()
         {
-            return new FileBasedSimpleDataSource(this.Parameter);
+            return new SqlDataSource(this.Parameter);
         }
     }
 }

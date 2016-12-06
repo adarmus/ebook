@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Threading.Tasks;
 
-namespace ebook
+namespace ebook.Async
 {
     public sealed class NotifyTaskCompletion<TResult> : INotifyPropertyChanged
     {

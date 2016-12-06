@@ -32,6 +32,14 @@ namespace ebook
             this.IncludeEpub = config.IncludeEpub;
             this.IncludeMobi = config.IncludeMobi;
 
+            var dataSources = new ISimpleDataSourceInfo[]
+            {
+                new FileSystemDataSourceInfo {Parameter = config.ImportFolderPath},
+                new FileSystemDataSourceInfo {Parameter = @"c:\tmp\"}
+            };
+
+            this.DataSourceInfoList = new ObservableCollection<ISimpleDataSourceInfo>(dataSources);
+
             XmlConfigurator.Configure();
 
             _log = LogManager.GetLogger("root");
@@ -59,7 +67,7 @@ namespace ebook
         {
             _log.Debug("Starting compare");
 
-            ISimpleBookRepository repo = GetRepoToCompare();
+            ISimpleDataSource repo = GetRepoToCompare();
             var books = await repo.GetBooks(this.IncludeMobi, this.IncludeEpub);
 
             var matcher = new BookMatcher(books);
@@ -73,7 +81,7 @@ namespace ebook
         {
             _log.Debug("Starting compare");
 
-            ISimpleBookRepository repo = GetRepoToCompare();
+            ISimpleDataSource repo = GetRepoToCompare();
             var books = await repo.GetBooks(this.IncludeMobi, this.IncludeEpub);
 
             var compare = new BookListComparison(this.BookFileList.Select(m => m.Book), books);
@@ -131,7 +139,7 @@ namespace ebook
 
         async Task DoImport()
         {
-            ISimpleBookRepository repo = GetRepoToSearch();
+            ISimpleDataSource repo = GetRepoToSearch();
             var books = await repo.GetBooks(this.IncludeMobi, this.IncludeEpub);
             var matches = books.Select(b => new MatchInfo(b));
             this.BookFileList = new ObservableCollection<MatchInfo>(matches);
@@ -139,7 +147,7 @@ namespace ebook
 
         async Task DoView()
         {
-            ISimpleBookRepository repo = GetRepoToCompare();
+            ISimpleDataSource repo = GetRepoToCompare();
             var books = await repo.GetBooks(this.IncludeMobi, this.IncludeEpub);
             var matches = books.Select(b => new MatchInfo(b));
             this.BookFileList = new ObservableCollection<MatchInfo>(matches);
@@ -152,26 +160,26 @@ namespace ebook
 
             var toUpload = this.BookFileList.Where(b => !b.HasMatch);
 
-            IBookRepository repo = GetRepoToSave();
+            IBookDataSource repo = GetRepoToSave();
 
             var books = new BookRepository(repo);
 
             await books.SaveBooks(toUpload.Select(b => b.Book));
         }
 
-        ISimpleBookRepository GetRepoToSearch()
+        ISimpleDataSource GetRepoToSearch()
         {
-            return new FileBasedBookRepository(this.ImportFolderPath);
+            return new FileBasedSimpleDataSource(this.ImportFolderPath);
         }
 
-        IBookRepository GetRepoToSave()
+        IBookDataSource GetRepoToSave()
         {
-            return new SqlRepository("Server=localhost; Database=ebook; Trusted_Connection=SSPI");
+            return new SqlDataSource("Server=localhost; Database=ebook; Trusted_Connection=SSPI");
         }
 
-        ISimpleBookRepository GetRepoToCompare()
+        ISimpleDataSource GetRepoToCompare()
         {
-            return new SqlRepository("Server=localhost; Database=ebook; Trusted_Connection=SSPI");
+            return new SqlDataSource("Server=localhost; Database=ebook; Trusted_Connection=SSPI");
         }
 
         #region Properties
@@ -213,6 +221,34 @@ namespace ebook
                 if (value == _selectedBookContent)
                     return;
                 _selectedBookContent = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        ObservableCollection<ISimpleDataSourceInfo> _dataSourceInfoList;
+
+        public ObservableCollection<ISimpleDataSourceInfo> DataSourceInfoList
+        {
+            get { return _dataSourceInfoList; }
+            set
+            {
+                if (value == _dataSourceInfoList)
+                    return;
+                _dataSourceInfoList = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        ISimpleDataSourceInfo _selectedDataSourceInfo;
+
+        public ISimpleDataSourceInfo SelectedDataSourceInfo
+        {
+            get { return _selectedDataSourceInfo; }
+            set
+            {
+                if (value == _selectedDataSourceInfo)
+                    return;
+                _selectedDataSourceInfo = value;
                 RaisePropertyChanged();
             }
         }

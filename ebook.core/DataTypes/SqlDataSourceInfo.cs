@@ -8,7 +8,7 @@ using ebook.core.Repo.Sql;
 
 namespace ebook.core.DataTypes
 {
-    public class SqlDataSourceInfo : ISimpleDataSourceInfo
+    public class SqlDataSourceInfo : IFullDataSourceInfo
     {
         public string Parameter { get; set; }
 
@@ -18,6 +18,11 @@ namespace ebook.core.DataTypes
         }
 
         public ISimpleDataSource GetSimpleDataSource()
+        {
+            return new SqlDataSource(this.Parameter);
+        }
+
+        public IFullDataSource GetFullDataSource()
         {
             return new SqlDataSource(this.Parameter);
         }

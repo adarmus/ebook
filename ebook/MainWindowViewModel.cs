@@ -60,6 +60,9 @@ namespace ebook
 
         async Task DoView()
         {
+            if (this.SelectedSimpleDataSourceInfo == null)
+                return;
+
             ISimpleDataSource repo = this.SelectedSimpleDataSourceInfo.GetSimpleDataSource();
 
             var books = await repo.GetBooks(this.IncludeMobi, this.IncludeEpub);
@@ -83,7 +86,11 @@ namespace ebook
         {
             _log.Debug("Starting compare");
 
+            if (this.SelectedFullDataSourceInfo == null)
+                return;
+
             IFullDataSource repo = this.SelectedFullDataSourceInfo.GetFullDataSource();
+
             var books = await repo.GetBooks(this.IncludeMobi, this.IncludeEpub);
 
             var matcher = new BookMatcher(books);
@@ -103,9 +110,12 @@ namespace ebook
             if (this.BookFileList == null)
                 return;
 
-            var toUpload = this.BookFileList.Where(b => !b.HasMatch);
+            if (this.SelectedFullDataSourceInfo == null)
+                return;
 
             IFullDataSource repo = this.SelectedFullDataSourceInfo.GetFullDataSource();
+
+            var toUpload = this.BookFileList.Where(b => !b.HasMatch);
 
             var books = new BookRepository(repo);
 

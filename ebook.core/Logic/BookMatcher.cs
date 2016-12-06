@@ -40,6 +40,9 @@ namespace ebook.core.Logic
 
         void Update(MatchInfo match)
         {
+            match.MatchedBook = null;
+            match.IsSelected = true;
+
             // Look by Isbn
             if (!string.IsNullOrEmpty(match.Book.Isbn))
             {
@@ -47,6 +50,7 @@ namespace ebook.core.Logic
                 if (_lookupIsbn.ContainsKey(isbn))
                 {
                     match.MatchedBook = _lookupIsbn[isbn];
+                    match.IsSelected = false;
                     return;
                 }
             }
@@ -64,6 +68,7 @@ namespace ebook.core.Logic
                         if (string.Equals(title, book.Title, StringComparison.CurrentCultureIgnoreCase))
                         {
                             match.MatchedBook = book;
+                            match.IsSelected = false;
                             return;
                         }
                     }

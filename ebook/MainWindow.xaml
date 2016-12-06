@@ -104,7 +104,7 @@
                 Margin="0"
                 AutoGenerateColumns="False"
                 CanUserAddRows="False"
-                IsReadOnly="True"
+                IsReadOnly="False"
                 CanUserDeleteRows="False"
                 CanUserResizeRows="False"
                 ItemsSource="{Binding BookFileList}"
@@ -115,6 +115,7 @@
                 TextSearch.TextPath="Title"
                 SelectedItem="{Binding SelectedBook}">
                 <DataGrid.Columns>
+                    <DataGridCheckBoxColumn Binding="{Binding IsSelected}" Header="Selected" IsReadOnly="False"  />
                     <DataGridTextColumn Binding="{Binding Book.Title}" Header="Title">
                         <DataGridTextColumn.HeaderTemplate>
                             <DataTemplate>

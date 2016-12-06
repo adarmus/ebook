@@ -115,7 +115,9 @@ namespace ebook
 
             IFullDataSource repo = this.SelectedFullDataSourceInfo.GetFullDataSource();
 
-            var toUpload = this.BookFileList.Where(b => !b.HasMatch);
+            var toUpload = this.BookFileList
+                .Where(b => !b.HasMatch)
+                .Where(b => b.IsSelected);
 
             var books = new BookRepository(repo);
 

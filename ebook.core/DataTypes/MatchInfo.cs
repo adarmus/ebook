@@ -18,6 +18,8 @@ namespace ebook.core.DataTypes
 
         public BookInfo MatchedBook { get; set; }
 
+        public bool IsSelected { get; set; }
+
         public bool HasMatch
         {
             get { return this.MatchedBook != null; }

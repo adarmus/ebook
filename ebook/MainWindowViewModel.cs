@@ -124,6 +124,12 @@ namespace ebook
             await books.SaveBooks(toUpload.Select(b => b.Book));
         }
 
+        void SelectedSimpleDataSourceInfoChanged()
+        {
+            this.BookFileList = new ObservableCollection<MatchInfo>();
+        }
+
+
         #region Properties
         bool _isBusy;
         public bool IsBusy
@@ -220,6 +226,7 @@ namespace ebook
                     return;
                 _selectedSimpleDataSourceInfo = value;
                 RaisePropertyChanged();
+                SelectedSimpleDataSourceInfoChanged();
             }
         }
 

@@ -23,6 +23,8 @@ namespace ebook
     {
         readonly ILog _log;
 
+        private ISimpleDataSource _simpleDataSource;
+
         public MainWindowViewModel()
         {
             ConfigProvider config = GetConfigProvider();
@@ -67,9 +69,9 @@ namespace ebook
             if (this.SelectedSimpleDataSourceInfo == null)
                 return;
 
-            ISimpleDataSource repo = this.SelectedSimpleDataSourceInfo.GetSimpleDataSource();
+            _simpleDataSource = this.SelectedSimpleDataSourceInfo.GetSimpleDataSource();
 
-            var books = await repo.GetBooks(this.IncludeMobi, this.IncludeEpub);
+            var books = await _simpleDataSource.GetBooks(this.IncludeMobi, this.IncludeEpub);
             var matches = books.Select(b => new MatchInfo(b));
             this.BookFileList = new ObservableCollection<MatchInfo>(matches);
         }
@@ -133,9 +135,15 @@ namespace ebook
             this.BookFileList = new ObservableCollection<MatchInfo>();
         }
 
-        void SelectedBookChanged()
+        async Task SelectedBookChanged()
         {
-            this.SelectedBookContent = new BookContentInfo(this.SelectedBook.Book, "");
+            if (this.SelectedBook == null)
+            {
+                this.SelectedBookContent = null;
+                return;
+            }
+
+            this.SelectedBookContent = await _simpleDataSource.GetBookContent(this.SelectedBook.Book);
         }
 
         #region Properties
@@ -164,7 +172,8 @@ namespace ebook
                     return;
                 _selectedBook = value;
                 RaisePropertyChanged();
-                SelectedBookChanged();
+
+                Task.Run(SelectedBookChanged);
             }
         }
 

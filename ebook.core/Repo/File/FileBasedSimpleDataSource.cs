@@ -53,6 +53,14 @@ namespace ebook.core.Repo.File
             return await _providers.SelectManyAsync(async p => await p.GetBookFiles());
         }
 
+        public Task<BookContentInfo> GetBookContent(BookInfo book)
+        {
+            if (!_lookup.ContainsKey(book.Id))
+                return Task.FromResult<BookContentInfo>(null);
+
+            return Task.FromResult<BookContentInfo>(_lookup[book.Id]);
+        }
+
         public Task<IEnumerable<string>> GetBookFilePaths(string id)
         {
             if (!_lookup.ContainsKey(id))

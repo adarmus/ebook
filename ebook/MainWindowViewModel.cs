@@ -41,12 +41,16 @@ namespace ebook
 
             this.SimpleDataSourceInfoList = new ObservableCollection<ISimpleDataSourceInfo>(dataSources);
 
+            this.SelectedSimpleDataSourceInfo = dataSources[0];
+
             var sources = new IFullDataSourceInfo[]
             {
                 new SqlDataSourceInfo{Parameter = "Server=localhost; Database=ebook; Trusted_Connection=SSPI"}
             };
 
             this.FullDataSourceInfoList = new ObservableCollection<IFullDataSourceInfo>(sources);
+
+            this.SelectedFullDataSourceInfo = sources[0];
 
             XmlConfigurator.Configure();
 

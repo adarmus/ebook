@@ -146,7 +146,8 @@
                     BorderBrush="LightBlue"
                     BorderThickness="1"
                     Background="LightGray">
-                <StackPanel Orientation="Vertical" Margin="10" >
+                <ScrollViewer>
+                    <StackPanel Orientation="Vertical" Margin="10" >
                     <TextBlock Text="{Binding Book.Title}" 
                                Margin="0" />
                     <TextBlock Text="{Binding Book.Author}" 
@@ -164,6 +165,7 @@
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                 </StackPanel>
+                </ScrollViewer>
             </Border>
         </Grid>
 

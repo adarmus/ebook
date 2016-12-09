@@ -129,6 +129,10 @@ namespace ebook
             this.BookFileList = new ObservableCollection<MatchInfo>();
         }
 
+        void SelectedBookChanged()
+        {
+            this.SelectedBookContent = new BookContentInfo(this.SelectedBook.Book, "");
+        }
 
         #region Properties
         bool _isBusy;
@@ -156,6 +160,7 @@ namespace ebook
                     return;
                 _selectedBook = value;
                 RaisePropertyChanged();
+                SelectedBookChanged();
             }
         }
 

@@ -132,6 +132,7 @@ namespace ebook
             if (TryGetDateTimeAdded(out date))
             {
                 await books.SaveBooks(toUpload.Select(b => b.Book), date);
+                MessageBox.Show("Done");
             }
             else
             {

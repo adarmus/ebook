@@ -1,20 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using ebook.Async;
-using ebook.core;
 using ebook.core.DataTypes;
 using ebook.core.Logic;
 using ebook.core.Repo;
-using ebook.core.Repo.File;
-using ebook.core.Repo.Sql;
 using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
 using log4net;
 using log4net.Config;
 
@@ -106,12 +101,7 @@ namespace ebook
 
             this.BookFileList = new ObservableCollection<MatchInfo>(matched);
         }
-
-        string C34(string input)
-        {
-            return string.Format("\"{0}\"", input);
-        }
-
+        
         async Task  DoUpload()
         {
             if (this.BookFileList == null)

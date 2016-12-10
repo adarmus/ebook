@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ebook.core.DataTypes
@@ -22,5 +23,7 @@ namespace ebook.core.DataTypes
         public string Isbn { get; set; }
 
         public string Title { get; set; }
+
+        public DateTime DateAdded { get; set; }
     }
 }

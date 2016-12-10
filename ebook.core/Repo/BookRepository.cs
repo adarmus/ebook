@@ -23,6 +23,7 @@ namespace ebook.core.Repo
             {
                 try
                 {
+                    book.DateAdded = dateAdded;
                     await _repository.SaveBook(book);
                 }
                 catch (Exception ex)

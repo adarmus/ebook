@@ -8,25 +8,20 @@ namespace ebook.core.DataTypes
 {
     public class BookContentInfo
     {
-        readonly IEnumerable<string> _files;
-
         public BookInfo Book { get; set; }
 
-        public List<string> Files
-        {
-            get { return _files.ToList(); }
-        }
+        public IEnumerable<string> Files { get; }
 
         public BookContentInfo(BookInfo book, IEnumerable<string> files)
         {
             this.Book = book;
-            _files = files;
+            Files = files;
         }
 
         public BookContentInfo(BookInfo book, string file)
         {
             this.Book = book;
-            _files = new List<string> { file };
+            Files = new [] { file };
         }
     }
 }

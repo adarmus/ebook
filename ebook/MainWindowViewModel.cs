@@ -161,6 +161,20 @@ namespace ebook
             }
         }
 
+        string _dateAddedText;
+        public string DateAddedText
+        {
+            get { return _dateAddedText; }
+            set
+            {
+                if (value == _dateAddedText)
+                    return;
+
+                _dateAddedText = value;
+                base.RaisePropertyChanged();
+            }
+        }
+
         MatchInfo _selectedBook;
 
         public MatchInfo SelectedBook

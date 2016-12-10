@@ -61,20 +61,6 @@
                     VerticalAlignment="Top"/>
             </Grid>
             <Grid Grid.Column="1">
-                <Button Content="Match" 
-                        HorizontalAlignment="Right" 
-                        Margin="5,28,80,0" 
-                        VerticalAlignment="Bottom" 
-                        Width="75"
-                        Command="{Binding MatchCommand}"
-                    />
-                <Button Content="Upload" 
-                        HorizontalAlignment="Right" 
-                        Margin="5,28,0,0" 
-                        VerticalAlignment="Bottom" 
-                        Width="75"
-                        Command="{Binding UploadCommand}"
-                    />
                 <ComboBox
                     Height="23"
                     Margin="0"
@@ -89,6 +75,27 @@
                     TextWrapping="NoWrap" 
                     VerticalAlignment="Top"
                     Text="{Binding SelectedFullDataSourceInfo.Parameter}"/>
+                <Button Content="Match" 
+                        HorizontalAlignment="Right" 
+                        Margin="0,58,205,0" 
+                        VerticalAlignment="Top" 
+                        Width="75"
+                        Command="{Binding MatchCommand}"
+                    />
+                <Button Content="Upload" 
+                        HorizontalAlignment="Right" 
+                        Margin="0,58,125,0" 
+                        VerticalAlignment="Top" 
+                        Width="75"
+                        Command="{Binding UploadCommand}"
+                    />
+                <TextBox HorizontalAlignment="Right" 
+                         Height="23" 
+                         Margin="92,58,0,0" 
+                         TextWrapping="Wrap" 
+                         Text="{Binding DateAddedText}" 
+                         VerticalAlignment="Top" 
+                         Width="120"/>
             </Grid>
         </Grid>
 
@@ -148,23 +155,23 @@
                     Background="LightGray">
                 <ScrollViewer>
                     <StackPanel Orientation="Vertical" Margin="10" >
-                    <TextBlock Text="{Binding Book.Title}" 
+                        <TextBlock Text="{Binding Book.Title}" 
                                Margin="0" />
-                    <TextBlock Text="{Binding Book.Author}" 
+                        <TextBlock Text="{Binding Book.Author}" 
                                Margin="0,10,0,0" />
-                    <TextBlock Text="{Binding Book.Isbn}" 
+                        <TextBlock Text="{Binding Book.Isbn}" 
                                Margin="0,10,0,0" />
-                    <TextBlock Text="{Binding Book.Description}" 
+                        <TextBlock Text="{Binding Book.Description}" 
                                Margin="0,10,0,0" 
                                TextWrapping="Wrap"/>
-                    <ItemsControl ItemsSource="{Binding Files}" Margin="0,10,0,0">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding}" Margin="0, 10, 0, 0"/>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </StackPanel>
+                        <ItemsControl ItemsSource="{Binding Files}" Margin="0,10,0,0">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" Margin="0, 10, 0, 0"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
                 </ScrollViewer>
             </Border>
         </Grid>
@@ -173,7 +180,7 @@
         <Border Grid.Row="0" Background="{StaticResource ResourceKey=DarkBackgroundBrush}"
                 Visibility="{Binding IsBusy, Converter={StaticResource ResourceKey=boolToVis}}"
                 Grid.RowSpan="2"
-                Opacity="0.7" Grid.ColumnSpan="3">
+                Opacity="0.7" Grid.ColumnSpan="3" d:IsHidden="True">
             <TextBlock VerticalAlignment="Center"
                        HorizontalAlignment="Center"><Run Text="Please wait..."/></TextBlock>
         </Border>

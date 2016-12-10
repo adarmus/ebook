@@ -45,6 +45,8 @@ namespace ebook.core.Repo.Sql
 
                 var info = await repo.BookSelById(new Guid(book.Id));
 
+                var files = await repo.BookFileSelByBookId(new Guid(book.Id));
+
                 var content = new BookContentInfo(info, "book");
                 return content;
             }

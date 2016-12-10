@@ -82,6 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataTypes\BookContentInfo.cs" />
+    <Compile Include="DataTypes\BookFileInfo.cs" />
     <Compile Include="DataTypes\FileSystemDataSourceInfo.cs" />
     <Compile Include="DataTypes\IFullDataSourceInfo.cs" />
     <Compile Include="DataTypes\ISimpleDataSourceInfo.cs" />

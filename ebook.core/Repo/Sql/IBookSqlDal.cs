@@ -18,5 +18,8 @@ namespace ebook.core.Repo.Sql
 
         [Sql("spBook_SEL_BY_ID")]
         Task<BookInfo> BookSelById(Guid id);
+
+        [Sql("spFile_SEL_TYPE_BY_BOOKID")]
+        Task<BookFileInfo> BookFileSelByBookId(Guid bookid);
     }
 }

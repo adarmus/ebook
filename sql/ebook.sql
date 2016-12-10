@@ -1,3 +1,5 @@
+-- BOOKS
+
 
 ALTER PROCEDURE [dbo].[spBook_INS]
     @id as uniqueidentifier,
@@ -71,4 +73,55 @@ BEGIN
         [book]
     WHERE
         [Id] = @id
+END
+
+
+
+-- FILES
+
+
+ALTER PROCEDURE [dbo].[spFile_INS]
+    @id as uniqueidentifier,
+    @bookid as uniqueidentifier,
+    @fileType as nvarchar(50),
+    @fileName as nvarchar(250),
+    @content as varbinary(MAX)
+AS
+BEGIN
+    SET NOCOUNT ON
+
+    INSERT INTO [File] 
+    (
+        [Id],
+        [BookId], 
+        [FileType], 
+        [FileName],
+        [Content]
+    ) 
+    VALUES 
+    (
+        @id,
+        @bookid,
+        @fileType,
+        @fileName,
+        @content
+    )
+END
+
+
+CREATE PROCEDURE [dbo].[spFile_SEL_TYPE_BY_BOOKID]
+    @bookid as uniqueidentifier
+AS
+BEGIN
+    SET NOCOUNT ON
+
+    SELECT
+        [Id],
+        [BookId], 
+        [FileType], 
+        [FileName]
+    FROM
+        [file]
+    WHERE
+        [BookId] = @bookId
 END

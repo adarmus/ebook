@@ -110,24 +110,36 @@ namespace ebook
             if (this.SelectedFullDataSourceInfo == null)
                 return;
 
-            IFullDataSource repo = this.SelectedFullDataSourceInfo.GetFullDataSource();
-
-            var toUpload = this.BookFileList
-                .Where(b => !b.HasMatch)
-                .Where(b => b.IsSelected);
-
-            var books = new BookRepository(repo);
-
             DateTime date;
             if (TryGetDateTimeAdded(out date))
             {
-                await books.SaveBooks(toUpload.Select(b => b.Book), date);
+                await UploadBooks(date);
                 MessageBox.Show("Done");
             }
             else
             {
                 MessageBox.Show("Could not parse date added");
             }
+        }
+
+        async Task UploadBooks(DateTime date)
+        {
+            IEnumerable<BookContentInfo> contents = await GetBookContentInfos();
+
+            var repo = new BookRepository(this.SelectedFullDataSourceInfo.GetFullDataSource());
+
+            await repo.SaveBooks(contents, date);
+        }
+
+        async Task<IEnumerable<BookContentInfo>> GetBookContentInfos()
+        {
+            IEnumerable<MatchInfo> toUpload = this.BookFileList
+                .Where(b => !b.HasMatch)
+                .Where(b => b.IsSelected);
+
+            var tasks = toUpload.Select(async (b) => await _simpleDataSource.GetBookContent(b.Book));
+            BookContentInfo[] contents = await Task.WhenAll(tasks);
+            return contents;
         }
 
         bool TryGetDateTimeAdded(out DateTime dateAdded)

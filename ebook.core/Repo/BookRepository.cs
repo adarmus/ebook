@@ -17,14 +17,17 @@ namespace ebook.core.Repo
             _repository = repository;
         }
 
-        public async Task SaveBooks(IEnumerable<BookInfo> books, DateTime dateAdded)
+        public async Task SaveBooks(IEnumerable<BookContentInfo> books, DateTime dateAdded)
         {
             foreach (var book in books)
             {
                 try
                 {
-                    book.DateAdded = dateAdded;
-                    await _repository.SaveBook(book);
+                    BookInfo info = book.Book;
+
+                    info.DateAdded = dateAdded;
+                    await _repository.SaveBook(info);
+
                 }
                 catch (Exception ex)
                 {

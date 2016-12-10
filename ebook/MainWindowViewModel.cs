@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using ebook.Async;
 using ebook.core;
@@ -127,7 +128,34 @@ namespace ebook
 
             var books = new BookRepository(repo);
 
-            await books.SaveBooks(toUpload.Select(b => b.Book));
+            DateTime date;
+            if (TryGetDateTimeAdded(out date))
+            {
+                await books.SaveBooks(toUpload.Select(b => b.Book), date);
+            }
+            else
+            {
+                MessageBox.Show("Could not parse date added");
+            }
+        }
+
+        bool TryGetDateTimeAdded(out DateTime dateAdded)
+        {
+            if (string.IsNullOrEmpty(DateAddedText))
+            {
+                dateAdded = DateTime.Now;
+                return true;
+            }
+
+            DateTime date;
+            if (DateTime.TryParse(this.DateAddedText, out date))
+            {
+                dateAdded = date;
+                return true;
+            }
+
+            dateAdded = DateTime.MinValue;
+            return false;
         }
 
         void SelectedSimpleDataSourceInfoChanged()

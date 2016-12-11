@@ -115,7 +115,6 @@
     <Compile Include="Repo\IFullDataSource.cs" />
     <Compile Include="BookFiles\IBookFileListProvider.cs" />
     <Compile Include="BookFiles\BookFile.cs" />
-    <Compile Include="Mobi\MobiFileList.cs" />
     <Compile Include="Mobi\Pdb\MobiHeader.cs" />
     <Compile Include="Mobi\MobiReader.cs" />
     <Compile Include="Mobi\Pdb\PdbHeader.cs" />

@@ -87,6 +87,7 @@
     <Compile Include="DataTypes\IFullDataSourceInfo.cs" />
     <Compile Include="DataTypes\ISimpleDataSourceInfo.cs" />
     <Compile Include="DataTypes\MatchInfo.cs" />
+    <Compile Include="DataTypes\MatchStatus.cs" />
     <Compile Include="DataTypes\SqlDataSourceInfo.cs" />
     <Compile Include="Logic\Aggregator.cs" />
     <Compile Include="DataTypes\BookComparisonInfo.cs" />

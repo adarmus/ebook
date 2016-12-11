@@ -138,6 +138,7 @@ namespace ebook
                 .Where(b => (b.Status == MatchStatus.NewBook || b.Status == MatchStatus.NewFiles));
 
             var tasks = toUpload.Select(async (b) => await _simpleDataSource.GetBookContent(b.Book));
+
             BookContentInfo[] contents = await Task.WhenAll(tasks);
 
             // obtain file contents -> BookFileInfo[]

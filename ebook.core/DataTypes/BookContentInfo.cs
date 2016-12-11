@@ -10,18 +10,27 @@ namespace ebook.core.DataTypes
     {
         public BookInfo Book { get; set; }
 
-        public IEnumerable<string> Files { get; }
+        public IEnumerable<string> FileIds { get; }
 
-        public BookContentInfo(BookInfo book, IEnumerable<string> files)
+        public IEnumerable<BookFileInfo> Files { get; }
+
+        public BookContentInfo(BookInfo book, IEnumerable<string> fileIds)
         {
             this.Book = book;
-            Files = files;
+            this.FileIds = fileIds;
+        }
+
+        public BookContentInfo(BookInfo book, IEnumerable<BookFileInfo> files)
+        {
+            this.Book = book;
+            this.Files = files;
+            this.FileIds = files.Select(f => f.FileName);
         }
 
         public BookContentInfo(BookInfo book, string file)
         {
             this.Book = book;
-            Files = new [] { file };
+            FileIds = new [] { file };
         }
     }
 }

@@ -15,5 +15,7 @@ namespace ebook.core.DataTypes
         public string FileType { get; set; }
 
         public string FileName { get; set; }
+
+        public byte[] Content { get; set; }
     }
 }

@@ -43,11 +43,12 @@ namespace ebook.core.Repo.Sql
             {
                 IBookSqlDal repo = GetBookSqlDal();
 
-                var info = await repo.BookSelById(new Guid(book.Id));
+                BookInfo info = await repo.BookSelById(new Guid(book.Id));
 
-                var files = await repo.BookFileSelByBookId(new Guid(book.Id));
+                IEnumerable<BookFileInfo> files = await repo.BookFileSelByBookId(new Guid(book.Id));
 
-                var content = new BookContentInfo(info, "book");
+                var content = new BookContentInfo(info, files);
+
                 return content;
             }
             catch (Exception ex)
@@ -62,6 +63,13 @@ namespace ebook.core.Repo.Sql
             IBookSqlDal repo = GetBookSqlDal();
 
             await repo.BookIns(book);
+        }
+
+        public async Task SaveFile(BookFileInfo file)
+        {
+            IBookSqlDal repo = GetBookSqlDal();
+
+            await repo.FileIns(file);
         }
 
         private IBookSqlDal GetBookSqlDal()

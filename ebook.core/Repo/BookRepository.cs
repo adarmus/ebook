@@ -28,7 +28,18 @@ namespace ebook.core.Repo
                     info.DateAdded = dateAdded;
                     await _repository.SaveBook(info);
 
-
+                    foreach (var file in book.Files)
+                    {
+                        var newFile = new BookFileInfo
+                        {
+                            Id = Guid.NewGuid().ToString(),
+                            Content = file.Content,
+                            BookId = file.BookId,
+                            FileType = file.FileType,
+                            FileName = file.FileName
+                        };
+                        await _repository.SaveFile(newFile);
+                    }
                 }
                 catch (Exception ex)
                 {

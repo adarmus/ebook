@@ -167,7 +167,7 @@
                         <ItemsControl ItemsSource="{Binding Files}" Margin="0,10,0,0">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding}" Margin="0, 10, 0, 0"/>
+                                    <TextBlock Text="{Binding Id}" Margin="0, 10, 0, 0"/>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>

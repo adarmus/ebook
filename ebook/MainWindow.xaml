@@ -144,7 +144,7 @@
                         </DataGridTextColumn.HeaderTemplate>
                     </DataGridTextColumn>
                     <DataGridTextColumn Binding="{Binding Book.Isbn}" Header="ISBN"/>
-                    <DataGridTextColumn Binding="{Binding HasMatch}" Header="Matched?"/>
+                    <DataGridTextColumn Binding="{Binding Status}" Header="Matched?"/>
                 </DataGrid.Columns>
             </DataGrid>
 

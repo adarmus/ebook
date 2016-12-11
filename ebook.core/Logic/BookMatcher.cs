@@ -40,17 +40,13 @@ namespace ebook.core.Logic
 
         void Update(MatchInfo match)
         {
-            match.MatchedBook = null;
-            match.IsSelected = true;
-
             // Look by Isbn
             if (!string.IsNullOrEmpty(match.Book.Isbn))
             {
                 string isbn = Isbn.Normalise(match.Book.Isbn);
                 if (_lookupIsbn.ContainsKey(isbn))
                 {
-                    match.MatchedBook = _lookupIsbn[isbn];
-                    match.IsSelected = false;
+                    match.SetMatch(_lookupIsbn[isbn], MatchStatus.UpToDate);
                     return;
                 }
             }
@@ -67,13 +63,14 @@ namespace ebook.core.Logic
                     {
                         if (string.Equals(title, book.Title, StringComparison.CurrentCultureIgnoreCase))
                         {
-                            match.MatchedBook = book;
-                            match.IsSelected = false;
+                            match.SetMatch(book, MatchStatus.UpToDate);
                             return;
                         }
                     }
                 }
             }
+
+            match.SetMatch(null, MatchStatus.NewBook);
         }
     }
 }

@@ -67,8 +67,8 @@ namespace ebook
 
             _simpleDataSource = this.SelectedSimpleDataSourceInfo.GetSimpleDataSource();
 
-            var books = await _simpleDataSource.GetBooks(this.IncludeMobi, this.IncludeEpub);
-            var matches = books.Select(b => new MatchInfo(b));
+            IEnumerable<BookInfo> books = await _simpleDataSource.GetBooks(this.IncludeMobi, this.IncludeEpub);
+            IEnumerable<MatchInfo> matches = books.Select(b => new MatchInfo(b));
             this.BookFileList = new ObservableCollection<MatchInfo>(matches);
         }
 
@@ -124,21 +124,24 @@ namespace ebook
 
         async Task UploadBooks(DateTime date)
         {
-            IEnumerable<BookContentInfo> contents = await GetBookContentInfos();
+            IEnumerable<BookContentInfo> contents = await GetBookContentInfosToUpload();
 
             var repo = new BookRepository(this.SelectedFullDataSourceInfo.GetFullDataSource());
 
             await repo.SaveBooks(contents, date);
         }
 
-        async Task<IEnumerable<BookContentInfo>> GetBookContentInfos()
+        async Task<IEnumerable<BookContentInfo>> GetBookContentInfosToUpload()
         {
             IEnumerable<MatchInfo> toUpload = this.BookFileList
-                .Where(b => !b.HasMatch)
-                .Where(b => b.IsSelected);
+                .Where(b => b.IsSelected)
+                .Where(b => (b.Status == MatchStatus.NewBook || b.Status == MatchStatus.NewFiles));
 
             var tasks = toUpload.Select(async (b) => await _simpleDataSource.GetBookContent(b.Book));
             BookContentInfo[] contents = await Task.WhenAll(tasks);
+
+            // obtain file contents -> BookFileInfo[]
+
             return contents;
         }
 

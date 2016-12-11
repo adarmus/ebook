@@ -70,6 +70,7 @@ namespace ebook.core.Logic
                 }
             }
 
+            // Nothing matched it
             match.SetMatch(null, MatchStatus.NewBook);
         }
     }

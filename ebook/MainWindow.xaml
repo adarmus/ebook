@@ -144,6 +144,7 @@
                         </DataGridTextColumn.HeaderTemplate>
                     </DataGridTextColumn>
                     <DataGridTextColumn Binding="{Binding Book.Isbn}" Header="ISBN"/>
+                    <DataGridTextColumn Binding="{Binding Book.DateAdded, StringFormat='yyyy-MM-dd'}" Header="Added"/>
                     <DataGridTextColumn Binding="{Binding Status}" Header="Matched?"/>
                 </DataGrid.Columns>
             </DataGrid>
@@ -160,6 +161,8 @@
                         <TextBlock Text="{Binding Book.Author}" 
                                Margin="0,10,0,0" />
                         <TextBlock Text="{Binding Book.Isbn}" 
+                               Margin="0,10,0,0" />
+                        <TextBlock Text="{Binding Book.DateAdded, StringFormat='yyyy-MM-dd'}" 
                                Margin="0,10,0,0" />
                         <TextBlock Text="{Binding Book.Description}" 
                                Margin="0,10,0,0" 

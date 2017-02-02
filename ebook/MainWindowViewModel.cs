@@ -93,11 +93,11 @@ namespace ebook
 
             IFullDataSource repo = this.SelectedFullDataSourceInfo.GetFullDataSource();
 
-            var books = await repo.GetBooks(this.IncludeMobi, this.IncludeEpub);
+            IEnumerable<BookInfo> books = await repo.GetBooks(this.IncludeMobi, this.IncludeEpub);
 
             var matcher = new BookMatcher(books);
 
-            var matched = matcher.Match(this.BookFileList);
+            IEnumerable<MatchInfo> matched = matcher.Match(this.BookFileList);
 
             this.BookFileList = new ObservableCollection<MatchInfo>(matched);
         }

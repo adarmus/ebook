@@ -19,7 +19,7 @@ namespace ebook
     {
         readonly ILog _log;
 
-        private ISimpleDataSource _simpleDataSource;
+        ISimpleDataSource _simpleDataSource;
 
         public MainWindowViewModel()
         {
@@ -101,7 +101,7 @@ namespace ebook
 
             this.BookFileList = new ObservableCollection<MatchInfo>(matched);
         }
-        
+
         async Task DoUpload()
         {
             if (this.BookFileList == null)
@@ -110,59 +110,35 @@ namespace ebook
             if (this.SelectedFullDataSourceInfo == null)
                 return;
 
-            DateTime date;
-            if (TryGetDateTimeAdded(out date))
-            {
-                await UploadBooks(date);
-                MessageBox.Show("Done");
-            }
-            else
-            {
-                MessageBox.Show("Could not parse date added");
-            }
+            await UploadBooks();
+
+            MessageBox.Show("Done");
         }
 
-        async Task UploadBooks(DateTime date)
+        async Task UploadBooks()
         {
             IEnumerable<BookFilesInfo> contents = await GetBookFilesInfosToUpload();
 
             var repo = new BookRepository(this.SelectedFullDataSourceInfo.GetFullDataSource());
 
-            await repo.SaveBooks(contents, date);
+            await repo.SaveBooks(contents);
         }
 
         async Task<IEnumerable<BookFilesInfo>> GetBookFilesInfosToUpload()
         {
             IEnumerable<MatchInfo> toUpload = this.BookFileList
-                .Where(b => b.IsSelected)
-                .Where(b => (b.Status == MatchStatus.NewBook || b.Status == MatchStatus.NewFiles));
+                .Where(b => b.IsSelected);
+                //.Where(b => (b.Status == MatchStatus.NewBook || b.Status == MatchStatus.NewFiles));
 
             var tasks = toUpload.Select(async (b) => await _simpleDataSource.GetBookContent(b.Book));
 
             BookFilesInfo[] contents = await Task.WhenAll(tasks);
 
-            // obtain file contents -> BookFileInfo[]
+            var dateAddedProvider = new DateAddedProvider(this.DateAddedText);
+
+            dateAddedProvider.SetDateTimeAdded(contents);
 
             return contents;
-        }
-
-        bool TryGetDateTimeAdded(out DateTime dateAdded)
-        {
-            if (string.IsNullOrEmpty(DateAddedText))
-            {
-                dateAdded = DateTime.Now;
-                return true;
-            }
-
-            DateTime date;
-            if (DateTime.TryParse(this.DateAddedText, out date))
-            {
-                dateAdded = date;
-                return true;
-            }
-
-            dateAdded = DateTime.MinValue;
-            return false;
         }
 
         void SelectedSimpleDataSourceInfoChanged()

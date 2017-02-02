@@ -90,6 +90,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Async\AsyncCommand1.cs" />
+    <Compile Include="DateAddedProvider.cs" />
     <Compile Include="VisibilityToBoolConverter.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

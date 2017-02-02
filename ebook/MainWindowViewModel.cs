@@ -102,7 +102,7 @@ namespace ebook
             this.BookFileList = new ObservableCollection<MatchInfo>(matched);
         }
         
-        async Task  DoUpload()
+        async Task DoUpload()
         {
             if (this.BookFileList == null)
                 return;
@@ -124,14 +124,14 @@ namespace ebook
 
         async Task UploadBooks(DateTime date)
         {
-            IEnumerable<BookFilesInfo> contents = await GetBookContentInfosToUpload();
+            IEnumerable<BookFilesInfo> contents = await GetBookFilesInfosToUpload();
 
             var repo = new BookRepository(this.SelectedFullDataSourceInfo.GetFullDataSource());
 
             await repo.SaveBooks(contents, date);
         }
 
-        async Task<IEnumerable<BookFilesInfo>> GetBookContentInfosToUpload()
+        async Task<IEnumerable<BookFilesInfo>> GetBookFilesInfosToUpload()
         {
             IEnumerable<MatchInfo> toUpload = this.BookFileList
                 .Where(b => b.IsSelected)

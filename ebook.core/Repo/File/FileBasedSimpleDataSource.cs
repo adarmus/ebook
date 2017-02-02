@@ -63,7 +63,7 @@ namespace ebook.core.Repo.File
             BookFilesInfo content = _lookup[book.Id];
 
             var tasks = content.FileIds.Select(async id => await ReadBookFile(book, id));
-            var files = await Task.WhenAll(tasks);
+            BookFileInfo[] files = await Task.WhenAll(tasks);
 
             var contentWithBytes = new BookFilesInfo(book, files);
 

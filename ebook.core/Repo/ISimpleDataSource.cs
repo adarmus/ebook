@@ -12,6 +12,5 @@ namespace ebook.core.Repo
         Task<IEnumerable<BookInfo>> GetBooks(bool includeMobi, bool includeEpub);
 
         Task<BookFilesInfo> GetBookContent(BookInfo book);
-
     }
 }

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -66,6 +68,28 @@ namespace ebook
         {
             date = DateTime.MinValue;
             Console.WriteLine("id={0}", file.Id);
+
+            if (!File.Exists(file.Id))
+                return false;
+
+            string[] folders = file.Id.Split(new char[] { Path.DirectorySeparatorChar });
+
+            foreach (string folder in folders)
+            {
+                if (TryParseDate(folder, out date))
+                    return true;
+            }
+
+            return false;
+        }
+
+        bool TryParseDate(string folder, out DateTime date)
+        {
+            string[] formats = new[] {"yyyy-MM", "yyyy-MM-dd"};
+
+            if (DateTime.TryParseExact(folder, formats, CultureInfo.CurrentUICulture, DateTimeStyles.None, out date))
+                return true;
+
             return false;
         }
     }

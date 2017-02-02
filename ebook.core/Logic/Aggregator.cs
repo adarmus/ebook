@@ -8,11 +8,11 @@ namespace ebook.core.Logic
 {
     public class Aggregator
     {
-        Dictionary<string, BookContentInfo> _lookup;
+        Dictionary<string, BookFilesInfo> _lookup;
 
         public IEnumerable<BookInfo> GetBookList(IEnumerable<BookFile> bookFiles)
         {
-            _lookup = new Dictionary<string, BookContentInfo>();
+            _lookup = new Dictionary<string, BookFilesInfo>();
 
             IEnumerable<BookInfo> bookList = GetBookListWithIsbn(bookFiles);
 
@@ -21,7 +21,7 @@ namespace ebook.core.Logic
             return bookList.Union(bookListNoIsbn);
         }
 
-        public Dictionary<string, BookContentInfo> GetBookContentInfoLookup()
+        public Dictionary<string, BookFilesInfo> GetBookContentInfoLookup()
         {
             return _lookup;
         }
@@ -59,7 +59,7 @@ namespace ebook.core.Logic
                 Title = first.Title
             };
 
-            _lookup.Add(book.Id, new BookContentInfo(book, files));
+            _lookup.Add(book.Id, new BookFilesInfo(book, files));
 
             return book;
         }
@@ -93,7 +93,7 @@ namespace ebook.core.Logic
                 Title = first.Title
             };
 
-            _lookup.Add(book.Id, new BookContentInfo(book, first.FilePath));
+            _lookup.Add(book.Id, new BookFilesInfo(book, first.FilePath));
 
             return book;
         }

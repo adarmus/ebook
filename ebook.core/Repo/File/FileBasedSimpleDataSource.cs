@@ -16,7 +16,7 @@ namespace ebook.core.Repo.File
     {
         readonly List<IBookFileListProvider> _providers;
         readonly string _folderPath;
-        Dictionary<string, BookContentInfo> _lookup;
+        Dictionary<string, BookFilesInfo> _lookup;
 
         public FileBasedSimpleDataSource(string folderPath)
         {
@@ -55,17 +55,17 @@ namespace ebook.core.Repo.File
             return await _providers.SelectManyAsync(async p => await p.GetBookFiles());
         }
 
-        public async Task<BookContentInfo> GetBookContent(BookInfo book)
+        public async Task<BookFilesInfo> GetBookContent(BookInfo book)
         {
             if (!_lookup.ContainsKey(book.Id))
                 return null;
 
-            BookContentInfo content = _lookup[book.Id];
+            BookFilesInfo content = _lookup[book.Id];
 
             var tasks = content.FileIds.Select(async id => await ReadBookFile(book, id));
             var files = await Task.WhenAll(tasks);
 
-            var contentWithBytes = new BookContentInfo(book, files);
+            var contentWithBytes = new BookFilesInfo(book, files);
 
             return contentWithBytes;
         }

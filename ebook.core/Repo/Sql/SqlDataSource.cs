@@ -37,7 +37,7 @@ namespace ebook.core.Repo.Sql
             }
         }
 
-        public async Task<BookContentInfo> GetBookContent(BookInfo book)
+        public async Task<BookFilesInfo> GetBookContent(BookInfo book)
         {
             try
             {
@@ -47,7 +47,7 @@ namespace ebook.core.Repo.Sql
 
                 IEnumerable<BookFileInfo> files = await repo.BookFileSelByBookId(new Guid(book.Id));
 
-                var content = new BookContentInfo(info, files);
+                var content = new BookFilesInfo(info, files);
 
                 return content;
             }

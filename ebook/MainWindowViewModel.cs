@@ -124,14 +124,14 @@ namespace ebook
 
         async Task UploadBooks(DateTime date)
         {
-            IEnumerable<BookContentInfo> contents = await GetBookContentInfosToUpload();
+            IEnumerable<BookFilesInfo> contents = await GetBookContentInfosToUpload();
 
             var repo = new BookRepository(this.SelectedFullDataSourceInfo.GetFullDataSource());
 
             await repo.SaveBooks(contents, date);
         }
 
-        async Task<IEnumerable<BookContentInfo>> GetBookContentInfosToUpload()
+        async Task<IEnumerable<BookFilesInfo>> GetBookContentInfosToUpload()
         {
             IEnumerable<MatchInfo> toUpload = this.BookFileList
                 .Where(b => b.IsSelected)
@@ -139,7 +139,7 @@ namespace ebook
 
             var tasks = toUpload.Select(async (b) => await _simpleDataSource.GetBookContent(b.Book));
 
-            BookContentInfo[] contents = await Task.WhenAll(tasks);
+            BookFilesInfo[] contents = await Task.WhenAll(tasks);
 
             // obtain file contents -> BookFileInfo[]
 
@@ -226,9 +226,9 @@ namespace ebook
             }
         }
 
-        BookContentInfo _selectedBookContent;
+        BookFilesInfo _selectedBookContent;
 
-        public BookContentInfo SelectedBookContent
+        public BookFilesInfo SelectedBookContent
         {
             get { return _selectedBookContent; }
             set

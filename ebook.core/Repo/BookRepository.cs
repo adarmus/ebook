@@ -17,7 +17,7 @@ namespace ebook.core.Repo
             _repository = repository;
         }
 
-        public async Task SaveBooks(IEnumerable<BookContentInfo> books, DateTime dateAdded)
+        public async Task SaveBooks(IEnumerable<BookFilesInfo> books, DateTime dateAdded)
         {
             foreach (var book in books)
             {

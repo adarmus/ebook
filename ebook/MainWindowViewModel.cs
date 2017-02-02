@@ -127,8 +127,8 @@ namespace ebook
         async Task<IEnumerable<BookFilesInfo>> GetBookFilesInfosToUpload()
         {
             IEnumerable<MatchInfo> toUpload = this.BookFileList
-                .Where(b => b.IsSelected);
-                //.Where(b => (b.Status == MatchStatus.NewBook || b.Status == MatchStatus.NewFiles));
+                .Where(b => b.IsSelected)
+                .Where(b => (b.Status == MatchStatus.NewBook || b.Status == MatchStatus.NewFiles));
 
             var tasks = toUpload.Select(async (b) => await _simpleDataSource.GetBookContent(b.Book));
 

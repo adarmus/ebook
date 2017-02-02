@@ -122,7 +122,13 @@
                 TextSearch.TextPath="Title"
                 SelectedItem="{Binding SelectedBook}">
                 <DataGrid.Columns>
-                    <DataGridCheckBoxColumn Binding="{Binding IsSelected}" Header="Selected" IsReadOnly="False"  />
+                    <DataGridTemplateColumn Header="Selected" IsReadOnly="False">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding Path=IsSelected, UpdateSourceTrigger=PropertyChanged}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                     <DataGridTextColumn Binding="{Binding Book.Title}" Header="Title">
                         <DataGridTextColumn.HeaderTemplate>
                             <DataTemplate>

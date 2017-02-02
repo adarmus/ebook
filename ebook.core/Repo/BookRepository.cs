@@ -23,22 +23,7 @@ namespace ebook.core.Repo
             {
                 try
                 {
-                    BookInfo info = book.Book;
-
-                    await _repository.SaveBook(info);
-
-                    foreach (var file in book.Files)
-                    {
-                        var newFile = new BookFileInfo
-                        {
-                            Id = Guid.NewGuid().ToString(),
-                            Content = file.Content,
-                            BookId = file.BookId,
-                            FileType = file.FileType,
-                            FileName = file.FileName
-                        };
-                        await _repository.SaveFile(newFile);
-                    }
+                    await SaveBook(book);
                 }
                 catch (Exception ex)
                 {
@@ -46,6 +31,32 @@ namespace ebook.core.Repo
                     throw;
                 }
             }
+        }
+
+        async Task SaveBook(BookFilesInfo book)
+        {
+            BookInfo info = book.Book;
+
+            await _repository.SaveBook(info);
+
+            foreach (var file in book.Files)
+            {
+                await SaveBookFile(file);
+            }
+        }
+
+        async Task SaveBookFile(BookFileInfo file)
+        {
+            var newFile = new BookFileInfo
+            {
+                Id = Guid.NewGuid().ToString(),
+                Content = file.Content,
+                BookId = file.BookId,
+                FileType = file.FileType,
+                FileName = file.FileName
+            };
+
+            await _repository.SaveFile(newFile);
         }
     }
 }

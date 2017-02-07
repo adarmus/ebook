@@ -1,0 +1,20 @@
+BEGIN TRANSACTION;
+CREATE TABLE `file` (
+	`Id`	TEXT NOT NULL UNIQUE,
+	`BookId`	TEXT NOT NULL,
+	`FileType`	TEXT NOT NULL,
+	`FileName`	TEXT NOT NULL,
+	`Content`	BLOB,
+	PRIMARY KEY(`Id`)
+);
+CREATE TABLE `book` (
+	`Id`	TEXT NOT NULL UNIQUE,
+	`Title`	TEXT NOT NULL,
+	`Author`	TEXT NOT NULL,
+	`Isbn`	TEXT,
+	`Publisher`	TEXT,
+	`Description`	TEXT,
+	`DateAdded`	NUMERIC NOT NULL,
+	PRIMARY KEY(`Id`)
+);
+COMMIT;

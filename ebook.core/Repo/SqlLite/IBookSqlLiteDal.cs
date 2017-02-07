@@ -1,0 +1,28 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using ebook.core.DataTypes;
+using Insight.Database;
+
+namespace ebook.core.Repo.SqlLite
+{
+    public interface IBookSqlLiteDal
+    {
+        [Sql("INSERT INTO [Book]  ( [Id], [Title],  [Author],  [Isbn], [Publisher], [Description], [DateAdded] )  VALUES  ( @id, @title, @author, @isbn, @publisher, @description, @dateAdded )")]
+        Task BookIns(BookInfo book);
+
+        [Sql("SELECT [Id], [Title],  [Author],  [Isbn], [Publisher], [Description], [DateAdded] FROM [book]")]
+        Task<IEnumerable<BookInfo>> BookSelAll();
+
+        [Sql("SELECT [Id], [Title],  [Author],  [Isbn], [Publisher], [Description], [DateAdded] FROM [book] WHERE [Id] = @id")]
+        Task<BookInfo> BookSelById(Guid id);
+
+        [Sql("INSERT INTO [File]  ( [Id], [BookId],  [FileType],  [FileName], [Content] )  VALUES  ( @id, @bookid, @fileType, @fileName, @content )")]
+        Task FileIns(BookFileInfo book);
+
+        [Sql("SELECT [Id], [BookId],  [FileType],  [FileName] FROM [file] WHERE [BookId] = @bookId")]
+        Task<IEnumerable<BookFileInfo>> BookFileSelByBookId(Guid bookid);
+    }
+}

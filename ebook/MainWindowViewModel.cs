@@ -9,6 +9,7 @@ using ebook.Async;
 using ebook.core.DataTypes;
 using ebook.core.Logic;
 using ebook.core.Repo;
+using ebook.core.Repo.SqlLite;
 using GalaSoft.MvvmLight;
 using log4net;
 using log4net.Config;
@@ -23,6 +24,18 @@ namespace ebook
 
         public MainWindowViewModel()
         {
+            try
+            {
+                //var t = new Test();
+                //t.Go();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw;
+            }
+            
+
             ConfigProvider config = GetConfigProvider();
 
             this.ImportFolderPath = config.ImportFolderPath;
@@ -34,7 +47,8 @@ namespace ebook
             {
                 new FileSystemDataSourceInfo {Parameter = config.ImportFolderPath},
                 new FileSystemDataSourceInfo {Parameter = @"c:\tmp\"},
-                new SqlDataSourceInfo {Parameter = "Server=localhost; Database=ebook; Trusted_Connection=SSPI"}, 
+                new SqlDataSourceInfo {Parameter = "Server=localhost; Database=ebook; Trusted_Connection=SSPI"},
+                new SqlLiteDataSourceInfo {Parameter = @"C:\Tree\ebook\sql\dev.db"},
             };
 
             this.SimpleDataSourceInfoList = new ObservableCollection<ISimpleDataSourceInfo>(dataSources);
@@ -43,7 +57,8 @@ namespace ebook
 
             var sources = new IFullDataSourceInfo[]
             {
-                new SqlDataSourceInfo{Parameter = "Server=localhost; Database=ebook; Trusted_Connection=SSPI"}
+                new SqlDataSourceInfo{Parameter = "Server=localhost; Database=ebook; Trusted_Connection=SSPI"},
+                new SqlLiteDataSourceInfo {Parameter = @"C:\Tree\ebook\sql\dev.db"},
             };
 
             this.FullDataSourceInfoList = new ObservableCollection<IFullDataSourceInfo>(sources);

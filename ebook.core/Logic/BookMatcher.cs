@@ -21,9 +21,17 @@ namespace ebook.core.Logic
 
         public IEnumerable<MatchInfo> Match(IEnumerable<MatchInfo> matches)
         {
-            _lookupIsbn = _compareTo
+            _lookupIsbn = new Dictionary<string, BookInfo>();
+                
+            _compareTo
                 .Where(b => !string.IsNullOrEmpty(b.Isbn))
-                .ToDictionary(b => Isbn.Normalise(b.Isbn));
+                .ToList()
+                .ForEach(b =>
+                {
+                    string isbn = Isbn.Normalise(b.Isbn);
+                    if (!_lookupIsbn.ContainsKey(isbn))
+                        _lookupIsbn.Add(isbn, b);
+                });
 
             _lookupTitle = _compareTo
                 .Where(b => !string.IsNullOrEmpty(b.Title))

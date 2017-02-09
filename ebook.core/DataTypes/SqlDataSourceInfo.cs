@@ -19,7 +19,7 @@ namespace ebook.core.DataTypes
 
         public ISimpleDataSource GetSimpleDataSource()
         {
-            return new SqlDataSource(this.Parameter);
+            return GetFullDataSource();
         }
 
         public IFullDataSource GetFullDataSource()

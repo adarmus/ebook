@@ -6,6 +6,9 @@ using ebook.core.DataTypes;
 
 namespace ebook.core.Logic
 {
+    /// <summary>
+    /// Groups a list of book files by ISBN.
+    /// </summary>
     public class Aggregator
     {
         Dictionary<string, BookFilesInfo> _lookup;

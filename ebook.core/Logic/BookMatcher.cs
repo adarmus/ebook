@@ -7,6 +7,9 @@ using ebook.core.DataTypes;
 
 namespace ebook.core.Logic
 {
+    /// <summary>
+    /// Compares two lists of books outputting the matches.
+    /// </summary>
     public class BookMatcher
     {
         readonly IEnumerable<BookInfo> _compareTo;

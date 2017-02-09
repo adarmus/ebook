@@ -18,6 +18,8 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="20" MinHeight="20"/>
         </Grid.RowDefinitions>
 
         <!-- Buttons and options -->
@@ -185,6 +187,16 @@
             </Border>
         </Grid>
 
+        <GridSplitter 
+            Grid.Row="2" 
+            Height="5" 
+            Foreground="WhiteSmoke"
+            HorizontalAlignment="Stretch">
+            
+        </GridSplitter>
+        
+        <Border Grid.Row="3" Background="Red"></Border>
+        
         <!-- Fade out the background -->
         <Border Grid.Row="0" Background="{StaticResource ResourceKey=DarkBackgroundBrush}"
                 Visibility="{Binding IsBusy, Converter={StaticResource ResourceKey=boolToVis}}"

@@ -24,6 +24,11 @@ namespace ebook
             AddMessage(new MessageInfo(text));
         }
 
+        public void AddMessage(string format, params object[] args)
+        {
+            AddMessage(string.Format(format, args));
+        }
+
         public void AddMessage(MessageInfo message)
         {
             message.Time = string.Format("{0:yyyy-MM-dd hh:mm:ss}", DateTime.Now);

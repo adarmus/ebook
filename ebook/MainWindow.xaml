@@ -199,10 +199,13 @@
         <Border Grid.Row="3" Background="DarkGray">
             <ScrollViewer>
                 <ItemsControl
-                ItemsSource="{Binding Messages}">
+                    ItemsSource="{Binding Messages}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Text}"></TextBlock>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Time}" Margin="0 0 10 0"></TextBlock>
+                                <TextBlock Text="{Binding Text}"></TextBlock>
+                            </StackPanel>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>

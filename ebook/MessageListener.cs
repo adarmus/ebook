@@ -26,6 +26,7 @@ namespace ebook
 
         public void AddMessage(MessageInfo message)
         {
+            message.Time = string.Format("{0:yyyy-MM-dd hh:mm:ss}", DateTime.Now);
             _messages.Add(message);
             _log.Debug(message.Text);
         }

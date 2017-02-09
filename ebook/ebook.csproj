@@ -97,6 +97,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Async\AsyncCommand1.cs" />
+    <Compile Include="AutoScrollBehaviour.cs" />
     <Compile Include="DateAddedProvider.cs" />
     <Compile Include="MessageInfo.cs" />
     <Compile Include="MessageListener.cs" />

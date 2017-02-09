@@ -210,8 +210,8 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding Time}" Margin="0 0 10 0"></TextBlock>
-                                <TextBlock Text="{Binding Text}"></TextBlock>
+                                <TextBlock FontSize="10" Text="{Binding Time}" Margin="0 0 10 0"></TextBlock>
+                                <TextBlock FontSize="10" Text="{Binding Text}"></TextBlock>
                             </StackPanel>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>

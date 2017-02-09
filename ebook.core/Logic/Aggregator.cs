@@ -98,41 +98,41 @@ namespace ebook.core.Logic
             return book;
         }
 
-        void CompareAllFiles(IEnumerable<BookFile> mobis)
-        {
-            BookFile first = null;
+        //void CompareAllFiles(IEnumerable<BookFile> mobis)
+        //{
+        //    BookFile first = null;
 
-            foreach (var mobi in mobis)
-            {
-                if (first == null)
-                {
-                    first = mobi;
-                }
-                else
-                {
-                    OutputComparison(first, mobi);
-                }
-            }
-        }
+        //    foreach (var mobi in mobis)
+        //    {
+        //        if (first == null)
+        //        {
+        //            first = mobi;
+        //        }
+        //        else
+        //        {
+        //            OutputComparison(first, mobi);
+        //        }
+        //    }
+        //}
 
-        void OutputComparison(BookFile first, BookFile mobi)
-        {
-            bool titleOk = first.Title == mobi.Title;
-            bool authorOk = first.Author == mobi.Author;
-            bool publisherOk = first.Publisher == mobi.Publisher;
+        //void OutputComparison(BookFile first, BookFile mobi)
+        //{
+        //    bool titleOk = first.Title == mobi.Title;
+        //    bool authorOk = first.Author == mobi.Author;
+        //    bool publisherOk = first.Publisher == mobi.Publisher;
 
-            if (authorOk && titleOk && publisherOk)
-                return;
+        //    if (authorOk && titleOk && publisherOk)
+        //        return;
 
-            Console.WriteLine("  {0}: {1}{2}{3}  {4}{5}{6}",
-                first.Isbn,
-                titleOk ? " " : "T",
-                authorOk ? " " : "A",
-                publisherOk ? " " : "P",
-                titleOk ? "" : string.Format("({0} -> {1})", first.Title, mobi.Title),
-                authorOk ? "" : string.Format("({0} -> {1})", first.Author, mobi.Author),
-                publisherOk ? "" : string.Format("({0} -> {1})", first.Publisher, mobi.Publisher)
-                );
-        }
+        //    Console.WriteLine("  {0}: {1}{2}{3}  {4}{5}{6}",
+        //        first.Isbn,
+        //        titleOk ? " " : "T",
+        //        authorOk ? " " : "A",
+        //        publisherOk ? " " : "P",
+        //        titleOk ? "" : string.Format("({0} -> {1})", first.Title, mobi.Title),
+        //        authorOk ? "" : string.Format("({0} -> {1})", first.Author, mobi.Author),
+        //        publisherOk ? "" : string.Format("({0} -> {1})", first.Publisher, mobi.Publisher)
+        //        );
+        //}
     }
 }

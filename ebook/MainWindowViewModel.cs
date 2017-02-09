@@ -65,6 +65,8 @@ namespace ebook
 
             this.SelectedFullDataSourceInfo = sources[0];
 
+            this.Messages = new ObservableCollection<MessageInfo>();
+
             XmlConfigurator.Configure();
 
             _log = LogManager.GetLogger("root");
@@ -355,6 +357,20 @@ namespace ebook
 
                 _includeMobi = value;
                 base.RaisePropertyChanged();
+            }
+        }
+
+        ObservableCollection<MessageInfo> _messages;
+
+        public ObservableCollection<MessageInfo> Messages
+        {
+            get { return _messages; }
+            set
+            {
+                if (value == _messages)
+                    return;
+                _messages = value;
+                RaisePropertyChanged();
             }
         }
         #endregion

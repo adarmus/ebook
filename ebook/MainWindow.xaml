@@ -101,6 +101,7 @@
             </Grid>
         </Grid>
 
+        <!-- List of books -->
         <Grid Grid.Row="1" Grid.ColumnSpan="3" Margin="5,0,5,5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -195,7 +196,18 @@
             
         </GridSplitter>
         
-        <Border Grid.Row="3" Background="Red"></Border>
+        <Border Grid.Row="3" Background="DarkGray">
+            <ScrollViewer>
+                <ItemsControl
+                ItemsSource="{Binding Messages}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Text}"></TextBlock>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Border>
         
         <!-- Fade out the background -->
         <Border Grid.Row="0" Background="{StaticResource ResourceKey=DarkBackgroundBrush}"

@@ -10,7 +10,12 @@ namespace ebook.core.Logic
     {
         public static string Normalise(string isbn)
         {
-            return isbn;
+            if (string.IsNullOrEmpty(isbn))
+                return isbn;
+
+            return isbn
+                .Replace("-", string.Empty)
+                .Replace(" ", "");
         }
     }
 }

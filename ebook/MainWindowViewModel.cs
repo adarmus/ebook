@@ -55,8 +55,8 @@ namespace ebook
 
             var sources = new IFullDataSourceInfo[]
             {
-                new SqlDataSourceInfo{Parameter = "Server=localhost; Database=ebook; Trusted_Connection=SSPI"},
                 new SqlLiteDataSourceInfo {Parameter = @"C:\Tree\ebook\sql\dev.db"},
+                new SqlDataSourceInfo{Parameter = "Server=localhost; Database=ebook; Trusted_Connection=SSPI"},
             };
 
             this.FullDataSourceInfoList = new ObservableCollection<IFullDataSourceInfo>(sources);

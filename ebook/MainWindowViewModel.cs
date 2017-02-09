@@ -18,8 +18,7 @@ namespace ebook
 {
     internal class MainWindowViewModel : ViewModelBase
     {
-        readonly ILog _log;
-
+        readonly MessageListener _messageListener;
         ISimpleDataSource _simpleDataSource;
 
         public MainWindowViewModel()
@@ -34,7 +33,6 @@ namespace ebook
                 Console.WriteLine(ex.Message);
                 throw;
             }
-            
 
             ConfigProvider config = GetConfigProvider();
 
@@ -66,14 +64,10 @@ namespace ebook
             this.SelectedFullDataSourceInfo = sources[0];
 
             this.Messages = new ObservableCollection<MessageInfo>();
-            this.Messages.Add(new MessageInfo("One - the start!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"));
-            this.Messages.Add(new MessageInfo("Two Two Two Two Two Two Two Two Two Two Two Two Two Two Two "));
-            this.Messages.Add(new MessageInfo("Here is the message number Three"));
-            this.Messages.Add(new MessageInfo("Here comes four!"));
+
+            _messageListener = new MessageListener(this.Messages, LogManager.GetLogger("root"));
 
             XmlConfigurator.Configure();
-
-            _log = LogManager.GetLogger("root");
         }
 
         ConfigProvider GetConfigProvider()
@@ -88,9 +82,13 @@ namespace ebook
 
             _simpleDataSource = this.SelectedSimpleDataSourceInfo.GetSimpleDataSource();
 
+            _messageListener.AddMessage("View: starting");
+
             IEnumerable<BookInfo> books = await _simpleDataSource.GetBooks(this.IncludeMobi, this.IncludeEpub);
             IEnumerable<MatchInfo> matches = books.Select(b => new MatchInfo(b));
             this.BookFileList = new ObservableCollection<MatchInfo>(matches);
+
+            _messageListener.AddMessage("View: done");
         }
 
         async Task TryDoMatch()
@@ -107,7 +105,7 @@ namespace ebook
 
         async Task DoMatch()
         {
-            _log.Debug("Starting compare");
+            _messageListener.AddMessage("Compare: starting");
 
             if (this.SelectedFullDataSourceInfo == null)
                 return;
@@ -121,6 +119,8 @@ namespace ebook
             IEnumerable<MatchInfo> matched = matcher.Match(this.BookFileList);
 
             this.BookFileList = new ObservableCollection<MatchInfo>(matched);
+
+            _messageListener.AddMessage("Compare: done");
         }
 
         async Task DoUpload()
@@ -138,11 +138,15 @@ namespace ebook
 
         async Task UploadBooks()
         {
+            _messageListener.AddMessage("Upload: starting");
+
             IEnumerable<BookFilesInfo> contents = await GetBookFilesInfosToUpload();
 
             var repo = new BookRepository(this.SelectedFullDataSourceInfo.GetFullDataSource());
 
             await repo.SaveBooks(contents);
+
+            _messageListener.AddMessage("Upload: done");
         }
 
         async Task<IEnumerable<BookFilesInfo>> GetBookFilesInfosToUpload()

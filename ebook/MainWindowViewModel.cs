@@ -66,6 +66,10 @@ namespace ebook
             this.SelectedFullDataSourceInfo = sources[0];
 
             this.Messages = new ObservableCollection<MessageInfo>();
+            this.Messages.Add(new MessageInfo("One - the start!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"));
+            this.Messages.Add(new MessageInfo("Two Two Two Two Two Two Two Two Two Two Two Two Two Two Two "));
+            this.Messages.Add(new MessageInfo("Here is the message number Three"));
+            this.Messages.Add(new MessageInfo("Here comes four!"));
 
             XmlConfigurator.Configure();
 

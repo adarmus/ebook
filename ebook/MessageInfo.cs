@@ -8,6 +8,11 @@ namespace ebook
 {
     class MessageInfo
     {
+        public MessageInfo(string text)
+        {
+            this.Text = text;
+        }
+
         public string Text { get; set; }
     }
 }

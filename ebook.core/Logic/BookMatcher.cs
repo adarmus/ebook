@@ -12,21 +12,31 @@ namespace ebook.core.Logic
     /// </summary>
     public class BookMatcher
     {
-        readonly IEnumerable<BookInfo> _compareTo;
+        readonly IEnumerable<BookInfo> _originalBooks;
 
         Dictionary<string, IGrouping<string,BookInfo> > _lookupTitle;
         Dictionary<string, BookInfo> _lookupIsbn;
 
-        public BookMatcher(IEnumerable<BookInfo> compareTo)
+        /// <summary>
+        /// Creates a matcher with the original list of books from the repo we are trying to update.
+        /// </summary>
+        /// <param name="originalBooks"></param>
+        public BookMatcher(IEnumerable<BookInfo> originalBooks)
         {
-            _compareTo = compareTo.ToArray();
+            _originalBooks = originalBooks.ToArray();
         }
 
-        public IEnumerable<MatchInfo> Match(IEnumerable<MatchInfo> matches)
+        /// <summary>
+        /// Compares an incoming list of books against the original list of books. 
+        /// Returns the matches that indicate whenther any incoming books are missing from the original list.
+        /// </summary>
+        /// <param name="incoming"></param>
+        /// <returns></returns>
+        public IEnumerable<MatchInfo> Match(IEnumerable<MatchInfo> incoming)
         {
             _lookupIsbn = new Dictionary<string, BookInfo>();
                 
-            _compareTo
+            _originalBooks
                 .Where(b => !string.IsNullOrEmpty(b.Isbn))
                 .ToList()
                 .ForEach(b =>
@@ -36,17 +46,17 @@ namespace ebook.core.Logic
                         _lookupIsbn.Add(isbn, b);
                 });
 
-            _lookupTitle = _compareTo
+            _lookupTitle = _originalBooks
                 .Where(b => !string.IsNullOrEmpty(b.Title))
                 .GroupBy(b => b.Title.ToLower())
                 .ToDictionary(g => g.Key);
 
-            foreach (var match in matches)
+            foreach (var match in incoming)
             {
                 Update(match);
             }
 
-            return matches;
+            return incoming;
         }
 
         void Update(MatchInfo match)

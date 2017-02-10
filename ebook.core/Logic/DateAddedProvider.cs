@@ -5,10 +5,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Serialization.Configuration;
 using ebook.core.DataTypes;
 
-namespace ebook
+namespace ebook.core.Logic
 {
     class DateAddedProvider
     {
@@ -85,7 +84,7 @@ namespace ebook
 
         bool TryParseDate(string folder, out DateTime date)
         {
-            string[] formats = new[] {"yyyy-MM", "yyyy-MM-dd"};
+            string[] formats = new[] { "yyyy-MM", "yyyy-MM-dd" };
 
             if (DateTime.TryParseExact(folder, formats, CultureInfo.CurrentUICulture, DateTimeStyles.None, out date))
                 return true;

@@ -138,30 +138,12 @@ namespace ebook
         {
             _messageListener.AddMessage("Upload: starting");
 
-            IEnumerable<BookFilesInfo> contents = await GetBookFilesInfosToUpload();
+            var uploader = new Uploader(this.SelectedFullDataSourceInfo.GetFullDataSource(), _simpleDataSource);
+            uploader.DateAddedText = DateAddedText;
 
-            var repo = new BookRepository(this.SelectedFullDataSourceInfo.GetFullDataSource());
-
-            await repo.SaveBooks(contents);
+            var contents = await uploader.Upload(this.BookFileList);
 
             _messageListener.AddMessage("Upload: uploaded {0} books", contents.Count());
-        }
-
-        async Task<IEnumerable<BookFilesInfo>> GetBookFilesInfosToUpload()
-        {
-            IEnumerable<MatchInfo> toUpload = this.BookFileList
-                .Where(b => b.IsSelected)
-                .Where(b => (b.Status == MatchStatus.NewBook || b.Status == MatchStatus.NewFiles));
-
-            var tasks = toUpload.Select(async (b) => await _simpleDataSource.GetBookContent(b.Book));
-
-            BookFilesInfo[] contents = await Task.WhenAll(tasks);
-
-            var dateAddedProvider = new DateAddedProvider(this.DateAddedText);
-
-            dateAddedProvider.SetDateTimeAdded(contents);
-
-            return contents;
         }
 
         void SelectedSimpleDataSourceInfoChanged()

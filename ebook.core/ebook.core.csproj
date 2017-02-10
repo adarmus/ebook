@@ -116,8 +116,10 @@
     <Compile Include="Logic\Aggregator.cs" />
     <Compile Include="BookFiles\BookFileList.cs" />
     <Compile Include="Logic\BookMatcher.cs" />
+    <Compile Include="Logic\DateAddedProvider.cs" />
     <Compile Include="Logic\Isbn.cs" />
     <Compile Include="Logic\Matcher.cs" />
+    <Compile Include="Logic\Uploader.cs" />
     <Compile Include="Repo\Azure\AzureSqlRepository.cs" />
     <Compile Include="Repo\BookRepository.cs" />
     <Compile Include="Repo\File\FileBasedSimpleDataSource.cs" />

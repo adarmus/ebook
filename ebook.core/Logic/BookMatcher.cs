@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ebook.core.DataTypes;
+using ebook.core.Repo;
 
 namespace ebook.core.Logic
 {
@@ -12,7 +13,8 @@ namespace ebook.core.Logic
     /// </summary>
     public class BookMatcher
     {
-        readonly IEnumerable<BookInfo> _originalBooks;
+        readonly IFullDataSource _originalDataSource;
+        IEnumerable<BookInfo> _originalBooks;
 
         Dictionary<string, IGrouping<string,BookInfo> > _lookupTitle;
         Dictionary<string, BookInfo> _lookupIsbn;
@@ -20,10 +22,9 @@ namespace ebook.core.Logic
         /// <summary>
         /// Creates a matcher with the original list of books from the repo we are trying to update.
         /// </summary>
-        /// <param name="originalBooks"></param>
-        public BookMatcher(IEnumerable<BookInfo> originalBooks)
+        public BookMatcher(IFullDataSource originalDataSource)
         {
-            _originalBooks = originalBooks.ToArray();
+            _originalDataSource = originalDataSource;
         }
 
         /// <summary>
@@ -32,18 +33,21 @@ namespace ebook.core.Logic
         /// </summary>
         /// <param name="incoming"></param>
         /// <returns></returns>
-        public IEnumerable<MatchInfo> Match(IEnumerable<MatchInfo> incoming)
+        public async Task<MatchResultInfo> Match(MatchInfo incoming)
         {
+            if (_originalBooks == null)
+            {
+                _originalBooks = await _originalDataSource.GetBooks(true, true);
+            }
+
             MakeIsbnLookup();
 
             MakeTitleLookup();
 
-            foreach (var match in incoming)
-            {
-                Update(match);
-            }
+            MatchStatus status;
+            BookInfo book = Update(incoming, out status);
 
-            return incoming;
+            return new MatchResultInfo { Status = status, Book = book };
         }
 
         private void MakeTitleLookup()
@@ -69,16 +73,19 @@ namespace ebook.core.Logic
                 });
         }
 
-        void Update(MatchInfo match)
+        BookInfo Update(MatchInfo match, out MatchStatus status)
         {
+            status = MatchStatus.NewBook;
+
             // Look by Isbn
             if (!string.IsNullOrEmpty(match.Book.Isbn))
             {
                 string isbn = Isbn.Normalise(match.Book.Isbn);
                 if (_lookupIsbn.ContainsKey(isbn))
                 {
-                    match.SetMatch(_lookupIsbn[isbn], MatchStatus.UpToDate);
-                    return;
+                    //match.SetMatch(_lookupIsbn[isbn], MatchStatus.UpToDate);
+                    status = MatchStatus.UpToDate;
+                    return _lookupIsbn[isbn];
                 }
             }
 
@@ -94,15 +101,17 @@ namespace ebook.core.Logic
                     {
                         if (string.Equals(title, book.Title, StringComparison.CurrentCultureIgnoreCase))
                         {
-                            match.SetMatch(book, MatchStatus.UpToDate);
-                            return;
+                            //match.SetMatch(book, MatchStatus.UpToDate);
+                            status = MatchStatus.UpToDate;
+                            return book;
                         }
                     }
                 }
             }
 
             // Nothing matched it
-            match.SetMatch(null, MatchStatus.NewBook);
+            //match.SetMatch(null, MatchStatus.NewBook);
+            return null;
         }
     }
 }

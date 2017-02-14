@@ -5,7 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using ebook.core.DataTypes;
 using ebook.core.Logic;
+using ebook.core.Repo;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NSubstitute;
+using NSubstitute.Core;
 
 namespace ebook.tests
 {
@@ -13,42 +16,40 @@ namespace ebook.tests
     public class BookMatcherTests
     {
         [TestMethod]
-        public void Match_Empty_ReturnsEmpty()
+        [ExpectedException(typeof(NullReferenceException))]
+        public async void Match_Null_ReturnsEmpty()
         {
-            var books = new BookInfo[] {};
+            var books = Substitute.For<IFullDataSource>();
             var matcher = new BookMatcher(books);
-            var input = new MatchInfo[] {};
-            var matches = matcher.Match(input).ToArray();
-
-            Assert.AreEqual(0, matches.Length);
+            var result = await matcher.Match(null);
         }
 
         [TestMethod]
-        public void Match_NoMatch_ReturnsStatusNewBook()
+        public async void Match_NoMatch_ReturnsStatusNewBook()
         {
-            var books = new BookInfo[] { MakeBook("123", "Title1", "Author1") };
+            var books = Substitute.For<IFullDataSource>();
+            books.GetBooks(true, true).Returns(new BookInfo[] {MakeBook("123", "Title1", "Author1")});
             var matcher = new BookMatcher(books);
-            var input = new MatchInfo[] { new MatchInfo(MakeBook("456", "Title2", "Author2")) };
-            var matches = matcher.Match(input).ToArray();
+            var result = await matcher.Match(new MatchInfo(MakeBook("456", "Title2", "Author2")));
 
-            Assert.AreEqual(1, matches.Length);
-            Assert.AreEqual(MatchStatus.NewBook, matches[0].Status);
-            Assert.IsNull(matches[0].MatchedBook);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(MatchStatus.NewBook, result.Status);
+            Assert.IsNull(result.Book);
         }
 
         [TestMethod]
-        public void Match_MatchedIsbn_ReturnsStatusNewBook()
+        public async void Match_MatchedIsbn_ReturnsStatusNewBook()
         {
-            var books = new BookInfo[] { MakeBook("123", "Title1", "Author1") };
+            var books = Substitute.For<IFullDataSource>();
+            books.GetBooks(true, true).Returns(new BookInfo[] { MakeBook("123", "Title1", "Author1") });
             var matcher = new BookMatcher(books);
-            var input = new MatchInfo[] { new MatchInfo(MakeBook("123", "Title1", "Author1")) };
-            var matches = matcher.Match(input).ToArray();
+            var result = await matcher.Match(new MatchInfo(MakeBook("456", "Title2", "Author2")));
 
-            Assert.AreEqual(1, matches.Length);
-            Assert.AreEqual(MatchStatus.UpToDate, matches[0].Status);
-            Assert.IsNotNull(matches[0].MatchedBook);
-            Assert.AreEqual("Title1", matches[0].MatchedBook.Title);
-            Assert.AreEqual("Author1", matches[0].MatchedBook.Author);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(MatchStatus.UpToDate, result.Status);
+            Assert.IsNotNull(result.Book);
+            Assert.AreEqual("Title1", result.Book.Title);
+            Assert.AreEqual("Author1", result.Book.Author);
         }
 
         BookInfo MakeBook(string isbn, string title, string author)

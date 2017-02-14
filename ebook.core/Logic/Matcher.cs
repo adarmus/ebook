@@ -4,17 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ebook.core.DataTypes;
-using ebook.core.Repo;
 
 namespace ebook.core.Logic
 {
     public class Matcher
     {
-        private readonly IFullDataSource _originalDataSource;
+        private readonly BookMatcher _bookMatcher;
 
-        public Matcher(IFullDataSource originalDataSource)
+        public Matcher(BookMatcher bookMatcher)
         {
-            _originalDataSource = originalDataSource;
+            _bookMatcher = bookMatcher;
         }
 
         public bool IncludeEpub { get; set; }
@@ -23,13 +22,18 @@ namespace ebook.core.Logic
 
         public async Task<IEnumerable<MatchInfo>> Match(IEnumerable<MatchInfo> incoming)
         {
-            IEnumerable<BookInfo> books = await _originalDataSource.GetBooks(this.IncludeMobi, this.IncludeEpub);
+            var matches = new List<MatchInfo>();
 
-            var matcher = new BookMatcher(books);
+            foreach (var match in incoming)
+            {
+                MatchResultInfo result = await _bookMatcher.Match(match);
 
-            IEnumerable<MatchInfo> matched = matcher.Match(incoming);
+                match.SetMatch(result.Book, result.Status);
 
-            return matched;
+                matches.Add(match);
+            }
+
+            return matches;
         }
     }
 }

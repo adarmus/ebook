@@ -34,8 +34,30 @@ namespace ebook.core.Logic
         /// <returns></returns>
         public IEnumerable<MatchInfo> Match(IEnumerable<MatchInfo> incoming)
         {
+            MakeIsbnLookup();
+
+            MakeTitleLookup();
+
+            foreach (var match in incoming)
+            {
+                Update(match);
+            }
+
+            return incoming;
+        }
+
+        private void MakeTitleLookup()
+        {
+            _lookupTitle = _originalBooks
+                .Where(b => !string.IsNullOrEmpty(b.Title))
+                .GroupBy(b => b.Title.ToLower())
+                .ToDictionary(g => g.Key);
+        }
+
+        private void MakeIsbnLookup()
+        {
             _lookupIsbn = new Dictionary<string, BookInfo>();
-                
+
             _originalBooks
                 .Where(b => !string.IsNullOrEmpty(b.Isbn))
                 .ToList()
@@ -45,18 +67,6 @@ namespace ebook.core.Logic
                     if (!_lookupIsbn.ContainsKey(isbn))
                         _lookupIsbn.Add(isbn, b);
                 });
-
-            _lookupTitle = _originalBooks
-                .Where(b => !string.IsNullOrEmpty(b.Title))
-                .GroupBy(b => b.Title.ToLower())
-                .ToDictionary(g => g.Key);
-
-            foreach (var match in incoming)
-            {
-                Update(match);
-            }
-
-            return incoming;
         }
 
         void Update(MatchInfo match)

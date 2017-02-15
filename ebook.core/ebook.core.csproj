@@ -104,6 +104,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataTypes\BookEventArgs.cs" />
+    <Compile Include="DataTypes\BookFilesEventArgs.cs" />
     <Compile Include="DataTypes\BookFilesInfo.cs" />
     <Compile Include="DataTypes\BookFileInfo.cs" />
     <Compile Include="DataTypes\BookMatchedEventArgs.cs" />

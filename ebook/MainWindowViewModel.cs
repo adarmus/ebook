@@ -145,10 +145,22 @@ namespace ebook
 
             var uploader = new Uploader(this.SelectedFullDataSourceInfo.GetFullDataSource(), _simpleDataSource);
             uploader.DateAddedText = DateAddedText;
+            uploader.BookContentRead += Uploader_BookContentRead;
+            uploader.BookUploaded += Uploader_BookUploaded;
 
             var contents = await uploader.Upload(this.BookFileList);
 
             _messageListener.AddMessage("Upload: uploaded {0} books", contents.Count());
+        }
+
+        private void Uploader_BookUploaded(object sender, BookEventArgs e)
+        {
+            _messageListener.AddMessage("Uploaded: {0}", e.Book.Title);
+        }
+
+        private void Uploader_BookContentRead(object sender, BookFileEventArgs e)
+        {
+            _messageListener.AddMessage("Read: {0}", e.File.Id);
         }
 
         void SelectedSimpleDataSourceInfoChanged()

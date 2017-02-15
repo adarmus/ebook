@@ -19,6 +19,22 @@ namespace ebook.core.Logic
             _repo = new BookRepository(originalDataSource);
         }
 
+        public event EventHandler<BookFileEventArgs> BookContentRead;
+
+        protected virtual void OnBookContentRead(BookFileEventArgs args)
+        {
+            if (BookContentRead != null)
+                BookContentRead(this, args);
+        }
+
+        public event EventHandler<BookEventArgs> BookUploaded;
+
+        protected virtual void OnBookUploaded(BookEventArgs args)
+        {
+            if (BookUploaded != null)
+                BookUploaded(this, args);
+        }
+
         public string DateAddedText { get; set; }
 
         public async Task<IEnumerable<BookFilesInfo>> Upload(IEnumerable<MatchInfo> incoming)
@@ -37,6 +53,8 @@ namespace ebook.core.Logic
                 try
                 {
                     await _repo.SaveBook(book);
+
+                    OnBookUploaded(new BookEventArgs(book.Book));
                 }
                 catch (Exception ex)
                 {
@@ -52,7 +70,17 @@ namespace ebook.core.Logic
                 .Where(b => b.IsSelected)
                 .Where(b => (b.Status == MatchStatus.NewBook || b.Status == MatchStatus.NewFiles));
 
-            var tasks = toUpload.Select(async (b) => await _incomingDataSource.GetBookContent(b.Book));
+            var tasks = toUpload.Select(async (b) =>
+            {
+                var content = await _incomingDataSource.GetBookContent(b.Book);
+
+                foreach (var file in content.Files)
+                {
+                    OnBookContentRead(new BookFileEventArgs(file));
+                }
+
+                return content;
+            });
 
             BookFilesInfo[] contents = await Task.WhenAll(tasks);
 

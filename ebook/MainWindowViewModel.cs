@@ -112,12 +112,18 @@ namespace ebook
 
             var bookMatcher = new BookFinder(this.SelectedFullDataSourceInfo.GetFullDataSource());
             var matcher = new Matcher(bookMatcher);
+            matcher.BookMatched += Matcher_BookMatched;
 
             IEnumerable<MatchInfo> matched = await matcher.Match(this.BookFileList);
 
             this.BookFileList = new ObservableCollection<MatchInfo>(matched);
 
             _messageListener.AddMessage("Compare: compared {0} books", matched.Count());
+        }
+
+        private void Matcher_BookMatched(object sender, BookMatchedEventArgs e)
+        {
+            _messageListener.AddMessage("Match done: {0}: {1}", e.Match.Book.Title, e.Match.Status);
         }
 
         async Task DoUpload()

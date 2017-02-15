@@ -16,6 +16,14 @@ namespace ebook.core.Logic
             _bookMatcher = bookMatcher;
         }
 
+        public event EventHandler<BookMatchedEventArgs> BookMatched;
+
+        protected virtual void OnBookMatched(BookMatchedEventArgs args)
+        {
+            if (BookMatched != null)
+                BookMatched(this, args);
+        }
+
         public async Task<IEnumerable<MatchInfo>> Match(IEnumerable<MatchInfo> incoming)
         {
             var matches = new List<MatchInfo>();
@@ -27,6 +35,8 @@ namespace ebook.core.Logic
                 match.SetMatch(result.Book, result.Status);
 
                 matches.Add(match);
+
+                OnBookMatched(new BookMatchedEventArgs(match));
             }
 
             return matches;

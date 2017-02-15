@@ -75,8 +75,6 @@ namespace ebook.core.Logic
 
         BookInfo FindBook(MatchInfo match, out MatchStatus status)
         {
-            status = MatchStatus.NewBook;
-
             // Look by Isbn
             if (!string.IsNullOrEmpty(match.Book.Isbn))
             {
@@ -108,6 +106,7 @@ namespace ebook.core.Logic
             }
 
             // Nothing matched it
+            status = MatchStatus.NewBook;
             return null;
         }
     }

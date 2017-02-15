@@ -17,23 +17,7 @@ namespace ebook.core.Repo
             _repository = repository;
         }
 
-        public async Task SaveBooks(IEnumerable<BookFilesInfo> books)
-        {
-            foreach (var book in books)
-            {
-                try
-                {
-                    await SaveBook(book);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                    throw;
-                }
-            }
-        }
-
-        async Task SaveBook(BookFilesInfo book)
+        public async Task SaveBook(BookFilesInfo book)
         {
             BookInfo info = book.Book;
 

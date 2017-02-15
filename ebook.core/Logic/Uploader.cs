@@ -10,13 +10,13 @@ namespace ebook.core.Logic
 {
     public class Uploader
     {
-        private readonly IFullDataSource _originalDataSource;
         private readonly ISimpleDataSource _incomingDataSource;
+        private readonly BookRepository _repo;
 
         public Uploader(IFullDataSource originalDataSource, ISimpleDataSource incomingDataSource)
         {
-            _originalDataSource = originalDataSource;
             _incomingDataSource = incomingDataSource;
+            _repo = new BookRepository(originalDataSource);
         }
 
         public string DateAddedText { get; set; }
@@ -25,11 +25,25 @@ namespace ebook.core.Logic
         {
             IEnumerable<BookFilesInfo> contents = await GetBookFilesInfosToUpload(incoming);
 
-            var repo = new BookRepository(_originalDataSource);
-
-            await repo.SaveBooks(contents);
+            await SaveBooks(contents);
 
             return contents;
+        }
+
+        async Task SaveBooks(IEnumerable<BookFilesInfo> books)
+        {
+            foreach (var book in books)
+            {
+                try
+                {
+                    await _repo.SaveBook(book);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    throw;
+                }
+            }
         }
 
         async Task<IEnumerable<BookFilesInfo>> GetBookFilesInfosToUpload(IEnumerable<MatchInfo> incoming)

@@ -110,35 +110,5 @@ namespace ebook.core.Repo.File
 
             return ext.ToUpper().Substring(1);
         }
-
-        IBookFileReader GetReader(string type)
-        {
-            if (type == null)
-                return null;
-
-            switch (type)
-            {
-                case "MOBI":
-                    return new MobiReader();
-                case "EPUB":
-                    return new EpubReader();
-                default:
-                    return null;
-            }
-        }
-
-        public Task<IEnumerable<string>> GetBookFilePaths(string id)
-        {
-            if (!_lookup.ContainsKey(id))
-                return Task.FromResult<IEnumerable<string>>(null);
-
-            return Task.FromResult<IEnumerable<string>>(_lookup[id].FileIds); 
-        }
-
-        public async Task SaveBooks(IEnumerable<BookInfo> books)
-        {
-            var csv = new CsvWriter(CsvWriter.GetFilePath(_folderPath));
-            await csv.Write(books);
-        }
     }
 }

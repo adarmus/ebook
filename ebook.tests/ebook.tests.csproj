@@ -55,7 +55,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AggregatorTests.cs" />
-    <Compile Include="BookMatcherTests.cs" />
+    <Compile Include="BookFinderTests.cs" />
     <Compile Include="IsbnTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

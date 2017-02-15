@@ -110,7 +110,7 @@ namespace ebook
             if (this.SelectedFullDataSourceInfo == null)
                 return;
 
-            var bookMatcher = new BookMatcher(this.SelectedFullDataSourceInfo.GetFullDataSource());
+            var bookMatcher = new BookFinder(this.SelectedFullDataSourceInfo.GetFullDataSource());
             var matcher = new Matcher(bookMatcher);
             matcher.IncludeEpub = this.IncludeEpub;
             matcher.IncludeMobi = this.IncludeMobi;

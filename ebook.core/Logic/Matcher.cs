@@ -9,9 +9,9 @@ namespace ebook.core.Logic
 {
     public class Matcher
     {
-        private readonly BookMatcher _bookMatcher;
+        private readonly BookFinder _bookMatcher;
 
-        public Matcher(BookMatcher bookMatcher)
+        public Matcher(BookFinder bookMatcher)
         {
             _bookMatcher = bookMatcher;
         }
@@ -26,7 +26,7 @@ namespace ebook.core.Logic
 
             foreach (var match in incoming)
             {
-                MatchResultInfo result = await _bookMatcher.Match(match);
+                FindResultInfo result = await _bookMatcher.Find(match);
 
                 match.SetMatch(result.Book, result.Status);
 

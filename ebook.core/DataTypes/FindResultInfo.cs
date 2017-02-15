@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ebook.core.DataTypes
 {
-    public class MatchResultInfo
+    public class FindResultInfo
     {
         public BookInfo Book { get; set; }
 

@@ -13,15 +13,15 @@ using NSubstitute.Core;
 namespace ebook.tests
 {
     [TestClass]
-    public class BookMatcherTests
+    public class BookFinderTests
     {
         [TestMethod]
         [ExpectedException(typeof(NullReferenceException))]
         public async void Match_Null_ReturnsEmpty()
         {
             var books = Substitute.For<IFullDataSource>();
-            var matcher = new BookMatcher(books);
-            var result = await matcher.Match(null);
+            var matcher = new BookFinder(books);
+            var result = await matcher.Find(null);
         }
 
         [TestMethod]
@@ -29,8 +29,8 @@ namespace ebook.tests
         {
             var books = Substitute.For<IFullDataSource>();
             books.GetBooks(true, true).Returns(new BookInfo[] {MakeBook("123", "Title1", "Author1")});
-            var matcher = new BookMatcher(books);
-            var result = await matcher.Match(new MatchInfo(MakeBook("456", "Title2", "Author2")));
+            var matcher = new BookFinder(books);
+            var result = await matcher.Find(new MatchInfo(MakeBook("456", "Title2", "Author2")));
 
             Assert.IsNotNull(result);
             Assert.AreEqual(MatchStatus.NewBook, result.Status);
@@ -42,8 +42,8 @@ namespace ebook.tests
         {
             var books = Substitute.For<IFullDataSource>();
             books.GetBooks(true, true).Returns(new BookInfo[] { MakeBook("123", "Title1", "Author1") });
-            var matcher = new BookMatcher(books);
-            var result = await matcher.Match(new MatchInfo(MakeBook("456", "Title2", "Author2")));
+            var matcher = new BookFinder(books);
+            var result = await matcher.Find(new MatchInfo(MakeBook("456", "Title2", "Author2")));
 
             Assert.IsNotNull(result);
             Assert.AreEqual(MatchStatus.UpToDate, result.Status);

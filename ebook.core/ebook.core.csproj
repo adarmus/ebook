@@ -110,13 +110,13 @@
     <Compile Include="DataTypes\IFullDataSourceInfo.cs" />
     <Compile Include="DataTypes\ISimpleDataSourceInfo.cs" />
     <Compile Include="DataTypes\MatchInfo.cs" />
-    <Compile Include="DataTypes\MatchResultInfo.cs" />
+    <Compile Include="DataTypes\FindResultInfo.cs" />
     <Compile Include="DataTypes\MatchStatus.cs" />
     <Compile Include="DataTypes\SqlDataSourceInfo.cs" />
     <Compile Include="DataTypes\SqlLiteDataSourceInfo.cs" />
     <Compile Include="Logic\Aggregator.cs" />
     <Compile Include="BookFiles\BookFileList.cs" />
-    <Compile Include="Logic\BookMatcher.cs" />
+    <Compile Include="Logic\BookFinder.cs" />
     <Compile Include="Logic\DateAddedProvider.cs" />
     <Compile Include="Logic\Isbn.cs" />
     <Compile Include="Logic\Matcher.cs" />

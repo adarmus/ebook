@@ -112,8 +112,6 @@ namespace ebook
 
             var bookMatcher = new BookFinder(this.SelectedFullDataSourceInfo.GetFullDataSource());
             var matcher = new Matcher(bookMatcher);
-            matcher.IncludeEpub = this.IncludeEpub;
-            matcher.IncludeMobi = this.IncludeMobi;
 
             IEnumerable<MatchInfo> matched = await matcher.Match(this.BookFileList);
 

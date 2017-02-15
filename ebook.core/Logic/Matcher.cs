@@ -16,10 +16,6 @@ namespace ebook.core.Logic
             _bookMatcher = bookMatcher;
         }
 
-        public bool IncludeEpub { get; set; }
-
-        public bool IncludeMobi { get; set; }
-
         public async Task<IEnumerable<MatchInfo>> Match(IEnumerable<MatchInfo> incoming)
         {
             var matches = new List<MatchInfo>();

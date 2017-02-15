@@ -16,11 +16,15 @@ namespace ebook.core.BookFiles
         {
             _reader = reader;
             _fileList = fileList;
+            _messages = messages;
         }
 
         public async Task<IEnumerable<BookFile>> GetBookFiles()
         {
             var list = await _fileList.GetFileList();
+
+            _messages.Write("Found {0} files", list.Count());
+
             return list
                 .Select(_reader.Read)
                 .Where(m => m != null);

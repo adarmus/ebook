@@ -24,6 +24,8 @@ namespace ebook
         {
             ConfigProvider config = GetConfigProvider();
 
+            this.Messages = new ObservableCollection<MessageInfo>();
+
             _messageListener = new MessageListener(this.Messages, LogManager.GetLogger("root"));
 
             this.ImportFolderPath = config.ImportFolderPath;
@@ -53,9 +55,7 @@ namespace ebook
 
             this.SelectedFullDataSourceInfo = sources[0];
 
-            this.Messages = new ObservableCollection<MessageInfo>();
-
-            XmlConfigurator.Configure();
+XmlConfigurator.Configure();
         }
 
         ConfigProvider GetConfigProvider()

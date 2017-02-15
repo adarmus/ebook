@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using ebook.core.BookFiles;
 using ebook.core.ePub.ePubReader;
 using ebook.core.Logic;
@@ -29,11 +30,14 @@ namespace ebook.core.ePub
                 book.PublishDate = GetFirstSafe(epub.Date);
                 book.Isbn = epub.ISBN;
                 book.FilePath = filepath;
-            }
-            catch
-            {
 
+                _messages.Write("Read {0}", filepath);
             }
+            catch(Exception ex)
+            {
+                _messages.Write("Error reading {0} ({1})", filepath, ex.Message);
+            }
+
             return book;
         }
 

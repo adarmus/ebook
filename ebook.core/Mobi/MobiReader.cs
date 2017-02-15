@@ -1,4 +1,5 @@
-﻿using ebook.core.BookFiles;
+﻿using System;
+using ebook.core.BookFiles;
 using ebook.core.Logic;
 using ebook.core.Mobi.Pdb;
 
@@ -21,11 +22,14 @@ namespace ebook.core.Mobi
                 var reader = new PdbFileReader(filepath);
                 mobi = reader.ReadMobiFile();
                 mobi.FilePath = filepath;
-            }
-            catch
-            {
 
+                _messages.Write("Read {0}", filepath);
             }
+            catch (Exception ex)
+            {
+                _messages.Write("Error reading {0} ({1})", filepath, ex.Message);
+            }
+
             return mobi;
         }
     }

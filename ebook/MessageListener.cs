@@ -4,11 +4,12 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ebook.core.Logic;
 using log4net;
 
 namespace ebook
 {
-    class MessageListener
+    class MessageListener : IOutputMessage
     {
         readonly ILog _log;
         readonly ObservableCollection<MessageInfo> _messages;
@@ -19,14 +20,14 @@ namespace ebook
             _log = log;
         }
 
-        public void AddMessage(string text)
+        public void Write(string text)
         {
             AddMessage(new MessageInfo(text));
         }
 
-        public void AddMessage(string format, params object[] args)
+        public void Write(string format, params object[] args)
         {
-            AddMessage(string.Format(format, args));
+            Write(string.Format(format, args));
         }
 
         public void AddMessage(MessageInfo message)

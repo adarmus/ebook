@@ -12,27 +12,13 @@ namespace ebook.core.Logic
     {
         private readonly ISimpleDataSource _incomingDataSource;
         private readonly BookRepository _repo;
+        private readonly IOutputMessage _messages;
 
-        public Uploader(IFullDataSource originalDataSource, ISimpleDataSource incomingDataSource)
+        public Uploader(IFullDataSource originalDataSource, ISimpleDataSource incomingDataSource, IOutputMessage messages)
         {
             _incomingDataSource = incomingDataSource;
+            _messages = messages;
             _repo = new BookRepository(originalDataSource);
-        }
-
-        public event EventHandler<BookFileEventArgs> BookContentRead;
-
-        protected virtual void OnBookContentRead(BookFileEventArgs args)
-        {
-            if (BookContentRead != null)
-                BookContentRead(this, args);
-        }
-
-        public event EventHandler<BookEventArgs> BookUploaded;
-
-        protected virtual void OnBookUploaded(BookEventArgs args)
-        {
-            if (BookUploaded != null)
-                BookUploaded(this, args);
         }
 
         public string DateAddedText { get; set; }
@@ -54,7 +40,7 @@ namespace ebook.core.Logic
                 {
                     await _repo.SaveBook(book);
 
-                    OnBookUploaded(new BookEventArgs(book.Book));
+                    _messages.Write("Uploaded: {0}", book.Book.Title);
                 }
                 catch (Exception ex)
                 {
@@ -76,7 +62,7 @@ namespace ebook.core.Logic
 
                 foreach (var file in content.Files)
                 {
-                    OnBookContentRead(new BookFileEventArgs(file));
+                    _messages.Write("Uploaded: {0}", file.Id);
                 }
 
                 return content;

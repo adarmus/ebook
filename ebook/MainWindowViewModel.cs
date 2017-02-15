@@ -9,7 +9,6 @@ using ebook.Async;
 using ebook.core.DataTypes;
 using ebook.core.Logic;
 using ebook.core.Repo;
-using ebook.core.Repo.SqlLite;
 using GalaSoft.MvvmLight;
 using log4net;
 using log4net.Config;
@@ -23,17 +22,6 @@ namespace ebook
 
         public MainWindowViewModel()
         {
-            try
-            {
-                //var t = new Test();
-                //t.Go();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                throw;
-            }
-
             ConfigProvider config = GetConfigProvider();
 
             this.ImportFolderPath = config.ImportFolderPath;
@@ -82,13 +70,13 @@ namespace ebook
 
             _simpleDataSource = this.SelectedSimpleDataSourceInfo.GetSimpleDataSource();
 
-            _messageListener.AddMessage("View: starting");
+            _messageListener.Write("View: starting");
 
             IEnumerable<BookInfo> books = await _simpleDataSource.GetBooks(this.IncludeMobi, this.IncludeEpub);
             IEnumerable<MatchInfo> matches = books.Select(b => new MatchInfo(b));
             this.BookFileList = new ObservableCollection<MatchInfo>(matches);
 
-            _messageListener.AddMessage("View: loaded {0} books", matches.Count());
+            _messageListener.Write("View: loaded {0} books", matches.Count());
         }
 
         async Task TryDoMatch()
@@ -105,25 +93,19 @@ namespace ebook
 
         async Task DoMatch()
         {
-            _messageListener.AddMessage("Compare: starting");
+            _messageListener.Write("Compare: starting");
 
             if (this.SelectedFullDataSourceInfo == null)
                 return;
 
             var bookMatcher = new BookFinder(this.SelectedFullDataSourceInfo.GetFullDataSource());
-            var matcher = new Matcher(bookMatcher);
-            matcher.BookMatched += Matcher_BookMatched;
+            var matcher = new Matcher(bookMatcher, _messageListener);
 
             IEnumerable<MatchInfo> matched = await matcher.Match(this.BookFileList);
 
             this.BookFileList = new ObservableCollection<MatchInfo>(matched);
 
-            _messageListener.AddMessage("Compare: compared {0} books", matched.Count());
-        }
-
-        private void Matcher_BookMatched(object sender, BookMatchedEventArgs e)
-        {
-            _messageListener.AddMessage("Match done: {0}: {1}", e.Match.Book.Title, e.Match.Status);
+            _messageListener.Write("Compare: compared {0} books", matched.Count());
         }
 
         async Task DoUpload()
@@ -141,26 +123,14 @@ namespace ebook
 
         async Task UploadBooks()
         {
-            _messageListener.AddMessage("Upload: starting");
+            _messageListener.Write("Upload: starting");
 
-            var uploader = new Uploader(this.SelectedFullDataSourceInfo.GetFullDataSource(), _simpleDataSource);
+            var uploader = new Uploader(this.SelectedFullDataSourceInfo.GetFullDataSource(), _simpleDataSource, _messageListener);
             uploader.DateAddedText = DateAddedText;
-            uploader.BookContentRead += Uploader_BookContentRead;
-            uploader.BookUploaded += Uploader_BookUploaded;
 
             var contents = await uploader.Upload(this.BookFileList);
 
-            _messageListener.AddMessage("Upload: uploaded {0} books", contents.Count());
-        }
-
-        private void Uploader_BookUploaded(object sender, BookEventArgs e)
-        {
-            _messageListener.AddMessage("Uploaded: {0}", e.Book.Title);
-        }
-
-        private void Uploader_BookContentRead(object sender, BookFileEventArgs e)
-        {
-            _messageListener.AddMessage("Read: {0}", e.File.Id);
+            _messageListener.Write("Upload: uploaded {0} books", contents.Count());
         }
 
         void SelectedSimpleDataSourceInfoChanged()

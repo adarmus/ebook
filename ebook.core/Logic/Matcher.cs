@@ -10,18 +10,12 @@ namespace ebook.core.Logic
     public class Matcher
     {
         private readonly BookFinder _bookMatcher;
+        private readonly IOutputMessage _messages;
 
-        public Matcher(BookFinder bookMatcher)
+        public Matcher(BookFinder bookMatcher, IOutputMessage messages)
         {
+            _messages = messages;
             _bookMatcher = bookMatcher;
-        }
-
-        public event EventHandler<BookMatchedEventArgs> BookMatched;
-
-        protected virtual void OnBookMatched(BookMatchedEventArgs args)
-        {
-            if (BookMatched != null)
-                BookMatched(this, args);
         }
 
         public async Task<IEnumerable<MatchInfo>> Match(IEnumerable<MatchInfo> incoming)
@@ -36,7 +30,7 @@ namespace ebook.core.Logic
 
                 matches.Add(match);
 
-                OnBookMatched(new BookMatchedEventArgs(match));
+                _messages.Write("Match done: {0}: {1}", match.Book.Title, match.Status);
             }
 
             return matches;

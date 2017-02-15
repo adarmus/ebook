@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using ebook.core.Files;
+using ebook.core.Logic;
 
 namespace ebook.core.BookFiles
 {
@@ -9,8 +10,9 @@ namespace ebook.core.BookFiles
     {
         readonly IBookFileReader _reader;
         readonly IFileListProvider _fileList;
+        readonly IOutputMessage _messages;
 
-        public BookFileList(IFileListProvider fileList, IBookFileReader reader)
+        public BookFileList(IFileListProvider fileList, IBookFileReader reader, IOutputMessage messages)
         {
             _reader = reader;
             _fileList = fileList;

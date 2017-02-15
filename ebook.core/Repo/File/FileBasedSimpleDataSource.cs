@@ -14,14 +14,16 @@ namespace ebook.core.Repo.File
 {
     public class FileBasedSimpleDataSource : ISimpleDataSource
     {
+        readonly IOutputMessage _messages;
         readonly List<IBookFileListProvider> _providers;
         readonly string _folderPath;
         Dictionary<string, BookFilesInfo> _lookup;
 
-        public FileBasedSimpleDataSource(string folderPath)
+        public FileBasedSimpleDataSource(string folderPath, IOutputMessage messages)
         {
             _providers = new List<IBookFileListProvider>();
             _folderPath = folderPath;
+            _messages = messages;
         }
 
         public async Task<IEnumerable<BookInfo>> GetBooks(bool includeMobi, bool includeEpub)
@@ -31,10 +33,10 @@ namespace ebook.core.Repo.File
             _providers.Clear();
 
             if (includeMobi)
-                AddReader("mobi", new MobiReader());
+                AddReader("mobi", new MobiReader(_messages));
 
             if (includeEpub)
-                AddReader("epub", new EpubReader());
+                AddReader("epub", new EpubReader(_messages));
 
             IEnumerable<BookInfo> list = agg.GetBookList(await GetBookFiles());
 
@@ -46,7 +48,7 @@ namespace ebook.core.Repo.File
         void AddReader(string fileExt, IBookFileReader reader)
         {
             var files = new FileFinder(_folderPath, fileExt);
-            var list = new BookFileList(files, reader);
+            var list = new BookFileList(files, reader, _messages);
             _providers.Add(list);
         }
 

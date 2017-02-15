@@ -24,6 +24,8 @@ namespace ebook
         {
             ConfigProvider config = GetConfigProvider();
 
+            _messageListener = new MessageListener(this.Messages, LogManager.GetLogger("root"));
+
             this.ImportFolderPath = config.ImportFolderPath;
             this.CompareFolderPath = config.CompareFolderPath;
             this.IncludeEpub = config.IncludeEpub;
@@ -31,8 +33,8 @@ namespace ebook
 
             var dataSources = new ISimpleDataSourceInfo[]
             {
-                new FileSystemDataSourceInfo {Parameter = config.ImportFolderPath},
-                new FileSystemDataSourceInfo {Parameter = @"c:\tmp\"},
+                new FileSystemDataSourceInfo(_messageListener) {Parameter = config.ImportFolderPath},
+                new FileSystemDataSourceInfo(_messageListener) {Parameter = @"c:\tmp\"},
                 new SqlDataSourceInfo {Parameter = "Server=localhost; Database=ebook; Trusted_Connection=SSPI"},
                 new SqlLiteDataSourceInfo {Parameter = @"C:\Tree\ebook\sql\dev.db"},
             };
@@ -52,8 +54,6 @@ namespace ebook
             this.SelectedFullDataSourceInfo = sources[0];
 
             this.Messages = new ObservableCollection<MessageInfo>();
-
-            _messageListener = new MessageListener(this.Messages, LogManager.GetLogger("root"));
 
             XmlConfigurator.Configure();
         }

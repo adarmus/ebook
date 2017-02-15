@@ -1,11 +1,19 @@
 ﻿using System.Collections.Generic;
 using ebook.core.BookFiles;
 using ebook.core.ePub.ePubReader;
+using ebook.core.Logic;
 
 namespace ebook.core.ePub
 {
     public class EpubReader : IBookFileReader
     {
+        readonly IOutputMessage _messages;
+
+        public EpubReader(IOutputMessage messages)
+        {
+            _messages = messages;
+        }
+
         public BookFile Read(string filepath)
         {
             BookFile book = null;

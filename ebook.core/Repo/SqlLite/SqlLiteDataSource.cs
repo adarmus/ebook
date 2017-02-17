@@ -71,14 +71,22 @@ namespace ebook.core.Repo.SqlLite
             await repo.FileIns(file);
         }
 
-        public Task<BookInfo> GetBookByIsbn(string isbn)
+        public async Task<BookInfo> GetBookByIsbn(string isbn)
         {
-            throw new NotImplementedException();
+            IBookSqlLiteDal repo = GetBookSqlDal();
+
+            var book = await repo.BookSelByIsbn(isbn);
+
+            return book;
         }
 
-        public Task<BookInfo> GetBookByTitleAuthor(string title, string author)
+        public async Task<BookInfo> GetBookByTitleAuthor(string title, string author)
         {
-            throw new NotImplementedException();
+            IBookSqlLiteDal repo = GetBookSqlDal();
+
+            var book = await repo.BookSelByTitleAuthor(title, author);
+
+            return book;
         }
 
         private IBookSqlLiteDal GetBookSqlDal()

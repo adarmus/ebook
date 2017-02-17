@@ -9,13 +9,13 @@ namespace ebook.core.Logic
 {
     public class Matcher
     {
-        private readonly BookFinder _bookMatcher;
+        private readonly BookFinder _bookFinder;
         private readonly IOutputMessage _messages;
 
-        public Matcher(BookFinder bookMatcher, IOutputMessage messages)
+        public Matcher(BookFinder bookFinder, IOutputMessage messages)
         {
             _messages = messages;
-            _bookMatcher = bookMatcher;
+            _bookFinder = bookFinder;
         }
 
         public async Task<IEnumerable<MatchInfo>> Match(IEnumerable<MatchInfo> incoming)
@@ -24,7 +24,7 @@ namespace ebook.core.Logic
 
             foreach (var match in incoming)
             {
-                FindResultInfo result = await _bookMatcher.Find(match);
+                FindResultInfo result = await _bookFinder.Find(match);
 
                 match.SetMatch(result.Book, result.Status);
 

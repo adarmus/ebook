@@ -28,8 +28,6 @@ namespace ebook
 
             _messageListener = new MessageListener(this.Messages, LogManager.GetLogger("root"));
 
-            this.ImportFolderPath = config.ImportFolderPath;
-            this.CompareFolderPath = config.CompareFolderPath;
             this.IncludeEpub = config.IncludeEpub;
             this.IncludeMobi = config.IncludeMobi;
 
@@ -283,35 +281,7 @@ namespace ebook
                 RaisePropertyChanged();
             }
         }
-
-        string _compareFolderPath;
-
-        public string CompareFolderPath
-        {
-            get { return _compareFolderPath; }
-            set
-            {
-                if (value == _compareFolderPath)
-                    return;
-                _compareFolderPath = value;
-                RaisePropertyChanged();
-            }
-        }
-
-        string _importFolderPath;
-
-        public string ImportFolderPath
-        {
-            get { return _importFolderPath; }
-            set
-            {
-                if (value == _importFolderPath)
-                    return;
-                _importFolderPath = value;
-                RaisePropertyChanged();
-            }
-        }
-
+        
         bool _includeEpub;
         public bool IncludeEpub
         {

@@ -118,6 +118,7 @@
     <Compile Include="BookFiles\BookFileList.cs" />
     <Compile Include="Logic\BookFinder.cs" />
     <Compile Include="Logic\DateAddedProvider.cs" />
+    <Compile Include="Logic\IBookFinder.cs" />
     <Compile Include="Logic\IOutputMessage.cs" />
     <Compile Include="Logic\Isbn.cs" />
     <Compile Include="Logic\Matcher.cs" />

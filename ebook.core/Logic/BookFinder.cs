@@ -11,7 +11,7 @@ namespace ebook.core.Logic
     /// <summary>
     /// Compares two lists of books outputting the matches.
     /// </summary>
-    public class BookFinder
+    public class BookFinder : IBookFinder
     {
         readonly IFullDataSource _originalDataSource;
         IEnumerable<BookInfo> _originalBooks;
@@ -28,8 +28,8 @@ namespace ebook.core.Logic
         }
 
         /// <summary>
-        /// Compares an incoming list of books against the original list of books. 
-        /// Returns the matches that indicate whenther any incoming books are missing from the original list.
+        /// Compares an incoming book against the original list of books. 
+        /// Returns a match that indicates whenther the incoming book is missing from the original list.
         /// </summary>
         /// <param name="incoming"></param>
         /// <returns></returns>

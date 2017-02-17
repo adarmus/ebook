@@ -9,10 +9,10 @@ namespace ebook.core.Logic
 {
     public class Matcher
     {
-        private readonly BookFinder _bookFinder;
+        private readonly IBookFinder _bookFinder;
         private readonly IOutputMessage _messages;
 
-        public Matcher(BookFinder bookFinder, IOutputMessage messages)
+        public Matcher(IBookFinder bookFinder, IOutputMessage messages)
         {
             _messages = messages;
             _bookFinder = bookFinder;

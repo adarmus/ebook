@@ -33,6 +33,13 @@ namespace ebook
             this.IncludeEpub = config.IncludeEpub;
             this.IncludeMobi = config.IncludeMobi;
 
+            SetupDataSources(config);
+
+            XmlConfigurator.Configure();
+        }
+
+        private void SetupDataSources(ConfigProvider config)
+        {
             var dataSources = new ISimpleDataSourceInfo[]
             {
                 new FileSystemDataSourceInfo(_messageListener) {Parameter = config.ImportFolderPath},
@@ -48,14 +55,12 @@ namespace ebook
             var sources = new IFullDataSourceInfo[]
             {
                 new SqlLiteDataSourceInfo {Parameter = @"C:\Tree\ebook\sql\dev.db"},
-                new SqlDataSourceInfo{Parameter = "Server=localhost; Database=ebook; Trusted_Connection=SSPI"},
+                new SqlDataSourceInfo {Parameter = "Server=localhost; Database=ebook; Trusted_Connection=SSPI"},
             };
 
             this.FullDataSourceInfoList = new ObservableCollection<IFullDataSourceInfo>(sources);
 
             this.SelectedFullDataSourceInfo = sources[0];
-
-XmlConfigurator.Configure();
         }
 
         ConfigProvider GetConfigProvider()

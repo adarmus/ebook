@@ -79,7 +79,7 @@ namespace ebook
             IEnumerable<MatchInfo> matches = books.Select(b => new MatchInfo(b));
             this.BookFileList = new ObservableCollection<MatchInfo>(matches);
 
-            _messageListener.Write("View: loaded {0} books", matches.Count());
+            _messageListener.Write("View: loaded {0} books", this.BookFileList.Count);
         }
 
         async Task TryDoMatch()
@@ -108,7 +108,7 @@ namespace ebook
 
             this.BookFileList = new ObservableCollection<MatchInfo>(matched);
 
-            _messageListener.Write("Compare: compared {0} books", matched.Count());
+            _messageListener.Write("Compare: compared {0} books", this.BookFileList.Count);
         }
 
         async Task DoUpload()

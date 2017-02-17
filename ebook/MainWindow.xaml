@@ -197,7 +197,6 @@
             Height="5" 
             Foreground="WhiteSmoke"
             HorizontalAlignment="Stretch">
-            
         </GridSplitter>
         
         <Border Grid.Row="3" Background="DarkGray">
@@ -220,12 +219,17 @@
         </Border>
         
         <!-- Fade out the background -->
-        <Border Grid.Row="0" Background="{StaticResource ResourceKey=DarkBackgroundBrush}"
+        <Border Grid.Row="0" 
+                Background="{StaticResource ResourceKey=DarkBackgroundBrush}"
                 Visibility="{Binding IsBusy, Converter={StaticResource ResourceKey=boolToVis}}"
                 Grid.RowSpan="2"
-                Opacity="0.7" Grid.ColumnSpan="3" d:IsHidden="True">
+                Opacity="0.7" 
+                Grid.ColumnSpan="3" 
+                d:IsHidden="False">
             <TextBlock VerticalAlignment="Center"
-                       HorizontalAlignment="Center"><Run Text="Please wait..."/></TextBlock>
+                       HorizontalAlignment="Center">
+                <Run Text="Please wait..."/>
+            </TextBlock>
         </Border>
 
     </Grid>

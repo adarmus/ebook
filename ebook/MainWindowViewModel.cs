@@ -74,11 +74,13 @@ namespace ebook
             _simpleDataSource = this.SelectedSimpleDataSourceInfo.GetSimpleDataSource();
 
             _messageListener.Write("View: starting");
+            this.IsBusy = true;
 
             IEnumerable<BookInfo> books = await _simpleDataSource.GetBooks(this.IncludeMobi, this.IncludeEpub);
             IEnumerable<MatchInfo> matches = books.Select(b => new MatchInfo(b));
             this.BookFileList = new ObservableCollection<MatchInfo>(matches);
 
+            this.IsBusy = false;
             _messageListener.Write("View: loaded {0} books", this.BookFileList.Count);
         }
 
@@ -96,10 +98,12 @@ namespace ebook
 
         async Task DoMatch()
         {
-            _messageListener.Write("Compare: starting");
-
             if (this.SelectedFullDataSourceInfo == null)
                 return;
+
+            _messageListener.Write("Compare: starting");
+
+            this.IsBusy = true;
 
             var bookMatcher = new BookFinder(this.SelectedFullDataSourceInfo.GetFullDataSource());
             var matcher = new Matcher(bookMatcher, _messageListener);
@@ -107,6 +111,8 @@ namespace ebook
             IEnumerable<MatchInfo> matched = await matcher.Match(this.BookFileList);
 
             this.BookFileList = new ObservableCollection<MatchInfo>(matched);
+
+            this.IsBusy = false;
 
             _messageListener.Write("Compare: compared {0} books", this.BookFileList.Count);
         }
@@ -120,18 +126,20 @@ namespace ebook
                 return;
 
             await UploadBooks();
-
-            MessageBox.Show("Done");
         }
 
         async Task UploadBooks()
         {
             _messageListener.Write("Upload: starting");
 
+            this.IsBusy = true;
+
             var uploader = new Uploader(this.SelectedFullDataSourceInfo.GetFullDataSource(), _simpleDataSource, _messageListener);
             uploader.DateAddedText = DateAddedText;
 
             var contents = await uploader.Upload(this.BookFileList);
+
+            this.IsBusy = false;
 
             _messageListener.Write("Upload: uploaded {0} books", contents.Count());
         }

@@ -9,7 +9,7 @@ using ebook.core.Repo;
 namespace ebook.core.Logic
 {
     /// <summary>
-    /// Compares two lists of books outputting the matches.
+    /// Finds books in a list of books.
     /// </summary>
     public class BookFinder : IBookFinder
     {
@@ -20,7 +20,7 @@ namespace ebook.core.Logic
         Dictionary<string, BookInfo> _lookupIsbn;
 
         /// <summary>
-        /// Creates a matcher with the original list of books from the repo we are trying to update.
+        /// Creates a BookFinder with the original list of books from the repo we are trying to update.
         /// </summary>
         public BookFinder(IFullDataSource originalDataSource)
         {

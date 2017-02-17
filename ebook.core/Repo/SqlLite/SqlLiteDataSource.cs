@@ -71,6 +71,16 @@ namespace ebook.core.Repo.SqlLite
             await repo.FileIns(file);
         }
 
+        public Task<BookInfo> GetBookByIsbn(string isbn)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<BookInfo> GetBookByTitleAuthor(string title, string author)
+        {
+            throw new NotImplementedException();
+        }
+
         private IBookSqlLiteDal GetBookSqlDal()
         {
             var connection = new SQLiteConnection(_builder.ConnectionString);

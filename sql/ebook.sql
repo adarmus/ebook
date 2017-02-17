@@ -77,6 +77,50 @@ END
 
 
 
+ALTER PROCEDURE [dbo].[spBook_SEL_BY_ISBN]
+    @isbn as nvarchar(20)
+AS
+BEGIN
+    SET NOCOUNT ON
+
+    SELECT
+        [Id],
+        [Title], 
+        [Author], 
+        [Isbn],
+        [Publisher],
+        [Description],
+        [DateAdded]
+    FROM
+        [book]
+    WHERE
+        [Isbn] = @isbn
+END
+
+
+ALTER PROCEDURE [dbo].[spBook_SEL_BY_TITLEAUTHOR]
+    @title as nvarchar(200),
+    @author as nvarchar(200)
+AS
+BEGIN
+    SET NOCOUNT ON
+
+    SELECT
+        [Id],
+        [Title], 
+        [Author], 
+        [Isbn],
+        [Publisher],
+        [Description],
+        [DateAdded]
+    FROM
+        [book]
+    WHERE
+        [Title] = @title
+    AND [Author] = @author
+END
+
+
 -- FILES
 
 

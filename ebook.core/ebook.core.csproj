@@ -122,6 +122,7 @@
     <Compile Include="Logic\IOutputMessage.cs" />
     <Compile Include="Logic\Isbn.cs" />
     <Compile Include="Logic\Matcher.cs" />
+    <Compile Include="Logic\QueryBookFinder.cs" />
     <Compile Include="Logic\Uploader.cs" />
     <Compile Include="Repo\Azure\AzureSqlRepository.cs" />
     <Compile Include="Repo\BookRepository.cs" />

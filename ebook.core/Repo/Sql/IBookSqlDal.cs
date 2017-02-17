@@ -19,6 +19,12 @@ namespace ebook.core.Repo.Sql
         [Sql("spBook_SEL_BY_ID")]
         Task<BookInfo> BookSelById(Guid id);
 
+        [Sql("spBook_SEL_BY_ISBN")]
+        Task<BookInfo> BookSelByIsbn(string isbn);
+
+        [Sql("spBook_SEL_BY_TITLEAUTHOR")]
+        Task<BookInfo> BookSelByTitleAuthor(string title, string author);
+
         [Sql("spFile_INS")]
         Task FileIns(BookFileInfo book);
 

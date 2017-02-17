@@ -105,7 +105,9 @@ namespace ebook
 
             this.IsBusy = true;
 
-            var bookFinder = new BookFinder(this.SelectedFullDataSourceInfo.GetFullDataSource());
+            var bookFinder = new QueryBookFinder(this.SelectedFullDataSourceInfo.GetFullDataSource());
+            //var bookFinder = new BookFinder(this.SelectedFullDataSourceInfo.GetFullDataSource());
+
             var matcher = new Matcher(bookFinder, _messageListener);
 
             IEnumerable<MatchInfo> matched = await matcher.Match(this.BookFileList);

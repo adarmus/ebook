@@ -9,5 +9,9 @@ namespace ebook.core.Repo
         Task SaveBook(BookInfo book);
 
         Task SaveFile(BookFileInfo file);
+
+        Task<BookInfo> GetBookByIsbn(string isbn);
+
+        Task<BookInfo> GetBookByTitleAuthor(string title, string author);
     }
 }

@@ -58,6 +58,20 @@ namespace ebook.core.Repo.Sql
             }
         }
 
+        public async Task<BookInfo> GetBookByIsbn(string isbn)
+        {
+            IBookSqlDal repo = GetBookSqlDal();
+
+            return await repo.BookSelByIsbn(isbn);
+        }
+
+        public async Task<BookInfo> GetBookByTitleAuthor(string title, string author)
+        {
+            IBookSqlDal repo = GetBookSqlDal();
+
+            return await repo.BookSelByTitleAuthor(title, author);
+        }
+
         public async Task SaveBook(BookInfo book)
         {
             IBookSqlDal repo = GetBookSqlDal();

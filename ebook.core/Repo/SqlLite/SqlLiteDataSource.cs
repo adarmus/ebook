@@ -21,11 +21,9 @@ namespace ebook.core.Repo.SqlLite
 
         public async Task<IEnumerable<BookInfo>> GetBooks(bool includeMobi, bool includeEpub)
         {
-            IBookSqlLiteDal repo = GetBookSqlDal();
-
             try
             {
-                var books = await repo.BookSelAll();
+                var books = await GetBookSqlDal().BookSelAll();
 
                 return books;
             }
@@ -59,32 +57,24 @@ namespace ebook.core.Repo.SqlLite
 
         public async Task SaveBook(BookInfo book)
         {
-            IBookSqlLiteDal repo = GetBookSqlDal();
-
-            await repo.BookIns(book);
+            await GetBookSqlDal().BookIns(book);
         }
 
         public async Task SaveFile(BookFileInfo file)
         {
-            IBookSqlLiteDal repo = GetBookSqlDal();
-
-            await repo.FileIns(file);
+            await GetBookSqlDal().FileIns(file);
         }
 
         public async Task<BookInfo> GetBookByIsbn(string isbn)
         {
-            IBookSqlLiteDal repo = GetBookSqlDal();
-
-            var book = await repo.BookSelByIsbn(isbn);
+            var book = await GetBookSqlDal().BookSelByIsbn(isbn);
 
             return book;
         }
 
         public async Task<BookInfo> GetBookByTitleAuthor(string title, string author)
         {
-            IBookSqlLiteDal repo = GetBookSqlDal();
-
-            var book = await repo.BookSelByTitleAuthor(title, author);
+            var book = await GetBookSqlDal().BookSelByTitleAuthor(title, author);
 
             return book;
         }

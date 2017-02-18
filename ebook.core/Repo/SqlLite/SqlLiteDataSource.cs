@@ -38,9 +38,9 @@ namespace ebook.core.Repo.SqlLite
             {
                 IBookSqlLiteDal repo = GetBookSqlDal();
 
-                BookInfo info = await repo.BookSelById(new Guid(book.Id));
+                BookInfo info = await repo.BookSelById(book.Id);
 
-                IEnumerable<BookFileInfo> files = await repo.BookFileSelByBookId(new Guid(book.Id));
+                IEnumerable<BookFileInfo> files = await repo.BookFileSelByBookId(book.Id);
 
                 return new BookFilesInfo(info, files);
             }

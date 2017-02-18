@@ -17,7 +17,7 @@ namespace ebook.core.Repo.SqlLite
         Task<IEnumerable<BookInfo>> BookSelAll();
 
         [Sql("SELECT [Id], [Title],  [Author],  [Isbn], [Publisher], [Description], [DateAdded] FROM [book] WHERE [Id] = @id")]
-        Task<BookInfo> BookSelById(Guid id);
+        Task<BookInfo> BookSelById(string id);
 
         [Sql("SELECT [Id], [Title], [Author], [Isbn], [Publisher], [Description], [DateAdded] FROM [book] WHERE [Isbn] = @isbn")]
         Task<BookInfo> BookSelByIsbn(string isbn);
@@ -29,6 +29,6 @@ namespace ebook.core.Repo.SqlLite
         Task FileIns(BookFileInfo book);
 
         [Sql("SELECT [Id], [BookId],  [FileType],  [FileName] FROM [file] WHERE [BookId] = @bookId")]
-        Task<IEnumerable<BookFileInfo>> BookFileSelByBookId(Guid bookid);
+        Task<IEnumerable<BookFileInfo>> BookFileSelByBookId(string bookid);
     }
 }

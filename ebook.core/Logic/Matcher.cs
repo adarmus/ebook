@@ -24,7 +24,7 @@ namespace ebook.core.Logic
 
             foreach (var match in incoming)
             {
-                FindResultInfo result = await _bookFinder.Find(match);
+                FindResultInfo result = await _bookFinder.Find(match.Book);
 
                 match.SetMatch(result.Book, result.Status);
 

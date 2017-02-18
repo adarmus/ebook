@@ -9,6 +9,6 @@ namespace ebook.core.Logic
 {
     public interface IBookFinder
     {
-        Task<FindResultInfo> Find(MatchInfo incoming);
+        Task<FindResultInfo> Find(BookInfo incoming);
     }
 }

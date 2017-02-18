@@ -17,15 +17,15 @@ namespace ebook.core.Logic
             _originalDataSource = originalDataSource;
         }
 
-        public async Task<FindResultInfo> Find(MatchInfo incoming)
+        public async Task<FindResultInfo> Find(BookInfo incoming)
         {
-            if (incoming.Book == null)
-                throw new ArgumentException("incoming.Book not set");
+            if (incoming == null)
+                throw new ArgumentException("incoming not set");
 
             // 1. Find by ISBN
-            if (!string.IsNullOrEmpty(incoming.Book.Isbn))
+            if (!string.IsNullOrEmpty(incoming.Isbn))
             {
-                string isbn = Isbn.Normalise(incoming.Book.Isbn);
+                string isbn = Isbn.Normalise(incoming.Isbn);
 
                 BookInfo book = await _originalDataSource.GetBookByIsbn(isbn);
 
@@ -34,9 +34,9 @@ namespace ebook.core.Logic
             }
 
             // 2. Title + Author
-            if (!string.IsNullOrEmpty(incoming.Book.Title) && !string.IsNullOrEmpty(incoming.Book.Author))
+            if (!string.IsNullOrEmpty(incoming.Title) && !string.IsNullOrEmpty(incoming.Author))
             {
-                BookInfo book = await _originalDataSource.GetBookByTitleAuthor(incoming.Book.Title, incoming.Book.Author);
+                BookInfo book = await _originalDataSource.GetBookByTitleAuthor(incoming.Title, incoming.Author);
 
                 if (book != null)
                     return new FindResultInfo { Status = MatchStatus.UpToDate, Book = book };

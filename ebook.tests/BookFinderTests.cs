@@ -30,7 +30,7 @@ namespace ebook.tests
             var books = Substitute.For<IFullDataSource>();
             books.GetBooks(true, true).Returns(new BookInfo[] {MakeBook("123", "Title1", "Author1")});
             var matcher = new BookFinder(books);
-            var result = await matcher.Find(new MatchInfo(MakeBook("456", "Title2", "Author2")));
+            var result = await matcher.Find(MakeBook("456", "Title2", "Author2"));
 
             Assert.IsNotNull(result);
             Assert.AreEqual(MatchStatus.NewBook, result.Status);
@@ -43,7 +43,7 @@ namespace ebook.tests
             var books = Substitute.For<IFullDataSource>();
             books.GetBooks(true, true).Returns(new BookInfo[] { MakeBook("123", "Title1", "Author1") });
             var matcher = new BookFinder(books);
-            var result = await matcher.Find(new MatchInfo(MakeBook("456", "Title2", "Author2")));
+            var result = await matcher.Find(MakeBook("456", "Title2", "Author2"));
 
             Assert.IsNotNull(result);
             Assert.AreEqual(MatchStatus.UpToDate, result.Status);

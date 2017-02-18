@@ -33,7 +33,7 @@ namespace ebook.core.Logic
         /// </summary>
         /// <param name="incoming"></param>
         /// <returns></returns>
-        public async Task<FindResultInfo> Find(MatchInfo incoming)
+        public async Task<FindResultInfo> Find(BookInfo incoming)
         {
             if (_originalBooks == null)
             {
@@ -73,12 +73,12 @@ namespace ebook.core.Logic
                 });
         }
 
-        BookInfo FindBook(MatchInfo match, out MatchStatus status)
+        BookInfo FindBook(BookInfo match, out MatchStatus status)
         {
             // Look by Isbn
-            if (!string.IsNullOrEmpty(match.Book.Isbn))
+            if (!string.IsNullOrEmpty(match.Isbn))
             {
-                string isbn = Isbn.Normalise(match.Book.Isbn);
+                string isbn = Isbn.Normalise(match.Isbn);
                 if (_lookupIsbn.ContainsKey(isbn))
                 {
                     status = MatchStatus.UpToDate;
@@ -87,9 +87,9 @@ namespace ebook.core.Logic
             }
 
             // Look by Title and then Author
-            if (!string.IsNullOrEmpty(match.Book.Title))
+            if (!string.IsNullOrEmpty(match.Title))
             {
-                string title = match.Book.Title.ToLower();
+                string title = match.Title.ToLower();
                 if (_lookupTitle.ContainsKey(title))
                 {
                     var group = _lookupTitle[title];

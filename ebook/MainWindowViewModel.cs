@@ -117,7 +117,7 @@ namespace ebook
 
             this.IsBusy = false;
 
-            _messageListener.Write("Compare: compared {0} books", this.BookFileList.Count);
+            _messageListener.Write("Compare: compared {0} books", matched.Count());
         }
 
         void MergeMatchInfos(IEnumerable<MatchInfo> updated)

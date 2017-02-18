@@ -112,11 +112,40 @@ namespace ebook
 
             IEnumerable<MatchInfo> matched = await matcher.Match(this.BookFileList);
 
-            this.BookFileList = new ObservableCollection<MatchInfo>(matched);
+            //this.BookFileList = new ObservableCollection<MatchInfo>(matched);
+            MergeMatchInfos(matched);
 
             this.IsBusy = false;
 
             _messageListener.Write("Compare: compared {0} books", this.BookFileList.Count);
+        }
+
+        void MergeMatchInfos(IEnumerable<MatchInfo> updated)
+        {
+            IEnumerable<MatchInfo> newlist = GetMergedList(this.BookFileList, updated);
+
+            this.BookFileList = new ObservableCollection<MatchInfo>(newlist);
+        }
+
+        IEnumerable<MatchInfo> GetMergedList(IEnumerable<MatchInfo> original, IEnumerable<MatchInfo> updated)
+        {
+            var newlist = new List<MatchInfo>();
+
+            var lookup = updated.ToDictionary(m => m.Book.Id);
+
+            foreach (MatchInfo match in original)
+            {
+                if (lookup.ContainsKey(match.Book.Id))
+                {
+                    newlist.Add(lookup[match.Book.Id]);
+                }
+                else
+                {
+                    newlist.Add(match);
+                }
+            }
+
+            return newlist;
         }
 
         async Task DoUpload()

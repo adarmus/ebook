@@ -22,7 +22,11 @@ namespace ebook.core.Logic
         {
             var matches = new List<MatchInfo>();
 
-            foreach (var match in incoming)
+            IEnumerable<MatchInfo> toMatch = incoming
+                .Where(b => b.IsSelected)
+                .Where(b => b.Status == MatchStatus.NotAttempted);
+
+            foreach (var match in toMatch)
             {
                 FindResultInfo result = await _bookFinder.Find(match.Book);
 

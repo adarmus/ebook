@@ -9,6 +9,7 @@ using ebook.Async;
 using ebook.core.DataTypes;
 using ebook.core.Logic;
 using ebook.core.Repo;
+using ebook.core.Repo.SqlLite;
 using GalaSoft.MvvmLight;
 using log4net;
 using log4net.Config;
@@ -33,7 +34,17 @@ namespace ebook
 
             SetupDataSources(config);
 
+            TestDebug();
+
             XmlConfigurator.Configure();
+        }
+
+
+        void TestDebug()
+        {
+            var db = new SqlLiteDataSource(@"C:\Tree\ebook\sql\dev.db");
+            var b = db.GetBookContent(new BookInfo {Id = "783a0438-4095-449f-8ea7-195cbf07cb65" }).Result;
+            Console.WriteLine("hi");
         }
 
         private void SetupDataSources(ConfigProvider config)

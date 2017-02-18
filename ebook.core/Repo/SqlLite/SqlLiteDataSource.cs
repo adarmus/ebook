@@ -23,9 +23,7 @@ namespace ebook.core.Repo.SqlLite
         {
             try
             {
-                var books = await GetBookSqlDal().BookSelAll();
-
-                return books;
+                return await GetBookSqlDal().BookSelAll();
             }
             catch (Exception ex)
             {
@@ -44,9 +42,7 @@ namespace ebook.core.Repo.SqlLite
 
                 IEnumerable<BookFileInfo> files = await repo.BookFileSelByBookId(new Guid(book.Id));
 
-                var content = new BookFilesInfo(info, files);
-
-                return content;
+                return new BookFilesInfo(info, files);
             }
             catch (Exception ex)
             {
@@ -67,16 +63,12 @@ namespace ebook.core.Repo.SqlLite
 
         public async Task<BookInfo> GetBookByIsbn(string isbn)
         {
-            var book = await GetBookSqlDal().BookSelByIsbn(isbn);
-
-            return book;
+            return await GetBookSqlDal().BookSelByIsbn(isbn);
         }
 
         public async Task<BookInfo> GetBookByTitleAuthor(string title, string author)
         {
-            var book = await GetBookSqlDal().BookSelByTitleAuthor(title, author);
-
-            return book;
+            return await GetBookSqlDal().BookSelByTitleAuthor(title, author);
         }
 
         private IBookSqlLiteDal GetBookSqlDal()

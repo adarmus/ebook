@@ -1,0 +1,3 @@
+Show book types in list
+Show date from file data source in list
+Match info shows missing file types

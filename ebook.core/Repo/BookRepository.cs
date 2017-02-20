@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ebook.core.DataTypes;
-using ebook.core.Repo.Sql;
+using ebook.core.Logic;
 
 namespace ebook.core.Repo
 {
@@ -20,6 +20,9 @@ namespace ebook.core.Repo
         public async Task SaveBook(BookFilesInfo book)
         {
             BookInfo info = book.Book;
+
+            if (!string.IsNullOrEmpty(info.Isbn))
+                info.Isbn = Isbn.Normalise(info.Isbn);
 
             await _repository.SaveBook(info);
 

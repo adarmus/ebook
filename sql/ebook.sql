@@ -153,7 +153,22 @@ BEGIN
 END
 
 
-CREATE PROCEDURE [dbo].[spFile_SEL_TYPE_BY_BOOKID]
+ALTER PROCEDURE [dbo].[spFile_SEL_TYPE_BY_BOOKID]
+    @bookid as uniqueidentifier
+AS
+BEGIN
+    SET NOCOUNT ON
+
+    SELECT
+        [FileType]
+    FROM
+        [file]
+    WHERE
+        [BookId] = @bookId
+END
+
+
+ALTER PROCEDURE [dbo].[spFile_SEL_CONTENT_BY_BOOKID]
     @bookid as uniqueidentifier
 AS
 BEGIN
@@ -163,7 +178,8 @@ BEGIN
         [Id],
         [BookId], 
         [FileType], 
-        [FileName]
+        [FileName],
+        [Content]
     FROM
         [file]
     WHERE

@@ -29,6 +29,9 @@ namespace ebook.core.Repo.Sql
         Task FileIns(BookFileInfo book);
 
         [Sql("spFile_SEL_TYPE_BY_BOOKID")]
+        Task<IEnumerable<BookFileInfo>> BookFileSelTypeByBookId(Guid bookid);
+
+        [Sql("spFile_SEL_CONTENT_BY_BOOKID")]
         Task<IEnumerable<BookFileInfo>> BookFileSelByBookId(Guid bookid);
     }
 }

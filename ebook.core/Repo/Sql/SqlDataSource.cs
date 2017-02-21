@@ -22,11 +22,13 @@ namespace ebook.core.Repo.Sql
 
         public async Task<IEnumerable<BookInfo>> GetBooks(bool includeMobi, bool includeEpub)
         {
-            IBookSqlDal repo = GetBookSqlDal();
-
             try
             {
-                var books = await repo.BookSelAll();
+                IEnumerable<BookInfo> books = await GetBookSqlDal().BookSelAll();
+
+                var list = books.ToList();
+
+                list.ForEach(async b => await AddFileTypes(b));
 
                 return books;
             }
@@ -35,6 +37,20 @@ namespace ebook.core.Repo.Sql
                 Console.WriteLine(ex.Message);
                 throw;
             }
+        }
+
+        async Task AddFileTypes(BookInfo book)
+        {
+            IEnumerable<string> types = await GetFileTypes(book.Id);
+
+            Console.WriteLine(types.Count());
+        }
+
+        async Task<IEnumerable<string>> GetFileTypes(string bookId)
+        {
+            IEnumerable<BookFileInfo> types = await GetBookSqlDal().BookFileSelTypeByBookId(new Guid(bookId));
+
+            return types.Select(t => t.FileType);
         }
 
         public async Task<BookFilesInfo> GetBookContent(BookInfo book)

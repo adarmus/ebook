@@ -23,13 +23,33 @@ namespace ebook.core.Repo.SqlLite
         {
             try
             {
-                return await GetBookSqlDal().BookSelAll();
+                IEnumerable<BookInfo> books = await GetBookSqlDal().BookSelAll();
+
+                var list = books.ToList();
+
+                list.ForEach(async b => await AddFileTypes(b));
+
+                return books;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 throw;
             }
+        }
+
+        async Task AddFileTypes(BookInfo book)
+        {
+            IEnumerable<string> types = await GetFileTypes(book.Id);
+
+            Console.WriteLine(types.Count());
+        }
+
+        async Task<IEnumerable<string>> GetFileTypes(string bookId)
+        {
+            IEnumerable<BookFileInfo> types = await GetBookSqlDal().BookFileSelTypeByBookId(bookId);
+
+            return types.Select(t => t.FileType);
         }
 
         public async Task<BookFilesInfo> GetBookContent(BookInfo book)

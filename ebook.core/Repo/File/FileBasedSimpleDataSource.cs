@@ -28,8 +28,6 @@ namespace ebook.core.Repo.File
 
         public async Task<IEnumerable<BookInfo>> GetBooks(bool includeMobi, bool includeEpub)
         {
-            var agg = new Aggregator();
-
             _providers.Clear();
 
             if (includeMobi)
@@ -38,7 +36,11 @@ namespace ebook.core.Repo.File
             if (includeEpub)
                 AddReader("epub", new EpubReader(_messages));
 
-            IEnumerable<BookInfo> list = agg.GetBookList(await GetBookFiles());
+            var agg = new Aggregator();
+
+            IEnumerable<BookFile> files = await GetBookFiles();
+
+            IEnumerable<BookInfo> list = agg.GetBookList(files);
 
             _lookup = agg.GetBookContentInfoLookup();
 

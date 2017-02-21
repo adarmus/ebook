@@ -25,10 +25,10 @@ namespace ebook.core.Repo.SqlLite
         [Sql("SELECT [Id], [Title], [Author], [Isbn], [Publisher], [Description], [DateAdded] FROM [book] WHERE [Title] = @title AND [Author] = @author")]
         Task<BookInfo> BookSelByTitleAuthor(string title, string author);
 
-        [Sql("INSERT INTO [File]  ( [Id], [BookId],  [FileType],  [FileName], [Content] )  VALUES  ( @id, @bookid, @fileType, @fileName, @content )")]
+        [Sql("INSERT INTO [File] ([Id], [BookId], [FileType], [FileName], [Content]) VALUES (@id, @bookid, @fileType, @fileName, @content)")]
         Task FileIns(BookFileInfo book);
 
-        [Sql("SELECT [Id], [BookId],  [FileType],  [FileName] FROM [file] WHERE [BookId] = @bookId")]
+        [Sql("SELECT [Id], [BookId], [FileType], [FileName] FROM [file] WHERE [BookId] = @bookId")]
         Task<IEnumerable<BookFileInfo>> BookFileSelByBookId(string bookid);
     }
 }

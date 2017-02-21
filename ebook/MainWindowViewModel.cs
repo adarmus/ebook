@@ -38,8 +38,7 @@ namespace ebook
 
             XmlConfigurator.Configure();
         }
-
-
+        
         void TestDebug()
         {
             var db = new SqlLiteDataSource(@"C:\Tree\ebook\sql\dev.db");
@@ -117,13 +116,11 @@ namespace ebook
             this.IsBusy = true;
 
             var bookFinder = new QueryBookFinder(this.SelectedFullDataSourceInfo.GetFullDataSource());
-            //var bookFinder = new BookFinder(this.SelectedFullDataSourceInfo.GetFullDataSource());
 
             var matcher = new Matcher(bookFinder, _messageListener);
 
             IEnumerable<MatchInfo> matched = await matcher.Match(this.BookFileList);
 
-            //this.BookFileList = new ObservableCollection<MatchInfo>(matched);
             MergeMatchInfos(matched);
 
             this.IsBusy = false;

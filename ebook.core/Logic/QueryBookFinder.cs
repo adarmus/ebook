@@ -19,6 +19,27 @@ namespace ebook.core.Logic
 
         public async Task<FindResultInfo> Find(BookInfo incoming)
         {
+            FindResultInfo result = await FindBook(incoming);
+
+            if (result.Status != MatchStatus.UpToDate)
+                return result;
+
+            FindResultInfo fileResult = await FindBookFiles(incoming);
+
+            return fileResult;
+        }
+
+        async Task<FindResultInfo> FindBookFiles(BookInfo incoming)
+        {
+            return new FindResultInfo
+            {
+                Book = incoming,
+                Status = MatchStatus.UpToDate
+            };
+        }
+
+        async Task<FindResultInfo> FindBook(BookInfo incoming)
+        {
             if (incoming == null)
                 throw new ArgumentException("incoming not set");
 

@@ -98,6 +98,8 @@
     </ApplicationDefinition>
     <Compile Include="Async\AsyncCommand1.cs" />
     <Compile Include="AutoScrollBehaviour.cs" />
+    <Compile Include="Convertors\BoolToStringConverter.cs" />
+    <Compile Include="Convertors\BoolToValueConverter.cs" />
     <Compile Include="MessageInfo.cs" />
     <Compile Include="MessageListener.cs" />
     <Compile Include="VisibilityToBoolConverter.cs" />

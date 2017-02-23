@@ -4,7 +4,8 @@
         xmlns:ebook="clr-namespace:ebook"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:convertors="clr-namespace:ebook.Convertors"
         mc:Ignorable="d" 
         x:Class="ebook.MainWindow"
         Title="ebook" 
@@ -16,6 +17,8 @@
                      x:Key="DarkBackgroundBrush" />
             <ebook:VisibilityToBoolConverter x:Key="boolToVis"
                                             Inverted="True" />
+            <convertors:BoolToStringConverter x:Key="convEpub" FalseValue="" TrueValue="E" />
+            <convertors:BoolToStringConverter x:Key="convMobi" FalseValue="" TrueValue="M" />
         </ResourceDictionary>
     </Window.Resources>
     <Grid>
@@ -168,11 +171,28 @@
                             </DataTemplate>
                         </DataGridTextColumn.HeaderTemplate>
                     </DataGridTextColumn>
-                    <DataGridTextColumn Binding="{Binding Book.Isbn}" Header="ISBN"/>
-                    <DataGridTextColumn Binding="{Binding Book.HasEpubFile}" Header="EPUB"/>
-                    <DataGridTextColumn Binding="{Binding Book.HasMobiFile}" Header="MOBI"/>
-                    <DataGridTextColumn Binding="{Binding Book.DateAdded, StringFormat='yyyy-MM-dd'}" Header="Added"/>
-                    <DataGridTextColumn Binding="{Binding Status}" Header="Matched?"/>
+                    <DataGridTextColumn Header="ISBN"
+                                        Binding="{Binding Book.Isbn}" />
+                    <DataGridTextColumn Header="EPUB" 
+                                        Binding="{Binding Book.HasEpubFile, Converter={StaticResource ResourceKey=convEpub}}">
+                        <!--<DataGridTextColumn.CellStyle>
+                            <Style>
+                                <Setter Property="FrameworkElement.HorizontalAlignment" Value="Center"/>
+                            </Style>
+                        </DataGridTextColumn.CellStyle>-->
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="MOBI"
+                                        Binding="{Binding Book.HasMobiFile, Converter={StaticResource ResourceKey=convMobi}}">
+                        <!--<DataGridTextColumn.CellStyle>
+                            <Style>
+                                <Setter Property="FrameworkElement.HorizontalAlignment" Value="Center"/>
+                            </Style>
+                        </DataGridTextColumn.CellStyle>-->
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Added"
+                                        Binding="{Binding Book.DateAdded, StringFormat='yyyy-MM-dd'}" />
+                    <DataGridTextColumn Header="Matched?"
+                                        Binding="{Binding Status}" />
                 </DataGrid.Columns>
             </DataGrid>
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using ebook.core.BookFiles;
 using ebook.core.DataTypes;
@@ -59,7 +60,8 @@ namespace ebook.core.Logic
                 Description = first.Description,
                 PublishDate = first.PublishDate,
                 Publisher = first.Publisher,
-                Title = first.Title
+                Title = first.Title,
+                Types = GetFileTypes(files)
             };
 
             _lookup.Add(book.Id, new BookFilesInfo(book, files));
@@ -93,12 +95,29 @@ namespace ebook.core.Logic
                 Description = first.Description,
                 PublishDate = first.PublishDate,
                 Publisher = first.Publisher,
-                Title = first.Title
+                Title = first.Title,
+                Types = new [] { GetFileType(first.FilePath) }
             };
 
             _lookup.Add(book.Id, new BookFilesInfo(book, first.FilePath));
 
             return book;
+        }
+
+        IEnumerable<string> GetFileTypes(IEnumerable<string> files)
+        {
+            var exts = files.Select(GetFileType);
+            return exts;
+        }
+
+        string GetFileType(string path)
+        {
+            string ext = Path.GetExtension(path);
+
+            if (string.IsNullOrEmpty(ext))
+                return null;
+
+            return ext.Substring(1).ToUpper();
         }
     }
 }

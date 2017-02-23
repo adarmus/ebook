@@ -25,9 +25,10 @@ namespace ebook.core.Repo.SqlLite
             {
                 IEnumerable<BookInfo> books = await GetBookSqlDal().BookSelAll();
 
-                var list = books.ToList();
-
-                list.ForEach(async b => await AddFileTypes(b));
+                foreach (var b in books)
+                {
+                    await AddFileTypes(b);
+                }
 
                 return books;
             }
@@ -42,7 +43,7 @@ namespace ebook.core.Repo.SqlLite
         {
             IEnumerable<string> types = await GetFileTypes(book.Id);
 
-            Console.WriteLine(types.Count());
+            book.Types = types;
         }
 
         async Task<IEnumerable<string>> GetFileTypes(string bookId)

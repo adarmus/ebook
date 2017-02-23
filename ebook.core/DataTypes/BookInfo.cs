@@ -24,6 +24,8 @@ namespace ebook.core.DataTypes
 
         public string Title { get; set; }
 
+        public IEnumerable<string> Types { get; set; }
+
         public DateTime DateAdded { get; set; }
     }
 }

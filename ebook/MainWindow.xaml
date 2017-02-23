@@ -157,11 +157,14 @@
                         </DataGridTextColumn.HeaderTemplate>
                     </DataGridTextColumn>
                     <DataGridTextColumn Binding="{Binding Book.Isbn}" Header="ISBN"/>
+                    <DataGridTextColumn Binding="{Binding Book.HasEpubFile}" Header="EPUB"/>
+                    <DataGridTextColumn Binding="{Binding Book.HasMobiFile}" Header="MOBI"/>
                     <DataGridTextColumn Binding="{Binding Book.DateAdded, StringFormat='yyyy-MM-dd'}" Header="Added"/>
                     <DataGridTextColumn Binding="{Binding Status}" Header="Matched?"/>
                 </DataGrid.Columns>
             </DataGrid>
 
+            <!-- Book details -->
             <Border Grid.Column="1"
                     DataContext="{Binding SelectedBookContent}"
                     BorderBrush="LightBlue"

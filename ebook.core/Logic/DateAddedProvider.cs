@@ -5,11 +5,12 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ebook.core.BookFiles;
 using ebook.core.DataTypes;
 
 namespace ebook.core.Logic
 {
-    class DateAddedProvider
+    public class DateAddedProvider
     {
         readonly DateTime _added;
 
@@ -65,13 +66,27 @@ namespace ebook.core.Logic
 
         bool TryGetDateFromFilePath(BookFileInfo file, out DateTime date)
         {
-            date = DateTime.MinValue;
-            Console.WriteLine("id={0}", file.Id);
+            return TryGetDateFromFilePath(file.Id, out date);
+        }
 
-            if (!File.Exists(file.Id))
+        public DateTime GetDateFromFilePath(BookFile file)
+        {
+            DateTime date; 
+            if (TryGetDateFromFilePath(file.FilePath, out date))
+                return date;
+            else
+                return _added;
+        }
+
+        bool TryGetDateFromFilePath(string filePath, out DateTime date)
+        {
+            date = DateTime.MinValue;
+            //Console.WriteLine("id={0}", filePath);
+
+            if (!File.Exists(filePath))
                 return false;
 
-            string[] folders = file.Id.Split(new char[] { Path.DirectorySeparatorChar });
+            string[] folders = filePath.Split(new char[] { Path.DirectorySeparatorChar });
 
             foreach (string folder in folders)
             {

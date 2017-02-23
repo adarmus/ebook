@@ -26,6 +26,8 @@ namespace ebook.core.Repo.File
             _messages = messages;
         }
 
+        public DateAddedProvider DateAddedProvider { get; set; }
+
         public async Task<IEnumerable<BookInfo>> GetBooks(bool includeMobi, bool includeEpub)
         {
             _providers.Clear();
@@ -36,7 +38,7 @@ namespace ebook.core.Repo.File
             if (includeEpub)
                 AddReader(BookExtensions.EPUB, new EpubReader(_messages));
 
-            var agg = new Aggregator();
+            var agg = new Aggregator(DateAddedProvider);
 
             IEnumerable<BookFile> files = await GetBookFiles();
 

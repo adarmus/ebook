@@ -9,6 +9,7 @@ using ebook.Async;
 using ebook.core.DataTypes;
 using ebook.core.Logic;
 using ebook.core.Repo;
+using ebook.core.Repo.File;
 using ebook.core.Repo.SqlLite;
 using GalaSoft.MvvmLight;
 using log4net;
@@ -82,6 +83,7 @@ namespace ebook
                 return;
 
             _simpleDataSource = this.SelectedSimpleDataSourceInfo.GetSimpleDataSource();
+            SetDateAddedProvider(_simpleDataSource);
 
             _messageListener.Write("View: starting");
             this.IsBusy = true;
@@ -92,6 +94,16 @@ namespace ebook
 
             this.IsBusy = false;
             _messageListener.Write("View: loaded {0} books", this.BookFileList.Count);
+        }
+
+        void SetDateAddedProvider(ISimpleDataSource dataSource)
+        {
+            var files = dataSource as FileBasedSimpleDataSource;
+
+            if (files == null)
+                return;
+
+            files.DateAddedProvider = new DateAddedProvider(this.DateAddedText);
         }
 
         async Task TryDoMatch()

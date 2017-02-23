@@ -13,6 +13,17 @@ namespace ebook.core.Logic
     public class Aggregator
     {
         Dictionary<string, BookFilesInfo> _lookup;
+        readonly DateAddedProvider _dateAdded;
+
+        public Aggregator()
+        {
+            _dateAdded = new DateAddedProvider(null);
+        }
+
+        public Aggregator(DateAddedProvider dateAdded)
+        {
+            _dateAdded = dateAdded;
+        }
 
         public IEnumerable<BookInfo> GetBookList(IEnumerable<BookFile> bookFiles)
         {
@@ -52,6 +63,8 @@ namespace ebook.core.Logic
 
         BookInfo GetBookWithIsbn(BookFile first, string isbn, IEnumerable<string> files)
         {
+            DateTime date = _dateAdded.GetDateFromFilePath(first);
+
             var book = new BookInfo // (files)
             {
                 Id = Guid.NewGuid().ToString(),
@@ -61,7 +74,8 @@ namespace ebook.core.Logic
                 PublishDate = first.PublishDate,
                 Publisher = first.Publisher,
                 Title = first.Title,
-                Types = GetFileTypes(files)
+                Types = GetFileTypes(files),
+                DateAdded = date
             };
 
             _lookup.Add(book.Id, new BookFilesInfo(book, files));
@@ -87,6 +101,8 @@ namespace ebook.core.Logic
 
         BookInfo GetBookWithoutIsbn(BookFile first)
         {
+            DateTime date = _dateAdded.GetDateFromFilePath(first);
+
             var book = new BookInfo // (first.FilePath)
             {
                 Id = Guid.NewGuid().ToString(),
@@ -96,7 +112,8 @@ namespace ebook.core.Logic
                 PublishDate = first.PublishDate,
                 Publisher = first.Publisher,
                 Title = first.Title,
-                Types = new [] { GetFileType(first.FilePath) }
+                Types = new [] { GetFileType(first.FilePath) },
+                DateAdded = date
             };
 
             _lookup.Add(book.Id, new BookFilesInfo(book, first.FilePath));

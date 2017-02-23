@@ -102,7 +102,7 @@
     <Compile Include="Convertors\BoolToValueConverter.cs" />
     <Compile Include="MessageInfo.cs" />
     <Compile Include="MessageListener.cs" />
-    <Compile Include="VisibilityToBoolConverter.cs" />
+    <Compile Include="Convertors\VisibilityToBoolConverter.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

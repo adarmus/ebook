@@ -15,8 +15,7 @@
         <ResourceDictionary>
             <SolidColorBrush Color="LightGray"
                      x:Key="DarkBackgroundBrush" />
-            <ebook:VisibilityToBoolConverter x:Key="boolToVis"
-                                            Inverted="True" />
+            <convertors:VisibilityToBoolConverter x:Key="boolToVis" Inverted="True" />
             <convertors:BoolToStringConverter x:Key="convEpub" FalseValue="" TrueValue="E" />
             <convertors:BoolToStringConverter x:Key="convMobi" FalseValue="" TrueValue="M" />
         </ResourceDictionary>

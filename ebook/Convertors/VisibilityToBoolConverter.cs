@@ -3,25 +3,13 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-namespace ebook
+namespace ebook.Convertors
 {
     public class VisibilityToBoolConverter : IValueConverter
     {
-        private bool _inverted = false;
+        public bool Inverted { get; set; }
 
-        public bool Inverted
-        {
-            get { return _inverted; }
-            set { _inverted = value; }
-        }
-
-        private bool _not = false;
-
-        public bool Not
-        {
-            get { return _not; }
-            set { _not = value; }
-        }
+        public bool Not { get; set; }
 
         private object VisibilityToBool(object value)
         {

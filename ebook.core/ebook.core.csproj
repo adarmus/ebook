@@ -104,6 +104,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataTypes\BookExtensions.cs" />
     <Compile Include="DataTypes\BookFilesInfo.cs" />
     <Compile Include="DataTypes\BookFileInfo.cs" />
     <Compile Include="DataTypes\FileSystemDataSourceInfo.cs" />

@@ -31,10 +31,10 @@ namespace ebook.core.Repo.File
             _providers.Clear();
 
             if (includeMobi)
-                AddReader("mobi", new MobiReader(_messages));
+                AddReader(BookExtensions.MOBI, new MobiReader(_messages));
 
             if (includeEpub)
-                AddReader("epub", new EpubReader(_messages));
+                AddReader(BookExtensions.EPUB, new EpubReader(_messages));
 
             var agg = new Aggregator();
 

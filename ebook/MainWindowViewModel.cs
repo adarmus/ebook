@@ -12,6 +12,7 @@ using ebook.core.Repo;
 using ebook.core.Repo.File;
 using ebook.core.Repo.SqlLite;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using log4net;
 using log4net.Config;
 
@@ -90,7 +91,8 @@ namespace ebook
 
             IEnumerable<BookInfo> books = await _simpleDataSource.GetBooks(this.IncludeMobi, this.IncludeEpub);
             IEnumerable<MatchInfo> matches = books.Select(b => new MatchInfo(b));
-            this.BookFileList = new ObservableCollection<MatchInfo>(matches);
+
+            SetBookFileList(matches);
 
             this.IsBusy = false;
             _messageListener.Write("View: loaded {0} books", this.BookFileList.Count);
@@ -144,7 +146,7 @@ namespace ebook
         {
             IEnumerable<MatchInfo> newlist = GetMergedList(this.BookFileList, updated);
 
-            this.BookFileList = new ObservableCollection<MatchInfo>(newlist);
+            SetBookFileList(newlist);
         }
 
         IEnumerable<MatchInfo> GetMergedList(IEnumerable<MatchInfo> original, IEnumerable<MatchInfo> updated)
@@ -197,7 +199,7 @@ namespace ebook
 
         void SelectedSimpleDataSourceInfoChanged()
         {
-            this.BookFileList = new ObservableCollection<MatchInfo>();
+            SetBookFileList(new MatchInfo[] {});
         }
 
         async Task SelectedBookChanged()
@@ -209,6 +211,31 @@ namespace ebook
             }
 
             this.SelectedBookContent = await _simpleDataSource.GetBookContent(this.SelectedBook.Book);
+        }
+
+        void DoSelectAll()
+        {
+            SetIsSelected(true);
+        }
+
+        void DoDeSelectAll()
+        {
+            SetIsSelected(false);
+        }
+
+        void SetIsSelected(bool state)
+        {
+            foreach (var match in this.BookFileList)
+            {
+                match.IsSelected = state;
+            }
+
+            SetBookFileList(this.BookFileList);
+        }
+
+        void SetBookFileList(IEnumerable<MatchInfo> matches)
+        {
+            this.BookFileList = new ObservableCollection<MatchInfo>(matches);
         }
 
         #region Properties
@@ -404,6 +431,20 @@ namespace ebook
         public ICommand UploadCommand
         {
             get { return _uploadCommand ?? (_uploadCommand = new AsyncCommand1(this.DoUpload)); }
+        }
+
+        ICommand _selectAllCommand;
+
+        public ICommand SelectAllCommand
+        {
+            get { return _selectAllCommand ?? (_selectAllCommand = new RelayCommand(this.DoSelectAll)); }
+        }
+
+        ICommand _deselectAllCommand;
+
+        public ICommand DeselectAllCommand
+        {
+            get { return _deselectAllCommand ?? (_deselectAllCommand = new RelayCommand(this.DoDeSelectAll)); }
         }
         #endregion
     }

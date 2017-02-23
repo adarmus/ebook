@@ -35,7 +35,7 @@ namespace ebook
 
             SetupDataSources(config);
 
-            TestDebug();
+            //TestDebug();
 
             XmlConfigurator.Configure();
         }

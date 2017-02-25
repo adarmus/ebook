@@ -58,6 +58,7 @@
     <Compile Include="BookFinderTests.cs" />
     <Compile Include="IsbnTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QueryBookFinderTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ebook.core\ebook.core.csproj">

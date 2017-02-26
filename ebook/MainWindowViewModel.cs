@@ -110,6 +110,11 @@ namespace ebook
 
         async Task TryDoMatch()
         {
+            if (this.SelectedFullDataSourceInfo == null)
+                return;
+
+            this.IsBusy = true;
+
             try
             {
                 await DoMatch();
@@ -118,16 +123,13 @@ namespace ebook
             {
                 ExceptionHandler.Handle(ex, "comparing");
             }
+
+            this.IsBusy = false;
         }
 
         async Task DoMatch()
         {
-            if (this.SelectedFullDataSourceInfo == null)
-                return;
-
             _messageListener.Write("Compare: starting");
-
-            this.IsBusy = true;
 
             var bookFinder = new QueryBookFinder(this.SelectedFullDataSourceInfo.GetFullDataSource());
 
@@ -136,8 +138,6 @@ namespace ebook
             IEnumerable<MatchInfo> matched = await matcher.Match(this.BookFileList);
 
             MergeMatchInfos(matched);
-
-            this.IsBusy = false;
 
             _messageListener.Write("Compare: compared {0} books", matched.Count());
         }

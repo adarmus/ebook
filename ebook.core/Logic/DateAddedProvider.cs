@@ -38,16 +38,21 @@ namespace ebook.core.Logic
         {
             foreach (var book in books)
             {
-                DateTime date;
+                SetDateTimeAdded(book);
+            }
+        }
 
-                if (TryGetDateFromFilePath(book, out date))
-                {
-                    book.Book.DateAdded = date;
-                }
-                else
-                {
-                    book.Book.DateAdded = _added;
-                }
+        public void SetDateTimeAdded(BookFilesInfo book)
+        {
+            DateTime date;
+
+            if (TryGetDateFromFilePath(book, out date))
+            {
+                book.Book.DateAdded = date;
+            }
+            else
+            {
+                book.Book.DateAdded = _added;
             }
         }
 

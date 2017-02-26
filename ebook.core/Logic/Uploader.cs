@@ -32,6 +32,28 @@ namespace ebook.core.Logic
             return contents;
         }
 
+        async Task<IEnumerable<BookFilesInfo>> GetBookFilesInfosToUpload(IEnumerable<MatchInfo> incoming)
+        {
+            IEnumerable<MatchInfo> toUpload = incoming
+                .Where(b => b.IsSelected)
+                .Where(b => (b.Status == MatchStatus.NewBook || b.Status == MatchStatus.NewFiles));
+
+            var dateAddedProvider = new DateAddedProvider(this.DateAddedText);
+
+            var tasks = toUpload.Select(async (b) =>
+            {
+                BookFilesInfo content = await _incomingDataSource.GetBookContent(b.Book);
+
+                dateAddedProvider.SetDateTimeAdded(content);
+
+                return content;
+            });
+
+            BookFilesInfo[] contents = await Task.WhenAll(tasks);
+
+            return contents;
+        }
+
         async Task SaveBooks(IEnumerable<BookFilesInfo> books)
         {
             foreach (var book in books)
@@ -48,33 +70,6 @@ namespace ebook.core.Logic
                     throw;
                 }
             }
-        }
-
-        async Task<IEnumerable<BookFilesInfo>> GetBookFilesInfosToUpload(IEnumerable<MatchInfo> incoming)
-        {
-            IEnumerable<MatchInfo> toUpload = incoming
-                .Where(b => b.IsSelected)
-                .Where(b => (b.Status == MatchStatus.NewBook || b.Status == MatchStatus.NewFiles));
-
-            var tasks = toUpload.Select(async (b) =>
-            {
-                var content = await _incomingDataSource.GetBookContent(b.Book);
-
-                foreach (var file in content.Files)
-                {
-                    _messages.Write("Uploaded: {0}", file.Id);
-                }
-
-                return content;
-            });
-
-            BookFilesInfo[] contents = await Task.WhenAll(tasks);
-
-            var dateAddedProvider = new DateAddedProvider(this.DateAddedText);
-
-            dateAddedProvider.SetDateTimeAdded(contents);
-
-            return contents;
         }
 
         async Task SaveBook(BookFilesInfo book)

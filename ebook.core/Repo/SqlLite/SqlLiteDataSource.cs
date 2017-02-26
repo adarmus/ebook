@@ -41,6 +41,9 @@ namespace ebook.core.Repo.SqlLite
 
         async Task AddFileTypes(BookInfo book)
         {
+            if (book == null)
+                return;
+
             IEnumerable<string> types = await GetFileTypes(book.Id);
 
             book.Types = types;
@@ -84,12 +87,20 @@ namespace ebook.core.Repo.SqlLite
 
         public async Task<BookInfo> GetBookByIsbn(string isbn)
         {
-            return await GetBookSqlDal().BookSelByIsbn(isbn);
+            BookInfo book = await GetBookSqlDal().BookSelByIsbn(isbn);
+
+            await AddFileTypes(book);
+
+            return book;
         }
 
         public async Task<BookInfo> GetBookByTitleAuthor(string title, string author)
         {
-            return await GetBookSqlDal().BookSelByTitleAuthor(title, author);
+            BookInfo book = await GetBookSqlDal().BookSelByTitleAuthor(title, author);
+
+            await AddFileTypes(book);
+
+            return book;
         }
 
         private IBookSqlLiteDal GetBookSqlDal()

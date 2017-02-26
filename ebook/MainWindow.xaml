@@ -211,9 +211,6 @@
                                Margin="0,10,0,0" />
                         <TextBlock Text="{Binding Book.DateAdded, StringFormat='yyyy-MM-dd'}" 
                                Margin="0,10,0,0" />
-                        <TextBlock Text="{Binding Book.Description}" 
-                               Margin="0,10,0,0" 
-                               TextWrapping="Wrap"/>
                         <ItemsControl ItemsSource="{Binding Files}" Margin="0,10,0,0">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
@@ -223,6 +220,9 @@
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
+                        <TextBlock Text="{Binding Book.Description}" 
+                               Margin="0,10,0,0" 
+                               TextWrapping="Wrap"/>
                     </StackPanel>
                 </ScrollViewer>
             </Border>

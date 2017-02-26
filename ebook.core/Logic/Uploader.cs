@@ -11,14 +11,14 @@ namespace ebook.core.Logic
     public class Uploader
     {
         private readonly ISimpleDataSource _incomingDataSource;
-        private readonly BookRepository _repo;
+        private readonly IFullDataSource _originalDataSource;
         private readonly IOutputMessage _messages;
 
         public Uploader(IFullDataSource originalDataSource, ISimpleDataSource incomingDataSource, IOutputMessage messages)
         {
+            _originalDataSource = originalDataSource;
             _incomingDataSource = incomingDataSource;
             _messages = messages;
-            _repo = new BookRepository(originalDataSource);
         }
 
         public string DateAddedText { get; set; }
@@ -38,7 +38,7 @@ namespace ebook.core.Logic
             {
                 try
                 {
-                    await _repo.SaveBook(book);
+                    await SaveBook(book);
 
                     _messages.Write("Uploaded: {0}", book.Book.Title);
                 }
@@ -75,6 +75,35 @@ namespace ebook.core.Logic
             dateAddedProvider.SetDateTimeAdded(contents);
 
             return contents;
+        }
+
+        async Task SaveBook(BookFilesInfo book)
+        {
+            BookInfo info = book.Book;
+
+            if (!string.IsNullOrEmpty(info.Isbn))
+                info.Isbn = Isbn.Normalise(info.Isbn);
+
+            await _originalDataSource.SaveBook(info);
+
+            foreach (var file in book.Files)
+            {
+                await SaveBookFile(file);
+            }
+        }
+
+        async Task SaveBookFile(BookFileInfo file)
+        {
+            var newFile = new BookFileInfo
+            {
+                Id = Guid.NewGuid().ToString(),
+                Content = file.Content,
+                BookId = file.BookId,
+                FileType = file.FileType,
+                FileName = file.FileName
+            };
+
+            await _originalDataSource.SaveFile(newFile);
         }
     }
 }

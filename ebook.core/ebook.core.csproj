@@ -126,7 +126,6 @@
     <Compile Include="Logic\QueryBookFinder.cs" />
     <Compile Include="Logic\Uploader.cs" />
     <Compile Include="Repo\Azure\AzureSqlRepository.cs" />
-    <Compile Include="Repo\BookRepository.cs" />
     <Compile Include="Repo\File\FileBasedSimpleDataSource.cs" />
     <Compile Include="DataTypes\BookInfo.cs" />
     <Compile Include="Repo\File\CsvWriter.cs" />

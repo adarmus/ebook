@@ -88,18 +88,26 @@ namespace ebook.core.Logic
             var booksNoIsbn =
                 from m in bookFiles
                 where string.IsNullOrEmpty(m.Isbn)
-                select new {File = m};
+                group m by new
+                {
+                    m.Title,
+                    m.Author
+                }
+                into g
+                select new { Title = g.Key.Title, Author = g.Key.Author, Files = g };
 
             var bookListNoIsbn = booksNoIsbn.Select(b =>
             {
-                BookFile first = b.File;
+                BookFile first = b.Files.First();
 
-                return GetBookWithoutIsbn(first);
+                var files = b.Files.Select(f => f.FilePath);
+
+                return GetBookWithoutIsbn(first, files);
             });
             return bookListNoIsbn;
         }
 
-        BookInfo GetBookWithoutIsbn(BookFile first)
+        BookInfo GetBookWithoutIsbn(BookFile first, IEnumerable<string> files)
         {
             DateTime date = _dateAdded.GetDateFromFilePath(first);
 
@@ -112,11 +120,11 @@ namespace ebook.core.Logic
                 PublishDate = first.PublishDate,
                 Publisher = first.Publisher,
                 Title = first.Title,
-                Types = new [] { GetFileType(first.FilePath) },
+                Types = GetFileTypes(files),
                 DateAdded = date
             };
 
-            _lookup.Add(book.Id, new BookFilesInfo(book, first.FilePath));
+            _lookup.Add(book.Id, new BookFilesInfo(book, files));
 
             return book;
         }

@@ -59,6 +59,34 @@ namespace ebook.tests
         }
 
         [TestMethod]
+        public void GetBookList_NoIsbnsSomeTheSame_ReturnsListOfFiles()
+        {
+            var files = new BookFile[]
+            {
+                new BookFile { Isbn = null, Title = "Book1", Author = "Author1", FilePath = "File1.mobi"},
+                new BookFile { Isbn = null, Title = "Book1", Author = "Author1", FilePath = "File2.epub"},
+                new BookFile { Isbn = null, Title = "Book3", Author = "Author3", FilePath = "File3.mobi"},
+            };
+
+            var agg = new Aggregator();
+            BookInfo[] books = agg.GetBookList(files).ToArray();
+            var lookup = agg.GetBookContentInfoLookup();
+
+            Assert.IsNotNull(books);
+            Assert.AreEqual(2, books.Length);
+            Assert.AreEqual(2, lookup.Count);
+
+            AssertBookInfoNoIsbn(books[0], "Book1", "Author1");
+            AssertBookInfoNoIsbn(books[1], "Book3", "Author3");
+
+            AssertBookInfoNoIsbn(lookup[books[0].Id].Book, "Book1", "Author1");
+            AssertBookInfoNoIsbn(lookup[books[1].Id].Book, "Book3", "Author3");
+
+            AssertBookFiles(lookup[books[0].Id], new[] { "File1.mobi", "File2.epub" });
+            AssertBookFiles(lookup[books[1].Id], new[] { "File3.mobi" });
+        }
+
+        [TestMethod]
         public void GetBookList_IsbnsAllDifferent_ReturnsListOfFiles()
         {
             var files = new BookFile[]

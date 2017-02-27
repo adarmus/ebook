@@ -25,6 +25,62 @@ namespace ebook.core.Logic
 
         public async Task<IEnumerable<BookFilesInfo>> Upload(IEnumerable<MatchInfo> incoming)
         {
+            IEnumerable<MatchInfo> toUpload = incoming
+                .Where(b => b.IsSelected);
+
+            IEnumerable<BookFilesInfo> newBooks = await UploadNewBooks(toUpload);
+
+            IEnumerable<BookFilesInfo> newFiles = await UploadNewFiles(toUpload);
+
+            IEnumerable<BookFilesInfo> all = newBooks.Concat(newFiles);
+
+            return all;
+        }
+
+        async Task<IEnumerable<BookFilesInfo>> UploadNewBooks(IEnumerable<MatchInfo> incoming)
+        {
+            IEnumerable<MatchInfo> toUpload = incoming
+                .Where(b => b.Status == MatchStatus.NewBook);
+
+            var dateAddedProvider = new DateAddedProvider(this.DateAddedText);
+
+            var uploaded = new List<BookFilesInfo>();
+
+            foreach (var match in toUpload)
+            {
+                BookFilesInfo content = await _incomingDataSource.GetBookContent(match.Book);
+
+                dateAddedProvider.SetDateTimeAdded(content);
+
+                uploaded.Add(content);
+
+                await SaveBook(content);
+            }
+
+            return uploaded;
+        }
+
+        async Task<IEnumerable<BookFilesInfo>> UploadNewFiles(IEnumerable<MatchInfo> incoming)
+        {
+            IEnumerable<MatchInfo> toUpload = incoming
+                .Where(b => b.Status == MatchStatus.NewFiles);
+
+            var uploaded = new List<BookFilesInfo>();
+
+            foreach (var match in toUpload)
+            {
+                BookFilesInfo content = await _incomingDataSource.GetBookContent(match.Book);
+
+                uploaded.Add(content);
+
+                await SaveBook(content);
+            }
+
+            return uploaded;
+        }
+
+        public async Task<IEnumerable<BookFilesInfo>> Upload1(IEnumerable<MatchInfo> incoming)
+        {
             IEnumerable<BookFilesInfo> contents = await GetBookFilesInfosToUpload(incoming);
 
             await SaveBooks(contents);
@@ -61,8 +117,6 @@ namespace ebook.core.Logic
                 try
                 {
                     await SaveBook(book);
-
-                    _messages.Write("Uploaded: {0}", book.Book.Title);
                 }
                 catch (Exception ex)
                 {
@@ -85,6 +139,8 @@ namespace ebook.core.Logic
             {
                 await SaveBookFile(file);
             }
+
+            _messages.Write("Uploaded: {0}", book.Book.Title);
         }
 
         async Task SaveBookFile(BookFileInfo file)
@@ -99,6 +155,8 @@ namespace ebook.core.Logic
             };
 
             await _originalDataSource.SaveFile(newFile);
+
+            _messages.Write("Uploaded: {0}", file.FileName);
         }
     }
 }

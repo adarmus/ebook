@@ -54,7 +54,6 @@ namespace ebook.tests
             Assert.AreEqual(0, calls.Length);
         }
 
-
         [TestMethod]
         public async Task Upload_NewBooks_2Calls()
         {
@@ -127,6 +126,43 @@ namespace ebook.tests
             ICall[] calls = bookSource.ReceivedCalls().ToArray();
 
             Assert.AreEqual(0, calls.Length);
+        }
+
+        [TestMethod]
+        public async Task Upload_NewFile_1Calls()
+        {
+            var fileSource = Substitute.For<ISimpleDataSource>();
+            var bookfiles = new BookFilesInfo(MakeBook(null, "Titlt", "Author", "MOBI"),
+                new BookFileInfo[]
+                {
+                    new BookFileInfo
+                    {
+                        FileName = "filepath1.mobi"
+                    }
+                });
+
+            fileSource.GetBookContent(Arg.Any<BookInfo>()).Returns(Task.FromResult(bookfiles));
+
+            var bookSource = Substitute.For<IFullDataSource>();
+            var messages = Substitute.For<IOutputMessage>();
+            var uploader = new Uploader(bookSource, fileSource, messages);
+
+            MatchInfo[] books = new MatchInfo[]
+            {
+                new MatchInfo(MakeBook(null, "Titlt", "Author", "EPUB"))
+                {
+                    IsSelected = true,
+                    Status = MatchStatus.NewFiles,
+                    MatchedBook = MakeBook(null, "Titlt", "Author", "MOBI")
+                }
+            };
+
+            await uploader.Upload(books);
+
+            ICall[] calls = bookSource.ReceivedCalls().ToArray();
+
+            Assert.AreEqual(1, calls.Length);
+            AssertCall(calls[0], "SaveFile");
         }
 
         BookInfo MakeBook(string isbn, string title, string author, params string[] types)

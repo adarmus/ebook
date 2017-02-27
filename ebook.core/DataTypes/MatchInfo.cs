@@ -22,10 +22,14 @@ namespace ebook.core.DataTypes
 
         public MatchStatus Status { get; set; }
 
-        public void SetMatch(BookInfo matchedBook, MatchStatus status)
+        public IEnumerable<string> NewTypes { get; set; }
+
+
+        public void SetMatch(BookInfo matchedBook, MatchStatus status, IEnumerable<string> newTypes)
         {
             this.MatchedBook = matchedBook;
             this.Status = status;
+            this.NewTypes = newTypes;
             this.IsSelected = (status == MatchStatus.NewBook || status == MatchStatus.NewFiles);
         }
     }

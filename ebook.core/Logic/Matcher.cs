@@ -30,7 +30,7 @@ namespace ebook.core.Logic
             {
                 FindResultInfo result = await _bookFinder.Find(match.Book);
 
-                match.SetMatch(result.Book, result.Status);
+                match.SetMatch(result.Book, result.Status, result.NewTypes);
 
                 matches.Add(match);
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -73,57 +74,10 @@ namespace ebook.core.Logic
 
                 uploaded.Add(content);
 
-                await SaveBook(content);
+                await SaveNewFiles(content, match);
             }
 
             return uploaded;
-        }
-
-        public async Task<IEnumerable<BookFilesInfo>> Upload1(IEnumerable<MatchInfo> incoming)
-        {
-            IEnumerable<BookFilesInfo> contents = await GetBookFilesInfosToUpload(incoming);
-
-            await SaveBooks(contents);
-
-            return contents;
-        }
-
-        async Task<IEnumerable<BookFilesInfo>> GetBookFilesInfosToUpload(IEnumerable<MatchInfo> incoming)
-        {
-            IEnumerable<MatchInfo> toUpload = incoming
-                .Where(b => b.IsSelected)
-                .Where(b => (b.Status == MatchStatus.NewBook || b.Status == MatchStatus.NewFiles));
-
-            var dateAddedProvider = new DateAddedProvider(this.DateAddedText);
-
-            var tasks = toUpload.Select(async (b) =>
-            {
-                BookFilesInfo content = await _incomingDataSource.GetBookContent(b.Book);
-
-                dateAddedProvider.SetDateTimeAdded(content);
-
-                return content;
-            });
-
-            BookFilesInfo[] contents = await Task.WhenAll(tasks);
-
-            return contents;
-        }
-
-        async Task SaveBooks(IEnumerable<BookFilesInfo> books)
-        {
-            foreach (var book in books)
-            {
-                try
-                {
-                    await SaveBook(book);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                    throw;
-                }
-            }
         }
 
         async Task SaveBook(BookFilesInfo book)
@@ -143,6 +97,19 @@ namespace ebook.core.Logic
             _messages.Write("Uploaded: {0}", book.Book.Title);
         }
 
+        async Task SaveNewFiles(BookFilesInfo book, MatchInfo match)
+        {
+            foreach (var file in book.Files)
+            {
+                if (match.NewTypes.Contains(file.FileType))
+                {
+                    await SaveBookFile(file);
+                }
+            }
+
+            _messages.Write("Uploaded: {0}", book.Book.Title);
+        }
+
         async Task SaveBookFile(BookFileInfo file)
         {
             var newFile = new BookFileInfo
@@ -157,6 +124,16 @@ namespace ebook.core.Logic
             await _originalDataSource.SaveFile(newFile);
 
             _messages.Write("Uploaded: {0}", file.FileName);
+        }
+
+        string GetFileType(string filepath)
+        {
+            string ext = Path.GetExtension(filepath);
+
+            if (string.IsNullOrEmpty(ext))
+                return null;
+
+            return ext.ToUpper().Substring(1);
         }
     }
 }

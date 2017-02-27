@@ -137,7 +137,8 @@ namespace ebook.tests
                 {
                     new BookFileInfo
                     {
-                        FileName = "filepath1.mobi"
+                        FileName = "filepath1.mobi",
+                        FileType = "MOBI"
                     }
                 });
 
@@ -153,7 +154,8 @@ namespace ebook.tests
                 {
                     IsSelected = true,
                     Status = MatchStatus.NewFiles,
-                    MatchedBook = MakeBook(null, "Titlt", "Author", "MOBI")
+                    MatchedBook = MakeBook(null, "Titlt", "Author", "MOBI"),
+                    NewTypes = new []{ "MOBI" }
                 }
             };
 

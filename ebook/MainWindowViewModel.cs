@@ -194,8 +194,8 @@ namespace ebook
             }
 
             this.IsBusy = false;
-
         }
+
         async Task DoUpload()
         {
             _messageListener.Write("Upload: starting");
@@ -445,7 +445,7 @@ namespace ebook
 
         public ICommand UploadCommand
         {
-            get { return _uploadCommand ?? (_uploadCommand = new AsyncCommand1(this.DoUpload)); }
+            get { return _uploadCommand ?? (_uploadCommand = new AsyncCommand1(this.TryDoUpload)); }
         }
 
         ICommand _selectAllCommand;

@@ -99,10 +99,12 @@ namespace ebook.core.Logic
 
         async Task SaveNewFiles(BookFilesInfo book, MatchInfo match)
         {
-            foreach (var file in book.Files)
+            foreach (BookFileInfo file in book.Files)
             {
                 if (match.NewTypes.Contains(file.FileType))
                 {
+                    file.BookId = match.MatchedBook.Id;
+
                     await SaveBookFile(file);
                 }
             }

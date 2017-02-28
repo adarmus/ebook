@@ -39,6 +39,24 @@ namespace ebook.core.Repo.SqlLite
             }
         }
 
+        public async Task<BookInfo> GetBookByIsbn(string isbn)
+        {
+            BookInfo book = await GetBookSqlDal().BookSelByIsbn(isbn);
+
+            await AddFileTypes(book);
+
+            return book;
+        }
+
+        public async Task<BookInfo> GetBookByTitleAuthor(string title, string author)
+        {
+            BookInfo book = await GetBookSqlDal().BookSelByTitleAuthor(title, author);
+
+            await AddFileTypes(book);
+
+            return book;
+        }
+
         async Task AddFileTypes(BookInfo book)
         {
             if (book == null)
@@ -83,24 +101,6 @@ namespace ebook.core.Repo.SqlLite
         public async Task SaveFile(BookFileInfo file)
         {
             await GetBookSqlDal().FileIns(file);
-        }
-
-        public async Task<BookInfo> GetBookByIsbn(string isbn)
-        {
-            BookInfo book = await GetBookSqlDal().BookSelByIsbn(isbn);
-
-            await AddFileTypes(book);
-
-            return book;
-        }
-
-        public async Task<BookInfo> GetBookByTitleAuthor(string title, string author)
-        {
-            BookInfo book = await GetBookSqlDal().BookSelByTitleAuthor(title, author);
-
-            await AddFileTypes(book);
-
-            return book;
         }
 
         private IBookSqlLiteDal GetBookSqlDal()

@@ -21,6 +21,8 @@ namespace ebook
     internal class MainWindowViewModel : ViewModelBase
     {
         readonly MessageListener _messageListener;
+        readonly ExceptionHandler _exceptionHandler;
+
         ISimpleDataSource _simpleDataSource;
 
         public MainWindowViewModel()
@@ -35,6 +37,8 @@ namespace ebook
             this.IncludeMobi = config.IncludeMobi;
 
             SetupDataSources(config);
+
+            _exceptionHandler = new ExceptionHandler(_messageListener);
 
             //TestDebug();
 
@@ -121,7 +125,7 @@ namespace ebook
             }
             catch (Exception ex)
             {
-                ExceptionHandler.Handle(ex, "comparing");
+                _exceptionHandler.Handle(ex, "comparing");
             }
 
             this.IsBusy = false;
@@ -170,7 +174,7 @@ namespace ebook
             return newlist;
         }
 
-        async Task DoUpload()
+        async Task TryDoUpload()
         {
             if (this.BookFileList == null)
                 return;
@@ -178,10 +182,21 @@ namespace ebook
             if (this.SelectedFullDataSourceInfo == null)
                 return;
 
-            await UploadBooks();
-        }
+            this.IsBusy = true;
 
-        async Task UploadBooks()
+            try
+            {
+                await DoUpload();
+            }
+            catch (Exception ex)
+            {
+                _exceptionHandler.Handle(ex, "uploading");
+            }
+
+            this.IsBusy = false;
+
+        }
+        async Task DoUpload()
         {
             _messageListener.Write("Upload: starting");
 

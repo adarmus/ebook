@@ -8,7 +8,14 @@ namespace ebook
 {
     class ExceptionHandler
     {
-        internal static void Handle(Exception ex, string message)
+        readonly MessageListener _messages;
+
+        public ExceptionHandler(MessageListener messages)
+        {
+            _messages = messages;
+        }
+
+        internal void Handle(Exception ex, string message)
         {
             ExceptionInfo e = GetExceptionInfo(ex, message);
 
@@ -16,6 +23,8 @@ namespace ebook
 
             ILog log = LogManager.GetLogger("root");
             log.Error(string.Format("An error occured {0}: {1}", message, err), e.Exception);
+
+            _messages.Write(string.Format("An error occured {0}: {1}", message, err));
         }
 
         static string GetFormattedExceptionText(ExceptionInfo e, bool pad)

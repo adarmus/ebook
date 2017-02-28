@@ -1,3 +1,5 @@
-Show book types in list
-Show date from file data source in list
+DataSource that puts books into DB but leaves files on disk
 Match info shows missing file types
+Optimise by having only one file searcher
+Convert to Async calls that read mobi and epub files
+Remember config settings

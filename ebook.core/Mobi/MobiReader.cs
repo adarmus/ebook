@@ -1,5 +1,6 @@
 ﻿using System;
 using ebook.core.BookFiles;
+using ebook.core.DataTypes;
 using ebook.core.Logic;
 using ebook.core.Mobi.Pdb;
 
@@ -12,7 +13,10 @@ namespace ebook.core.Mobi
         public MobiReader(IOutputMessage messages)
         {
             _messages = messages;
+            Extension = BookExtensions.MOBI;
         }
+
+        public string Extension { get; }
 
         public BookFile Read(string filepath)
         {

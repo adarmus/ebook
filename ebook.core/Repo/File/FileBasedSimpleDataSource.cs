@@ -15,13 +15,11 @@ namespace ebook.core.Repo.File
     public class FileBasedSimpleDataSource : ISimpleDataSource
     {
         readonly IOutputMessage _messages;
-        readonly List<IBookFileListProvider> _providers;
         readonly string _folderPath;
         Dictionary<string, BookFilesInfo> _lookup;
 
         public FileBasedSimpleDataSource(string folderPath, IOutputMessage messages)
         {
-            _providers = new List<IBookFileListProvider>();
             _folderPath = folderPath;
             _messages = messages;
         }
@@ -30,35 +28,40 @@ namespace ebook.core.Repo.File
 
         public async Task<IEnumerable<BookInfo>> GetBooks(bool includeMobi, bool includeEpub)
         {
-            _providers.Clear();
+            BookFileList bookFileList = GetBookFileList(includeMobi, includeEpub);
 
-            if (includeMobi)
-                AddReader(BookExtensions.MOBI, new MobiReader(_messages));
+            IEnumerable<BookFile> files = await bookFileList.GetBookFiles();
 
-            if (includeEpub)
-                AddReader(BookExtensions.EPUB, new EpubReader(_messages));
-
-            var agg = new Aggregator(DateAddedProvider);
-
-            IEnumerable<BookFile> files = await GetBookFiles();
-
-            IEnumerable<BookInfo> list = agg.GetBookList(files);
-
-            _lookup = agg.GetBookContentInfoLookup();
+            IEnumerable<BookInfo> list = AggregateBooks(files);
 
             return list;
         }
 
-        void AddReader(string fileExt, IBookFileReader reader)
+        IEnumerable<BookInfo> AggregateBooks(IEnumerable<BookFile> files)
         {
-            var files = new FileFinder(_folderPath, fileExt);
-            var list = new BookFileList(files, reader, _messages);
-            _providers.Add(list);
+            var agg = new Aggregator(DateAddedProvider);
+
+            IEnumerable<BookInfo> list = agg.GetBookList(files);
+
+            _lookup = agg.GetBookContentInfoLookup();
+            return list;
         }
 
-        async Task<IEnumerable<BookFile>> GetBookFiles()
+        BookFileList GetBookFileList(bool includeMobi, bool includeEpub)
         {
-            return await _providers.SelectManyAsync(async p => await p.GetBookFiles());
+            var fileFinder = new FileFinder(_folderPath);
+            var bookFileList = new BookFileList(fileFinder, _messages);
+
+            if (includeMobi)
+            {
+                bookFileList.AddReader(new MobiReader(_messages));
+            }
+
+            if (includeEpub)
+            {
+                bookFileList.AddReader(new EpubReader(_messages));
+            }
+            return bookFileList;
         }
 
         public async Task<BookFilesInfo> GetBookContent(BookInfo book)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using ebook.core.BookFiles;
+using ebook.core.DataTypes;
 using ebook.core.ePub.ePubReader;
 using ebook.core.Logic;
 
@@ -13,7 +14,10 @@ namespace ebook.core.ePub
         public EpubReader(IOutputMessage messages)
         {
             _messages = messages;
+            Extension = BookExtensions.EPUB;
         }
+
+        public string Extension { get; }
 
         public BookFile Read(string filepath)
         {

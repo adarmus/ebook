@@ -11,17 +11,22 @@ namespace ebook.core.Utils
     {
         public static Task<IEnumerable<string>> EnumerateDirectories(string path)
         {
-            return Task.Run(() => { return Directory.EnumerateDirectories(path); });
+            return Task.Run(() => Directory.EnumerateDirectories(path));
         }
 
         public static Task<IEnumerable<string>> EnumerateFiles(string path)
         {
-            return Task.Run(() => { return Directory.EnumerateFiles(path); });
+            return Task.Run(() => Directory.EnumerateFiles(path));
+        }
+
+        public static Task<IEnumerable<string>> EnumerateFiles(string path, SearchOption options)
+        {
+            return EnumerateFiles(path, "*.*", options);
         }
 
         public static Task<IEnumerable<string>> EnumerateFiles(string path, string searchPattern, SearchOption options)
         {
-            return Task.Run(() => { return Directory.EnumerateFiles(path, searchPattern, options); });
+            return Task.Run(() => Directory.EnumerateFiles(path, searchPattern, options));
         }
     }
 }

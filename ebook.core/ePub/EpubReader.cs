@@ -9,11 +9,8 @@ namespace ebook.core.ePub
 {
     public class EpubReader : IBookFileReader
     {
-        readonly IOutputMessage _messages;
-
-        public EpubReader(IOutputMessage messages)
+        public EpubReader()
         {
-            _messages = messages;
             Extension = BookExtensions.EPUB;
         }
 
@@ -22,25 +19,17 @@ namespace ebook.core.ePub
         public BookFile Read(string filepath)
         {
             BookFile book = null;
-            try
-            {
-                var epub = new Epub(filepath);
 
-                book = new BookFile();
-                book.Author = GetFirstSafe(epub.Creator);
-                book.Title = GetFirstSafe(epub.Title);
-                book.Publisher = GetFirstSafe(epub.Publisher);
-                book.Description = GetFirstSafe(epub.Description);
-                book.PublishDate = GetFirstSafe(epub.Date);
-                book.Isbn = epub.ISBN;
-                book.FilePath = filepath;
+            var epub = new Epub(filepath);
 
-                _messages.Write("Read {0}", filepath);
-            }
-            catch(Exception ex)
-            {
-                _messages.Write("Error reading {0} ({1})", filepath, ex.Message);
-            }
+            book = new BookFile();
+            book.Author = GetFirstSafe(epub.Creator);
+            book.Title = GetFirstSafe(epub.Title);
+            book.Publisher = GetFirstSafe(epub.Publisher);
+            book.Description = GetFirstSafe(epub.Description);
+            book.PublishDate = GetFirstSafe(epub.Date);
+            book.Isbn = epub.ISBN;
+            book.FilePath = filepath;
 
             return book;
         }

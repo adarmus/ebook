@@ -87,6 +87,8 @@ namespace ebook
             if (this.SelectedSimpleDataSourceInfo == null)
                 return;
 
+            this.BookFileList = new ObservableCollection<MatchInfo>();
+
             _simpleDataSource = this.SelectedSimpleDataSourceInfo.GetSimpleDataSource();
             SetDateAddedProvider(_simpleDataSource);
 

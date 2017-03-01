@@ -32,7 +32,7 @@ namespace ebook.core.Repo.File
 
             IEnumerable<BookFile> files = await bookFileList.GetBookFiles();
 
-            IEnumerable<BookInfo> list = AggregateBooks(files);
+            IEnumerable<BookInfo> list = AggregateBooks(files.ToArray());
 
             return list;
         }
@@ -53,14 +53,11 @@ namespace ebook.core.Repo.File
             var bookFileList = new BookFileList(fileFinder, _messages);
 
             if (includeMobi)
-            {
-                bookFileList.AddReader(new MobiReader(_messages));
-            }
+                bookFileList.AddReader(new MobiReader());
 
             if (includeEpub)
-            {
-                bookFileList.AddReader(new EpubReader(_messages));
-            }
+                bookFileList.AddReader(new EpubReader());
+
             return bookFileList;
         }
 

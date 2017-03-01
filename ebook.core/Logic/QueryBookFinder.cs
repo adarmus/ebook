@@ -24,12 +24,12 @@ namespace ebook.core.Logic
             if (result.Status != MatchStatus.UpToDate)
                 return result;
 
-            FindResultInfo fileResult = await FindBookFiles(incoming, result);
+            FindResultInfo fileResult = FindBookFiles(incoming, result);
 
             return fileResult;
         }
 
-        async Task<FindResultInfo> FindBookFiles(BookInfo incoming, FindResultInfo foundResult)
+        FindResultInfo FindBookFiles(BookInfo incoming, FindResultInfo foundResult)
         {
             string [] foundTypes = foundResult.Book.Types.ToArray();
 

@@ -25,7 +25,7 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="5"/>
-            <RowDefinition Height="20" MinHeight="20"/>
+            <RowDefinition Height="40" MinHeight="20"/>
         </Grid.RowDefinitions>
 
         <!-- Buttons and options -->
@@ -235,7 +235,7 @@
             HorizontalAlignment="Stretch">
         </GridSplitter>
         
-        <Border Grid.Row="3" Background="DarkGray">
+        <Border Grid.Row="3" Background="DarkGray" Padding="5,5,5,5">
             <ScrollViewer>
                 <i:Interaction.Behaviors>
                     <ebook:AutoScrollBehavior />
@@ -245,8 +245,8 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock FontSize="10" Text="{Binding Time}" Margin="0 0 10 0"></TextBlock>
-                                <TextBlock FontSize="10" Text="{Binding Text}"></TextBlock>
+                                <TextBlock FontSize="12" Text="{Binding Time}" Margin="0 0 10 0"></TextBlock>
+                                <TextBlock FontSize="12" Text="{Binding Text}"></TextBlock>
                             </StackPanel>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ebook.core.DataTypes;
+using ebook.core.Files;
 using Insight.Database;
 
 namespace ebook.core.Repo.SqlLite
@@ -13,10 +14,12 @@ namespace ebook.core.Repo.SqlLite
     public class SqlLiteRefDataSource : IFullDataSource
     {
         readonly SQLiteConnectionStringBuilder _builder;
+        readonly FileReader _reader;
 
         public SqlLiteRefDataSource(string dataFile)
         {
             _builder = new SQLiteConnectionStringBuilder() { DataSource = dataFile };
+            _reader = new FileReader();
         }
 
         public async Task<IEnumerable<BookInfo>> GetBooks(bool includeMobi, bool includeEpub)
@@ -78,11 +81,13 @@ namespace ebook.core.Repo.SqlLite
         {
             try
             {
-                IBookSqlLiteDal repo = GetBookSqlDal();
+                IBookSqlLiteRefDal repo = GetBookSqlDal();
 
                 BookInfo info = await repo.BookSelById(book.Id);
 
                 IEnumerable<BookFileInfo> files = await repo.BookFileSelByBookId(book.Id);
+
+                await AddFileContent(files);
 
                 return new BookFilesInfo(info, files);
             }
@@ -90,6 +95,16 @@ namespace ebook.core.Repo.SqlLite
             {
                 Console.WriteLine(ex.Message);
                 throw;
+            }
+        }
+
+        async Task AddFileContent(IEnumerable<BookFileInfo> files)
+        {
+            foreach (var file in files)
+            {
+                byte[] content = await _reader.ReadAllFileAsync(file.FilePath);
+
+                file.Content = content;
             }
         }
 
@@ -103,10 +118,10 @@ namespace ebook.core.Repo.SqlLite
             await GetBookSqlDal().FileIns(file);
         }
 
-        private IBookSqlLiteDal GetBookSqlDal()
+        private IBookSqlLiteRefDal GetBookSqlDal()
         {
             var connection = new SQLiteConnection(_builder.ConnectionString);
-            return connection.As<IBookSqlLiteDal>();
+            return connection.As<IBookSqlLiteRefDal>();
         }
     }
 }

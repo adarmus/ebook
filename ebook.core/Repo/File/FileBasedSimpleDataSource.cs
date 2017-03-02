@@ -16,12 +16,14 @@ namespace ebook.core.Repo.File
     {
         readonly IOutputMessage _messages;
         readonly string _folderPath;
+        readonly FileReader _reader;
         Dictionary<string, BookFilesInfo> _lookup;
 
         public FileBasedSimpleDataSource(string folderPath, IOutputMessage messages)
         {
             _folderPath = folderPath;
             _messages = messages;
+            _reader = new FileReader();
         }
 
         public DateAddedProvider DateAddedProvider { get; set; }
@@ -83,7 +85,7 @@ namespace ebook.core.Repo.File
             if (type == null)
                 return null;
 
-            byte[] content = await ReadAllFileAsync(filepath);
+            byte[] content = await _reader.ReadAllFileAsync(filepath);
 
             var bookfile = new BookFileInfo
             {
@@ -97,15 +99,7 @@ namespace ebook.core.Repo.File
             return bookfile;
         }
 
-        async Task<byte[]> ReadAllFileAsync(string filename)
-        {
-            using (var file = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, true))
-            {
-                byte[] buff = new byte[file.Length];
-                await file.ReadAsync(buff, 0, (int)file.Length);
-                return buff;
-            }
-        }
+        
 
         string GetFileType(string filepath)
         {

@@ -90,7 +90,7 @@ namespace ebook.core.Mobi.Pdb
             if (!File.Exists(_filepath))
                 throw new FileNotFoundException(string.Format("Cannot find file '{0}'", _filepath));
 
-            using (var file = new FileStream(_filepath, FileMode.Open))
+            using (var file = new FileStream(_filepath, FileMode.Open, FileAccess.Read))
             {
                 using (var binary = new BinaryReader(file))
                 {

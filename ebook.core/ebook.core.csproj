@@ -160,7 +160,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repo\ISimpleDataSource.cs" />
     <Compile Include="Repo\SqlLite\IBookSqlLiteDal.cs" />
+    <Compile Include="Repo\SqlLite\IBookSqlLiteRefDal.cs" />
     <Compile Include="Repo\SqlLite\SqlLiteDataSource.cs" />
+    <Compile Include="Repo\SqlLite\SqlLiteRefDataSource.cs" />
     <Compile Include="Repo\SqlLite\Test.cs" />
     <Compile Include="Repo\Sql\IBookSqlDal.cs" />
     <Compile Include="Repo\Sql\SqlDataSource.cs" />

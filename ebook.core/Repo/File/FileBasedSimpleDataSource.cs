@@ -92,6 +92,7 @@ namespace ebook.core.Repo.File
                 Id = filepath,
                 FileName = Path.GetFileName(filepath),
                 FileType = type,
+                FilePath = filepath,
                 BookId = book.Id,
                 Content = content
             };

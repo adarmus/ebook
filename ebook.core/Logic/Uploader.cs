@@ -120,22 +120,13 @@ namespace ebook.core.Logic
                 Content = file.Content,
                 BookId = file.BookId,
                 FileType = file.FileType,
+                FilePath = file.FilePath,
                 FileName = file.FileName
             };
 
             await _originalDataSource.SaveFile(newFile);
 
             _messages.Write("Uploaded: {0}", file.FileName);
-        }
-
-        string GetFileType(string filepath)
-        {
-            string ext = Path.GetExtension(filepath);
-
-            if (string.IsNullOrEmpty(ext))
-                return null;
-
-            return ext.ToUpper().Substring(1);
         }
     }
 }

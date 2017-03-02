@@ -31,6 +31,10 @@ namespace ebook
         void AddMessage(MessageInfo message)
         {
             message.Time = string.Format("{0:yyyy-MM-dd hh:mm:ss}", DateTime.Now);
+
+            if (_messages.Count > 100)
+                _messages.RemoveAt(0);
+
             _messages.Add(message);
         }
     }

@@ -1,5 +1,6 @@
 DataSource that puts books into DB but leaves files on disk
 Match info shows missing file types
+Remember config settings
+----
 Optimise by having only one file searcher
 Convert to Async calls that read mobi and epub files
-Remember config settings

@@ -67,7 +67,7 @@ namespace ebook.core.Utils
             {
                 ret =
                     PadTitle("Error") + e.FullExceptionMessage + crlf +
-                    PadTitle("Exception") + e.InnerMostException.GetType().ToString() + crlf +
+                    PadTitle("Type") + e.InnerMostException.GetType().ToString() + crlf +
                     PadTitle("Source") + e.Source + crlf +
                     PadTitle("Target") + e.Target + crlf +
                     sql +

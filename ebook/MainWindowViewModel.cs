@@ -97,7 +97,7 @@ namespace ebook
             this.IsBusy = true;
 
             IEnumerable<BookInfo> books = await _simpleDataSource.GetBooks(this.IncludeMobi, this.IncludeEpub);
-            IEnumerable<MatchInfo> matches = books.Select(b => new MatchInfo(b));
+            IEnumerable<MatchInfo> matches = books.Select(b => new MatchInfo(b) { IsSelected = true });
 
             SetBookFileList(matches);
 

@@ -82,51 +82,72 @@ namespace ebook.core.Logic
 
         async Task SaveBook(BookFilesInfo book)
         {
-            BookInfo info = book.Book;
-
-            if (!string.IsNullOrEmpty(info.Isbn))
-                info.Isbn = Isbn.Normalise(info.Isbn);
-
-            await _originalDataSource.SaveBook(info);
-
-            foreach (var file in book.Files)
+            try
             {
-                await SaveBookFile(file);
-            }
+                BookInfo info = book.Book;
 
-            _messages.Write("Uploaded: {0}", book.Book.Title);
+                if (!string.IsNullOrEmpty(info.Isbn))
+                    info.Isbn = Isbn.Normalise(info.Isbn);
+
+                await _originalDataSource.SaveBook(info);
+
+                foreach (var file in book.Files)
+                {
+                    await SaveBookFile(file);
+                }
+
+                _messages.Write("Uploaded: {0}", book.Book.Title);
+            }
+            catch (Exception ex)
+            {
+                _messages.Write("Error uploading {0} ({1})", book.Book.Title, ex.Message);
+            }
         }
 
         async Task SaveNewFiles(BookFilesInfo book, MatchInfo match)
         {
-            foreach (BookFileInfo file in book.Files)
+            try
             {
-                if (match.NewTypes.Contains(file.FileType))
+                foreach (BookFileInfo file in book.Files)
                 {
-                    file.BookId = match.MatchedBook.Id;
+                    if (match.NewTypes.Contains(file.FileType))
+                    {
+                        file.BookId = match.MatchedBook.Id;
 
-                    await SaveBookFile(file);
+                        await SaveBookFile(file);
+                    }
                 }
-            }
 
-            _messages.Write("Uploaded: {0}", book.Book.Title);
+                _messages.Write("Uploaded: {0}", book.Book.Title);
+            }
+            catch (Exception ex)
+            {
+                _messages.Write("Error uploading {0} ({1})", book.Book.Title, ex.Message);
+            }
         }
 
         async Task SaveBookFile(BookFileInfo file)
         {
-            var newFile = new BookFileInfo
+            try
             {
-                Id = Guid.NewGuid().ToString(),
-                Content = file.Content,
-                BookId = file.BookId,
-                FileType = file.FileType,
-                FilePath = file.FilePath,
-                FileName = file.FileName
-            };
+                var newFile = new BookFileInfo
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Content = file.Content,
+                    BookId = file.BookId,
+                    FileType = file.FileType,
+                    FilePath = file.FilePath,
+                    FileName = file.FileName
+                };
 
-            await _originalDataSource.SaveFile(newFile);
+                await _originalDataSource.SaveFile(newFile);
 
-            _messages.Write("Uploaded: {0}", file.FileName);
+                _messages.Write("Uploaded: {0}", file.FileName);
+            }
+            catch (Exception ex)
+            {
+                _messages.Write("Error uploading {0} ({1})", file.FilePath, ex.Message);
+            }
         }
     }
 }

@@ -11,5 +11,9 @@ namespace ebook.core.Logic
         void Write(string text);
 
         void Write(string format, params object[] args);
+
+        void WriteError(Exception ex, string message);
+
+        void WriteError(Exception ex, string format, params object[] args);
     }
 }

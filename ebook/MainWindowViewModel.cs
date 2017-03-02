@@ -31,14 +31,13 @@ namespace ebook
 
             this.Messages = new ObservableCollection<MessageInfo>();
 
-            _messageListener = new MessageListener(this.Messages, LogManager.GetLogger("root"));
+            _messageListener = new MessageListener(this.Messages);
+            _exceptionHandler = new ExceptionHandler(_messageListener);
 
             this.IncludeEpub = config.IncludeEpub;
             this.IncludeMobi = config.IncludeMobi;
 
             SetupDataSources(config);
-
-            _exceptionHandler = new ExceptionHandler(_messageListener);
 
             //TestDebug();
 
@@ -56,8 +55,8 @@ namespace ebook
         {
             var dataSources = new ISimpleDataSourceInfo[]
             {
-                new FileSystemDataSourceInfo(_messageListener) {Parameter = config.ImportFolderPath},
-                new FileSystemDataSourceInfo(_messageListener) {Parameter = @"c:\tmp\"},
+                new FileSystemDataSourceInfo(_exceptionHandler) {Parameter = config.ImportFolderPath},
+                new FileSystemDataSourceInfo(_exceptionHandler) {Parameter = @"c:\tmp\"},
                 new SqlDataSourceInfo {Parameter = "Server=localhost; Database=ebook; Trusted_Connection=SSPI"},
                 new SqlLiteRefDataSourceInfo {Parameter = @"C:\Tree\ebook\sql\dev.db"},
                 new SqlLiteDataSourceInfo {Parameter = @"C:\Tree\ebook\sql\dev.db"},
@@ -129,7 +128,7 @@ namespace ebook
             }
             catch (Exception ex)
             {
-                _exceptionHandler.Handle(ex, "comparing");
+                _exceptionHandler.WriteError(ex, "comparing");
             }
 
             this.IsBusy = false;
@@ -141,7 +140,7 @@ namespace ebook
 
             var bookFinder = new QueryBookFinder(this.SelectedFullDataSourceInfo.GetFullDataSource());
 
-            var matcher = new Matcher(bookFinder, _messageListener);
+            var matcher = new Matcher(bookFinder, _exceptionHandler);
 
             IEnumerable<MatchInfo> matched = await matcher.Match(this.BookFileList);
 
@@ -194,7 +193,7 @@ namespace ebook
             }
             catch (Exception ex)
             {
-                _exceptionHandler.Handle(ex, "uploading");
+                _exceptionHandler.WriteError(ex, "uploading");
             }
 
             this.IsBusy = false;
@@ -206,7 +205,7 @@ namespace ebook
 
             this.IsBusy = true;
 
-            var uploader = new Uploader(this.SelectedFullDataSourceInfo.GetFullDataSource(), _simpleDataSource, _messageListener);
+            var uploader = new Uploader(this.SelectedFullDataSourceInfo.GetFullDataSource(), _simpleDataSource, _exceptionHandler);
             uploader.DateAddedText = DateAddedText;
 
             var contents = await uploader.Upload(this.BookFileList);

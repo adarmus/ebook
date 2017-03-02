@@ -100,8 +100,6 @@ namespace ebook.core.Repo.File
             return bookfile;
         }
 
-        
-
         string GetFileType(string filepath)
         {
             string ext = Path.GetExtension(filepath);

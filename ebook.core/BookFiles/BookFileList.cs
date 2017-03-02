@@ -72,7 +72,7 @@ namespace ebook.core.BookFiles
             }
             catch (Exception ex)
             {
-                _messages.Write("Error reading {0} ({1})", path, ex.Message);
+                _messages.WriteError(ex, "reading {0}", path);
                 return null;
             }
         }

@@ -116,7 +116,6 @@
     <Compile Include="ConfigFile.cs" />
     <Compile Include="ConfigProvider.cs" />
     <Compile Include="ExceptionHandler.cs" />
-    <Compile Include="ExceptionInfo.cs" />
     <Compile Include="GridFilter.cs" />
     <Compile Include="Async\IAsyncCommand.cs" />
     <Compile Include="MainWindow.xaml.cs">

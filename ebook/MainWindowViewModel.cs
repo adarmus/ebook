@@ -208,11 +208,11 @@ namespace ebook
             var uploader = new Uploader(this.SelectedFullDataSourceInfo.GetFullDataSource(), _simpleDataSource, _exceptionHandler);
             uploader.DateAddedText = DateAddedText;
 
-            var contents = await uploader.Upload(this.BookFileList);
+            var count = await uploader.Upload(this.BookFileList);
 
             this.IsBusy = false;
 
-            _messageListener.Write("Upload: uploaded {0} books", contents.Count());
+            _messageListener.Write("Upload: uploaded {0} books", count);
         }
 
         void SelectedSimpleDataSourceInfoChanged()

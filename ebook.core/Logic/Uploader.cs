@@ -24,7 +24,7 @@ namespace ebook.core.Logic
 
         public string DateAddedText { get; set; }
 
-        public async Task<IEnumerable<BookFilesInfo>> Upload(IEnumerable<MatchInfo> incoming)
+        public async Task<int> Upload(IEnumerable<MatchInfo> incoming)
         {
             IEnumerable<MatchInfo> toUpload = incoming
                 .Where(b => b.IsSelected);
@@ -35,7 +35,7 @@ namespace ebook.core.Logic
 
             IEnumerable<BookFilesInfo> all = newBooks.Concat(newFiles);
 
-            return all;
+            return all.Count();
         }
 
         async Task<IEnumerable<BookFilesInfo>> UploadNewBooks(IEnumerable<MatchInfo> incoming)

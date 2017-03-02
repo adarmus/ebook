@@ -59,6 +59,7 @@ namespace ebook
                 new FileSystemDataSourceInfo(_messageListener) {Parameter = config.ImportFolderPath},
                 new FileSystemDataSourceInfo(_messageListener) {Parameter = @"c:\tmp\"},
                 new SqlDataSourceInfo {Parameter = "Server=localhost; Database=ebook; Trusted_Connection=SSPI"},
+                new SqlLiteRefDataSourceInfo {Parameter = @"C:\Tree\ebook\sql\dev.db"},
                 new SqlLiteDataSourceInfo {Parameter = @"C:\Tree\ebook\sql\dev.db"},
             };
 
@@ -68,6 +69,7 @@ namespace ebook
 
             var sources = new IFullDataSourceInfo[]
             {
+                new SqlLiteRefDataSourceInfo {Parameter = @"C:\Tree\ebook\sql\dev.db"},
                 new SqlLiteDataSourceInfo {Parameter = @"C:\Tree\ebook\sql\dev.db"},
                 new SqlDataSourceInfo {Parameter = "Server=localhost; Database=ebook; Trusted_Connection=SSPI"},
             };

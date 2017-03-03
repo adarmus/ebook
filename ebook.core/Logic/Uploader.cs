@@ -85,12 +85,12 @@ namespace ebook.core.Logic
 
             await _originalDataSource.SaveBook(info);
 
+            _messages.Write("Added:    {0} - {1} [{2}]", book.Book.Title, book.Book.Author, book.Book.Isbn);
+
             foreach (var file in book.Files)
             {
                 await SaveBookFile(file);
             }
-
-            _messages.Write("Uploaded: {0}", book.Book.Title);
         }
 
         async Task<IEnumerable<BookFilesInfo>> UploadNewFiles(IEnumerable<MatchInfo> incoming)

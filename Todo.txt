@@ -1,4 +1,3 @@
-Remove double exceptions from log file
 Export epub
 Email mobi 
 Remember config settings
@@ -8,3 +7,5 @@ Optimise by having only one file searcher
 Convert to Async calls that read mobi and epub files
 DataSource that puts books into DB but leaves files on disk
 Out of memory error
+Remove double exceptions from log file
+Remove Task noise from stacktrace

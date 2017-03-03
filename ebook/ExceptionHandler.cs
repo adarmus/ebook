@@ -29,7 +29,7 @@ namespace ebook
             string err = e.GetFormattedExceptionText();
 
             ILog log = LogManager.GetLogger("root");
-            log.Error(string.Format("An error occured {0}: \n{1}", message, err), e.InnerMostException);
+            log.Error(string.Format("An error occured {0}: \n{1}", message, err));
 
             _messages.Write(string.Format("An error occured {0}: \n{1}", message, err));
         }

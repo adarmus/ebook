@@ -23,14 +23,16 @@ namespace ebook.core.Utils
 
                 if (innermost != null)
                 {
+                    var cleaner = new AsyncStackTraceCleaner();
+
                     info.InnerMostException = innermost;
                     info.FullExceptionMessage = fullErrorMessage;
                     info.Source = innermost.Source;
-                    info.StackTrace = innermost.StackTrace;
+                    info.StackTrace = cleaner.RemoveAsyncLinesFromStackTrace(innermost.StackTrace);
                     if (innermost.TargetSite != null)
                         info.Target = innermost.TargetSite.ToString();
                     if (innermost != ex)
-                        info.StackTrace += "\r\n...\r\n" + ex.StackTrace;
+                        info.StackTrace += "\r\n...\r\n" + cleaner.RemoveAsyncLinesFromStackTrace(ex.StackTrace);
                 }
             }
             catch

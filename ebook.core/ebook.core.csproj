@@ -169,6 +169,7 @@
     <Compile Include="Repo\Sql\IBookSqlDal.cs" />
     <Compile Include="Repo\Sql\SqlDataSource.cs" />
     <Compile Include="Utils\AsyncDirectory.cs" />
+    <Compile Include="Utils\AsyncStackTraceCleaner.cs" />
     <Compile Include="Utils\EnumerableExtensions.cs" />
     <Compile Include="Utils\ExceptionExtensions.cs" />
     <Compile Include="Utils\ExceptionInfo.cs" />

@@ -27,7 +27,6 @@ namespace ebook.core.Utils
 
                     info.InnerMostException = innermost;
                     info.FullExceptionMessage = fullErrorMessage;
-                    info.Source = innermost.Source;
                     info.StackTrace = cleaner.RemoveAsyncLinesFromStackTrace(innermost.StackTrace);
                     if (innermost.TargetSite != null)
                         info.Target = innermost.TargetSite.ToString();

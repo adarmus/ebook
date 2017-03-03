@@ -173,6 +173,7 @@
     <Compile Include="Utils\EnumerableExtensions.cs" />
     <Compile Include="Utils\ExceptionExtensions.cs" />
     <Compile Include="Utils\ExceptionInfo.cs" />
+    <Compile Include="Utils\HtmlToText.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

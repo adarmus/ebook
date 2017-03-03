@@ -73,6 +73,9 @@ namespace ebook.core.Repo.File
             var tasks = content.FileIds.Select(async id => await ReadBookFile(book, id));
             BookFileInfo[] files = await Task.WhenAll(tasks);
 
+            var html = new HtmlToText();
+            book.Description = html.Convert(book.Description);
+
             var contentWithBytes = new BookFilesInfo(book, files);
 
             return contentWithBytes;

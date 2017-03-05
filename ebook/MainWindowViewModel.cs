@@ -56,10 +56,9 @@ namespace ebook
             var dataSources = new ISimpleDataSourceInfo[]
             {
                 new FileSystemDataSourceInfo(_exceptionHandler) {Parameter = config.ImportFolderPath},
-                new FileSystemDataSourceInfo(_exceptionHandler) {Parameter = @"c:\tmp\"},
-                new SqlDataSourceInfo {Parameter = "Server=localhost; Database=ebook; Trusted_Connection=SSPI"},
-                new SqlLiteRefDataSourceInfo {Parameter = @"C:\Tree\ebook\sql\dev.db"},
-                new SqlLiteDataSourceInfo {Parameter = @"C:\Tree\ebook\sql\dev.db"},
+                new SqlDataSourceInfo {Parameter = config.SqlConnectionString},
+                new SqlLiteRefDataSourceInfo {Parameter = config.SqliteFilepath},
+                new SqlLiteDataSourceInfo {Parameter = config.SqliteFilepath},
             };
 
             this.SimpleDataSourceInfoList = new ObservableCollection<ISimpleDataSourceInfo>(dataSources);
@@ -68,9 +67,9 @@ namespace ebook
 
             var sources = new IFullDataSourceInfo[]
             {
-                new SqlLiteRefDataSourceInfo {Parameter = @"C:\Tree\ebook\sql\dev.db"},
-                new SqlLiteDataSourceInfo {Parameter = @"C:\Tree\ebook\sql\dev.db"},
-                new SqlDataSourceInfo {Parameter = "Server=localhost; Database=ebook; Trusted_Connection=SSPI"},
+                new SqlLiteRefDataSourceInfo {Parameter = config.SqliteFilepath},
+                new SqlLiteDataSourceInfo {Parameter = config.SqliteFilepath},
+                new SqlDataSourceInfo {Parameter = config.SqlConnectionString},
             };
 
             this.FullDataSourceInfoList = new ObservableCollection<IFullDataSourceInfo>(sources);

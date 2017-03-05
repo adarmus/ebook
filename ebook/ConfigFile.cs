@@ -10,6 +10,8 @@ namespace ebook
             {
                 CompareFolderPath = GetStringSetting("CompareFolderPath"),
                 ImportFolderPath = GetStringSetting("ImportFolderPath"),
+                SqlConnectionString = GetStringSetting("SqlConnectionString"),
+                SqliteFilepath = GetStringSetting("SqliteFilepath"),
                 IncludeEpub = GetBoolSetting("IncludeEpub"),
                 IncludeMobi = GetBoolSetting("IncludeMobi")
             };

@@ -116,6 +116,7 @@
     <Compile Include="DataTypes\SqlDataSourceInfo.cs" />
     <Compile Include="DataTypes\SqlLiteDataSourceInfo.cs" />
     <Compile Include="DataTypes\SqlLiteRefDataSourceInfo.cs" />
+    <Compile Include="DataTypes\UploadResults.cs" />
     <Compile Include="Files\FileReader.cs" />
     <Compile Include="Logic\Aggregator.cs" />
     <Compile Include="BookFiles\BookFileList.cs" />

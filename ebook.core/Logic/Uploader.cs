@@ -24,40 +24,46 @@ namespace ebook.core.Logic
 
         public string DateAddedText { get; set; }
 
-        public async Task<int> Upload(IEnumerable<MatchInfo> incoming)
+        public async Task<UploadResults> Upload(IEnumerable<MatchInfo> incoming)
         {
             IEnumerable<MatchInfo> toUpload = incoming
                 .Where(b => b.IsSelected);
 
-            IEnumerable<BookFilesInfo> newBooks = await UploadNewBooks(toUpload);
+            UploadResults newResults = await UploadNewBooks(toUpload);
 
-            IEnumerable<BookFilesInfo> newFiles = await UploadNewFiles(toUpload);
+            UploadResults fileResults = await UploadNewFiles(toUpload);
 
-            IEnumerable<BookFilesInfo> all = newBooks.Concat(newFiles);
-
-            return all.Count();
+            return new UploadResults
+            {
+                Uploaded = newResults.Uploaded + fileResults.Uploaded,
+                Errors = newResults.Errors + fileResults.Errors
+            };
         }
 
-        async Task<IEnumerable<BookFilesInfo>> UploadNewBooks(IEnumerable<MatchInfo> incoming)
+        async Task<UploadResults> UploadNewBooks(IEnumerable<MatchInfo> incoming)
         {
             IEnumerable<MatchInfo> toUpload = incoming
                 .Where(b => b.Status == MatchStatus.NewBook);
 
             var dateAddedProvider = new DateAddedProvider(this.DateAddedText);
 
-            var uploaded = new List<BookFilesInfo>();
+            int count = 0;
+            int errors = 0;
 
             foreach (var match in toUpload)
             {
-                BookFilesInfo content = await UploadNewBook(match, dateAddedProvider);
+                bool ok = await UploadNewBook(match, dateAddedProvider);
 
-                uploaded.Add(content);
+                if (ok)
+                    count++;
+                else
+                    errors++;
             }
 
-            return uploaded;
+            return new UploadResults { Uploaded = count, Errors = errors };
         }
 
-        async Task<BookFilesInfo> UploadNewBook(MatchInfo match, DateAddedProvider dateAddedProvider)
+        async Task<bool> UploadNewBook(MatchInfo match, DateAddedProvider dateAddedProvider)
         {
             try
             {
@@ -67,12 +73,12 @@ namespace ebook.core.Logic
 
                 await SaveBook(content);
 
-                return content;
+                return true;
             }
             catch (Exception ex)
             {
                 _messages.WriteError(ex, "uploading {0}", match.Book.Title);
-                return null;
+                return false;
             }
         }
 
@@ -93,26 +99,30 @@ namespace ebook.core.Logic
             }
         }
 
-        async Task<IEnumerable<BookFilesInfo>> UploadNewFiles(IEnumerable<MatchInfo> incoming)
+        async Task<UploadResults> UploadNewFiles(IEnumerable<MatchInfo> incoming)
         {
             IEnumerable<MatchInfo> toUpload = incoming
                 .Where(b => b.Status == MatchStatus.NewFiles);
 
-            var uploaded = new List<BookFilesInfo>();
+            int count = 0;
+            int errors = 0;
 
             foreach (var match in toUpload)
             {
                 BookFilesInfo content = await _incomingDataSource.GetBookContent(match.Book);
 
-                uploaded.Add(content);
+                bool ok = await SaveNewFiles(content, match);
 
-                await SaveNewFiles(content, match);
+                if (ok)
+                    count++;
+                else
+                    errors++;
             }
 
-            return uploaded;
+            return new UploadResults { Uploaded = count, Errors = errors };
         }
 
-        async Task SaveNewFiles(BookFilesInfo book, MatchInfo match)
+        async Task<bool> SaveNewFiles(BookFilesInfo book, MatchInfo match)
         {
             try
             {
@@ -127,10 +137,12 @@ namespace ebook.core.Logic
                 }
 
                 _messages.Write("Uploaded: {0}", book.Book.Title);
+                return true;
             }
             catch (Exception ex)
             {
                 _messages.WriteError(ex, "uploading {0}", book.Book.Title);
+                return false;
             }
         }
 

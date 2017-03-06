@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Mail;
 using System.Text;
@@ -8,7 +9,7 @@ using ebook.core.Logging;
 
 namespace ebook.core.Email
 {
-    class EmailService
+    public class EmailService
     {
         readonly ITraceLogger _log;
         readonly EmailServiceConfiguration _config;
@@ -19,13 +20,7 @@ namespace ebook.core.Email
             _config = config;
         }
 
-
-        public void SendHtmlEmail(string subject, IEnumerable<string> recipients)
-        {
-            SendHtmlEmail(subject, String.Empty, recipients);
-        }
-
-        public void SendHtmlEmail(string subject, string body, IEnumerable<string> recipients)
+        public void SendHtmlEmail(string subject, string body, byte[] bytes, string attachmentName, IEnumerable<string> recipients)
         {
             try
             {
@@ -34,7 +29,12 @@ namespace ebook.core.Email
                 email.IsBodyHtml = true;
                 email.Body = body;
 
-                SendEmailMessage(email);
+                using (var ms = new MemoryStream(bytes))
+                {
+                    //email.Attachments.Add(new Attachment(ms, attachmentName));
+
+                    SendEmailMessage(email);
+                }
             }
             catch (SmtpFailedRecipientsException ex)
             {
@@ -69,6 +69,9 @@ namespace ebook.core.Email
 
             if (!string.IsNullOrEmpty(_config.SmtpUsername))
                 client.Credentials = new System.Net.NetworkCredential(_config.SmtpUsername, _config.SmtpPassword);
+
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.UseDefaultCredentials = false;
 
             _log.WriteLineDebug("Sending email to: {0}", email.To.ToString());
 

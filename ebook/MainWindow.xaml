@@ -227,6 +227,13 @@
                             Width="100"
                             Height="23"
                             Command="{Binding Path=DataContext.ExportCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
+                        <Button Content="Email MOBI" 
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            Margin="0,5,5,0" 
+                            Width="100"
+                            Height="23"
+                            Command="{Binding Path=DataContext.EmailCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
                         <TextBlock Text="{Binding Book.Description}" 
                                Margin="0,5,0,0" 
                                TextWrapping="Wrap"/>

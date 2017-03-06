@@ -7,7 +7,9 @@ using System.Windows;
 using System.Windows.Input;
 using ebook.Async;
 using ebook.core.DataTypes;
+using ebook.core.Email;
 using ebook.core.Files;
+using ebook.core.Logging;
 using ebook.core.Logic;
 using ebook.core.Mobi.Pdb;
 using ebook.core.Repo;
@@ -259,6 +261,30 @@ namespace ebook
             await file.WriteFileAsync(filepath, epub.Content);
         }
 
+        async Task DoEmail()
+        {
+            if (this.SelectedBook == null)
+                return;
+
+            await EmailMobi(this.SelectedBook.Book);
+        }
+
+        async Task EmailMobi(BookInfo book)
+        {
+            var content = await _simpleDataSource.GetBookContent(book);
+
+            var mobi = content.Files.FirstOrDefault(f => f.FileType == BookExtensions.MOBI);
+
+            if (mobi == null)
+                return;
+
+            var config = EmailServiceConfigurationSection.GetConfigSection();
+
+            var email = new EmailService(new TraceLogger(""), config.GetConfiguration());
+
+            email.SendHtmlEmail(book.Title, "", mobi.Content, book.Title, new[] {"adam@blairfamily.co.uk"});
+        }
+
         string GetExportFilePath()
         {
             var saveDialog = new SaveFileDialog();
@@ -473,6 +499,13 @@ namespace ebook
         #endregion
 
         #region Commands
+        ICommand _emailCommand;
+
+        public ICommand EmailCommand
+        {
+            get { return _emailCommand ?? (_emailCommand = new AsyncCommand1(this.DoEmail)); }
+        }
+
         ICommand _exportCommand;
 
         public ICommand ExportCommand

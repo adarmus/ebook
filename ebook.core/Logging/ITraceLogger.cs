@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ebook.core.Logging
 {
-    interface ITraceLogger
+    public interface ITraceLogger
     {
         /// <summary>
         /// Writes a ERROR line.

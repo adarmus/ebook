@@ -7,7 +7,7 @@ using log4net;
 
 namespace ebook.core.Logging
 {
-    class TraceLogger : ITraceLogger
+    public class TraceLogger : ITraceLogger
     {
         readonly string _category;
 

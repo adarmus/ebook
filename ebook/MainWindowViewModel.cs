@@ -243,7 +243,12 @@ namespace ebook
             if (filepath == null)
                 return;
 
-            var content = await _simpleDataSource.GetBookContent(this.SelectedBook.Book);
+            await ExportEpubToFile(this.SelectedBook.Book, filepath);
+        }
+
+        async Task ExportEpubToFile(BookInfo book, string filepath)
+        {
+            var content = await _simpleDataSource.GetBookContent(book);
 
             var epub = content.Files.FirstOrDefault(f => f.FileType == BookExtensions.EPUB);
 

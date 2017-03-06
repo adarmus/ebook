@@ -7,7 +7,9 @@ using System.Windows;
 using System.Windows.Input;
 using ebook.Async;
 using ebook.core.DataTypes;
+using ebook.core.Files;
 using ebook.core.Logic;
+using ebook.core.Mobi.Pdb;
 using ebook.core.Repo;
 using ebook.core.Repo.File;
 using ebook.core.Repo.SqlLite;
@@ -15,6 +17,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using log4net;
 using log4net.Config;
+using Microsoft.Win32;
 
 namespace ebook
 {
@@ -230,6 +233,42 @@ namespace ebook
             this.SelectedBookContent = await _simpleDataSource.GetBookContent(this.SelectedBook.Book);
         }
 
+        async Task DoExport()
+        {
+            if (this.SelectedBook == null)
+                return ;
+
+            string filepath = GetExportFilePath();
+
+            if (filepath == null)
+                return;
+
+            var content = await _simpleDataSource.GetBookContent(this.SelectedBook.Book);
+
+            var epub = content.Files.FirstOrDefault(f => f.FileType == BookExtensions.EPUB);
+
+            if (epub == null)
+                return;
+
+            var file = new FileReader();
+            await file.WriteFileAsync(filepath, epub.Content);
+        }
+
+        string GetExportFilePath()
+        {
+            var saveDialog = new SaveFileDialog();
+            saveDialog.OverwritePrompt = true;
+            saveDialog.Title = "Export to epub";
+            saveDialog.AddExtension = true;
+            saveDialog.DefaultExt = ".epub";
+            bool? result = saveDialog.ShowDialog();
+
+            if (!result.Value)
+                return null;
+
+            return saveDialog.FileName;
+        }
+
         void DoSelectAll()
         {
             SetIsSelected(true);
@@ -429,6 +468,13 @@ namespace ebook
         #endregion
 
         #region Commands
+        ICommand _exportCommand;
+
+        public ICommand ExportCommand
+        {
+            get { return _exportCommand ?? (_exportCommand = new AsyncCommand1(this.DoExport)); }
+        }
+
         ICommand _viewCommand;
 
         public ICommand ViewCommand

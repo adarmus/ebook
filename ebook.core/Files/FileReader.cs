@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ebook.core.Files
 {
-    class FileReader
+    public class FileReader
     {
         public async Task<byte[]> ReadAllFileAsync(string filename)
         {
@@ -17,6 +17,14 @@ namespace ebook.core.Files
                 await file.ReadAsync(buff, 0, (int)file.Length);
                 return buff;
             }
+        }
+
+        public async Task WriteFileAsync(string filename, byte[] bytes)
+        {
+            using (FileStream sourceStream = new FileStream(filename, FileMode.Append, FileAccess.Write, FileShare.None, bufferSize: 4096, useAsync: true))
+            {
+                await sourceStream.WriteAsync(bytes, 0, bytes.Length);
+            };
         }
     }
 }

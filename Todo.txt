@@ -1,5 +1,6 @@
 Export epub
 Email mobi 
+Store filepaths relative to a base
 Match info shows missing file types
 ----
 Optimise by having only one file searcher

@@ -1,4 +1,3 @@
-Export epub
 Email mobi 
 Store filepaths relative to a base
 Match info shows missing file types
@@ -10,3 +9,4 @@ Out of memory error
 Remove double exceptions from log file
 Remove Task noise from stacktrace
 Remember config settings
+Export epub

@@ -138,6 +138,7 @@
     <Compile Include="Logic\QueryBookFinder.cs" />
     <Compile Include="Logic\Uploader.cs" />
     <Compile Include="Repo\Azure\AzureSqlRepository.cs" />
+    <Compile Include="Repo\File\AuthorNameCorrectionFilter.cs" />
     <Compile Include="Repo\File\FileBasedSimpleDataSource.cs" />
     <Compile Include="DataTypes\BookInfo.cs" />
     <Compile Include="Repo\File\CsvWriter.cs" />
@@ -153,6 +154,7 @@
     <Compile Include="Files\IFileListProvider.cs" />
     <Compile Include="Files\FileFinder.cs" />
     <Compile Include="BookFiles\IBookFileReader.cs" />
+    <Compile Include="Repo\File\IBookFileFilter.cs" />
     <Compile Include="Repo\IFullDataSource.cs" />
     <Compile Include="BookFiles\IBookFileListProvider.cs" />
     <Compile Include="BookFiles\BookFile.cs" />

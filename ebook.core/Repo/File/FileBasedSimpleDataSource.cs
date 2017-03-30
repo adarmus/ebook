@@ -17,12 +17,14 @@ namespace ebook.core.Repo.File
         readonly IOutputMessage _messages;
         readonly string _folderPath;
         readonly FileReader _reader;
+        readonly IBookFileFilter _filter;
         Dictionary<string, BookFilesInfo> _lookup;
 
-        public FileBasedSimpleDataSource(string folderPath, IOutputMessage messages)
+        public FileBasedSimpleDataSource(string folderPath, IOutputMessage messages, string authorNameFile)
         {
             _folderPath = folderPath;
             _messages = messages;
+            _filter = new AuthorNameCorrectionFilter(authorNameFile);
             _reader = new FileReader();
         }
 
@@ -34,9 +36,18 @@ namespace ebook.core.Repo.File
 
             IEnumerable<BookFile> files = await bookFileList.GetBookFiles();
 
+            ApplyFilter(files);
+
             IEnumerable<BookInfo> list = AggregateBooks(files.ToArray());
 
             return list;
+        }
+
+        void ApplyFilter(IEnumerable<BookFile> files)
+        {
+            files
+                .ToList().
+                ForEach(_filter.Accept);
         }
 
         IEnumerable<BookInfo> AggregateBooks(IEnumerable<BookFile> files)

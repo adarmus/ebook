@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ebook.core.Logic;
 using ebook.core.Repo;
 using ebook.core.Repo.File;
+using System.IO;
 
 namespace ebook.core.DataTypes
 {
@@ -27,7 +28,11 @@ namespace ebook.core.DataTypes
 
         public ISimpleDataSource GetSimpleDataSource()
         {
-            return new FileBasedSimpleDataSource(this.Parameter, _messages);
+            string startFolder = AppDomain.CurrentDomain.BaseDirectory;
+
+            string file = Path.Combine(startFolder, "Authors.txt");
+
+            return new FileBasedSimpleDataSource(this.Parameter, _messages, file);
         }
     }
 }

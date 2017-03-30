@@ -45,13 +45,13 @@ namespace ebook.tests
             Assert.AreEqual(3, books.Length);
             Assert.AreEqual(3, lookup.Count);
 
-            AssertBookInfoNoIsbn(books[0], "Book1", "Author1");
-            AssertBookInfoNoIsbn(books[1], "Book2", "Author2");
-            AssertBookInfoNoIsbn(books[2], "Book3", "Author3");
+            AssertBookInfoTitleAndAuthor(books[0], "Book1", "Author1");
+            AssertBookInfoTitleAndAuthor(books[1], "Book2", "Author2");
+            AssertBookInfoTitleAndAuthor(books[2], "Book3", "Author3");
 
-            AssertBookInfoNoIsbn(lookup[books[0].Id].Book, "Book1", "Author1");
-            AssertBookInfoNoIsbn(lookup[books[1].Id].Book, "Book2", "Author2");
-            AssertBookInfoNoIsbn(lookup[books[2].Id].Book, "Book3", "Author3");
+            AssertBookInfoTitleAndAuthor(lookup[books[0].Id].Book, "Book1", "Author1");
+            AssertBookInfoTitleAndAuthor(lookup[books[1].Id].Book, "Book2", "Author2");
+            AssertBookInfoTitleAndAuthor(lookup[books[2].Id].Book, "Book3", "Author3");
 
             AssertBookFiles(lookup[books[0].Id], new [] { "File1.mobi" });
             AssertBookFiles(lookup[books[1].Id], new [] { "File2.mobi" });
@@ -76,13 +76,13 @@ namespace ebook.tests
             Assert.AreEqual(3, books.Length);
             Assert.AreEqual(3, lookup.Count);
 
-            AssertBookInfoNoIsbn(books[0], "Book1", "Author1");
-            AssertBookInfoNoIsbn(books[1], "Book2", "Author1");
-            AssertBookInfoNoIsbn(books[2], "Book3", "Author1");
+            AssertBookInfoTitleAndAuthor(books[0], "Book1", "Author1");
+            AssertBookInfoTitleAndAuthor(books[1], "Book2", "Author1");
+            AssertBookInfoTitleAndAuthor(books[2], "Book3", "Author1");
 
-            AssertBookInfoNoIsbn(lookup[books[0].Id].Book, "Book1", "Author1");
-            AssertBookInfoNoIsbn(lookup[books[1].Id].Book, "Book2", "Author1");
-            AssertBookInfoNoIsbn(lookup[books[2].Id].Book, "Book3", "Author1");
+            AssertBookInfoTitleAndAuthor(lookup[books[0].Id].Book, "Book1", "Author1");
+            AssertBookInfoTitleAndAuthor(lookup[books[1].Id].Book, "Book2", "Author1");
+            AssertBookInfoTitleAndAuthor(lookup[books[2].Id].Book, "Book3", "Author1");
 
             AssertBookFiles(lookup[books[0].Id], new[] { "File1.mobi" });
             AssertBookFiles(lookup[books[1].Id], new[] { "File2.mobi" });
@@ -107,11 +107,11 @@ namespace ebook.tests
             Assert.AreEqual(2, books.Length);
             Assert.AreEqual(2, lookup.Count);
 
-            AssertBookInfoNoIsbn(books[0], "Book1", "Author1");
-            AssertBookInfoNoIsbn(books[1], "Book3", "Author3");
+            AssertBookInfoTitleAndAuthor(books[0], "Book1", "Author1");
+            AssertBookInfoTitleAndAuthor(books[1], "Book3", "Author3");
 
-            AssertBookInfoNoIsbn(lookup[books[0].Id].Book, "Book1", "Author1");
-            AssertBookInfoNoIsbn(lookup[books[1].Id].Book, "Book3", "Author3");
+            AssertBookInfoTitleAndAuthor(lookup[books[0].Id].Book, "Book1", "Author1");
+            AssertBookInfoTitleAndAuthor(lookup[books[1].Id].Book, "Book3", "Author3");
 
             AssertBookFiles(lookup[books[0].Id], new[] { "File1.mobi", "File2.epub" });
             AssertBookFiles(lookup[books[1].Id], new[] { "File3.mobi" });
@@ -135,13 +135,13 @@ namespace ebook.tests
             Assert.AreEqual(3, books.Length);
             Assert.AreEqual(3, lookup.Count);
 
-            AssertBookInfoNoIsbn(books[0], "Book1", "Author1");
-            AssertBookInfoNoIsbn(books[1], "Book2", "Author2");
-            AssertBookInfoNoIsbn(books[2], "Book3", "Author3");
+            AssertBookInfoTitleAndAuthor(books[0], "Book1", "Author1");
+            AssertBookInfoTitleAndAuthor(books[1], "Book2", "Author2");
+            AssertBookInfoTitleAndAuthor(books[2], "Book3", "Author3");
 
-            AssertBookInfoNoIsbn(lookup[books[0].Id].Book, "Book1", "Author1");
-            AssertBookInfoNoIsbn(lookup[books[1].Id].Book, "Book2", "Author2");
-            AssertBookInfoNoIsbn(lookup[books[2].Id].Book, "Book3", "Author3");
+            AssertBookInfoTitleAndAuthor(lookup[books[0].Id].Book, "Book1", "Author1");
+            AssertBookInfoTitleAndAuthor(lookup[books[1].Id].Book, "Book2", "Author2");
+            AssertBookInfoTitleAndAuthor(lookup[books[2].Id].Book, "Book3", "Author3");
 
             AssertBookFiles(lookup[books[0].Id], new[] { "File1.mobi" });
             AssertBookFiles(lookup[books[1].Id], new[] { "File2.mobi" });
@@ -163,20 +163,23 @@ namespace ebook.tests
             var lookup = agg.GetBookContentInfoLookup();
 
             Assert.IsNotNull(books);
-            Assert.AreEqual(2, books.Length);
-            Assert.AreEqual(2, lookup.Count);
+            Assert.AreEqual(3, books.Length);
+            Assert.AreEqual(3, lookup.Count);
 
-            AssertBookInfoNoIsbn(books[0], "Book1", "Author1");
-            AssertBookInfoNoIsbn(books[1], "Book3", "Author3");
+            AssertBookInfoTitleAndAuthor(books[0], "Book1", "Author1");
+            AssertBookInfoTitleAndAuthor(books[1], "Book2", "Author2");
+            AssertBookInfoTitleAndAuthor(books[2], "Book3", "Author3");
 
-            AssertBookInfoNoIsbn(lookup[books[0].Id].Book, "Book1", "Author1");
-            AssertBookInfoNoIsbn(lookup[books[1].Id].Book, "Book3", "Author3");
+            AssertBookInfoTitleAndAuthor(lookup[books[0].Id].Book, "Book1", "Author1");
+            AssertBookInfoTitleAndAuthor(lookup[books[1].Id].Book, "Book2", "Author2");
+            AssertBookInfoTitleAndAuthor(lookup[books[2].Id].Book, "Book3", "Author3");
 
-            AssertBookFiles(lookup[books[0].Id], new[] { "File1.mobi", "File2.mobi" });
-            AssertBookFiles(lookup[books[1].Id], new[] { "File3.mobi" });
+            AssertBookFiles(lookup[books[0].Id], new[] { "File1.mobi" });
+            AssertBookFiles(lookup[books[1].Id], new[] { "File2.mobi" });
+            AssertBookFiles(lookup[books[2].Id], new[] { "File3.mobi" });
         }
 
-        [Ignore]
+        //[Ignore]
         [TestMethod]
         public void GetBookList_SameBookWithAndWithoutIsbn_ReturnsFilesGroupedByIsbn()
         {
@@ -195,11 +198,11 @@ namespace ebook.tests
             Assert.AreEqual(2, books.Length);
             Assert.AreEqual(2, lookup.Count);
 
-            AssertBookInfoNoIsbn(books[0], "Book1", "Author1");
-            AssertBookInfoNoIsbn(books[1], "Book3", "Author3");
+            AssertBookInfoTitleAndAuthor(books[0], "Book1", "Author1");
+            AssertBookInfoTitleAndAuthor(books[1], "Book3", "Author3");
 
-            AssertBookInfoNoIsbn(lookup[books[0].Id].Book, "Book1", "Author1");
-            AssertBookInfoNoIsbn(lookup[books[1].Id].Book, "Book3", "Author3");
+            AssertBookInfoTitleAndAuthor(lookup[books[0].Id].Book, "Book1", "Author1");
+            AssertBookInfoTitleAndAuthor(lookup[books[1].Id].Book, "Book3", "Author3");
 
             AssertBookFiles(lookup[books[0].Id], new[] { "File1.mobi", "File2.mobi" });
             AssertBookFiles(lookup[books[1].Id], new[] { "File3.mobi" });
@@ -217,7 +220,7 @@ namespace ebook.tests
             }
         }
 
-        void AssertBookInfoNoIsbn(BookInfo book, string title, string author)
+        void AssertBookInfoTitleAndAuthor(BookInfo book, string title, string author)
         {
             Assert.AreEqual(title, book.Title);
             Assert.AreEqual(author, book.Author);

@@ -87,25 +87,39 @@ namespace ebook
             return new ConfigFile().GetConfigProvider();
         }
 
-        async Task DoView()
+        async Task TryDoView()
         {
-            if (this.SelectedSimpleDataSourceInfo == null)
+            if (this.SelectedFullDataSourceInfo == null)
                 return;
 
+            this.IsBusy = true;
+
+            try
+            {
+                await DoView();
+            }
+            catch (Exception ex)
+            {
+                _exceptionHandler.WriteError(ex, "viewing");
+            }
+
+            this.IsBusy = false;
+        }
+
+        async Task DoView()
+        {
             this.BookFileList = new ObservableCollection<MatchInfo>();
 
             _simpleDataSource = this.SelectedSimpleDataSourceInfo.GetSimpleDataSource();
             SetDateAddedProvider(_simpleDataSource);
 
             _messageListener.Write("View: starting");
-            this.IsBusy = true;
 
             IEnumerable<BookInfo> books = await _simpleDataSource.GetBooks(this.IncludeMobi, this.IncludeEpub);
             IEnumerable<MatchInfo> matches = books.Select(b => new MatchInfo(b) { IsSelected = true });
 
             SetBookFileList(matches);
 
-            this.IsBusy = false;
             _messageListener.Write("View: loaded {0} books", this.BookFileList.Count);
         }
 
@@ -517,7 +531,7 @@ namespace ebook
 
         public ICommand ViewCommand
         {
-            get { return _viewCommand ?? (_viewCommand = new AsyncCommand1(this.DoView)); }
+            get { return _viewCommand ?? (_viewCommand = new AsyncCommand1(this.TryDoView)); }
         }
 
         ICommand _matchCommand;

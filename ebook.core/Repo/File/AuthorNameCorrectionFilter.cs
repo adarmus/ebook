@@ -25,6 +25,12 @@ namespace ebook.core.Repo.File
 
         public void Accept(BookFile file)
         {
+            if (file == null)
+                return;
+
+            if (file.Author == null)
+                return;
+
             string author = file.Author;
 
             if (!_names.ContainsKey(author))
